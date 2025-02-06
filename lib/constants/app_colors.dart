@@ -6,4 +6,7 @@ class AppColors {
   static const Color gradientEnd = Color(0xFF41C6EE);
   static const Color inputBackground = Color(0x69DFE7EE); 
   static const Color textColors = Color(0xFFB8B8BC);
+    static const Color greytextColors = Color(0xFF5A5A5B);
+
+
 }
