@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/auth_controller.dart';
+import 'package:payansh/screens/forgot_password.dart';
 import '../constants/app_colors.dart';
 import '../widgets/gradient_button.dart';
 import '../services/api_service.dart';
@@ -75,7 +76,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 10),
 
               // Remember Me & Forgot Password
-              Row(
+                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
@@ -84,9 +85,13 @@ class LoginScreen extends StatelessWidget {
                       const Text("Remember me"),
                     ],
                   ),
-                  const Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
+                  GestureDetector(
+                    onTap: () => Get.to(() => ForgotPasswordScreen()),
+                    child: const Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
+                  ),
                 ],
               ),
+
 
               const SizedBox(height: 20),
 
