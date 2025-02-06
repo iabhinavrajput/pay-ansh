@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/login_controller.dart';
+import 'package:payansh/controllers/auth_controller.dart';
 import '../constants/app_colors.dart';
 import '../widgets/gradient_button.dart';
+import '../services/api_service.dart';
+import '../utils/local_storage.dart';
 
 class LoginScreen extends StatelessWidget {
-  final LoginController loginController = Get.put(LoginController());
+  final AuthController authController = Get.put(AuthController());
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,44 +19,60 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(47),
+          padding: const EdgeInsets.all(47),
           child: Column(
             children: [
-              Text("WELCOME TO", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              // SizedBox(height: 40),
-              
+              const Text("WELCOME TO", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+
               // Logo
               Image.asset('assets/images/logo.png', width: screenWidth * 0.5),
               
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Illustration
               Image.asset('assets/images/login.png', width: screenWidth * 0.8),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Email Input
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Enter Your Email or Phone",
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.inputBackground,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    hintText: "Enter Your Email or Phone", 
+                    hintStyle: TextStyle(color: AppColors.textColors),
+                    suffixIcon: Icon(Icons.person, color: AppColors.textColors),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  ),
                 ),
               ),
 
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               // Password Input
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "Enter your password",
-                  prefixIcon: Icon(Icons.lock),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.inputBackground,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    hintText: "Enter your password",
+                    hintStyle: TextStyle(color: AppColors.textColors),
+                    suffixIcon: Icon(Icons.lock, color: AppColors.textColors),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  ),
                 ),
               ),
-
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               // Remember Me & Forgot Password
               Row(
@@ -61,41 +81,35 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     children: [
                       Checkbox(value: false, onChanged: (value) {}),
-                      Text("Remember me"),
+                      const Text("Remember me"),
                     ],
                   ),
-                  Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
+                  const Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
                 ],
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Login Button
-              GradientButton(text: "Login", onPressed: () => loginController.login()),
+              Obx(() => authController.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : GradientButton(
+                      text: "Login",
+                      onPressed: () async {
+                        await authController.login(emailController.text, passwordController.text);
+                      },
+                    )),
 
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-              Text("or", style: TextStyle(color: Colors.grey)),
+              const Text("or", style: TextStyle(color: Colors.grey)),
 
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               // Login with OTP
               GradientButton(text: "Login with OTP", onPressed: () {}),
 
-              SizedBox(height: 10),
-
-              // Login with Google
-              // ElevatedButton.icon(
-              //   onPressed: () {},
-              //   icon: Image.asset("assets/images/google.png", width: 24),
-              //   label: Text("Login with Google"),
-              //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: Colors.white,
-              //     foregroundColor: Colors.black,
-              //     elevation: 2,
-              //     padding: EdgeInsets.symmetric(vertical: 12),
-              //   ),
-              // ),
+              const SizedBox(height: 10),
             ],
           ),
         ),
