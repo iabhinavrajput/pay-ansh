@@ -17,7 +17,7 @@ class TTextTheme {
     titleSmall: const TextStyle().copyWith(fontSize: 16.0, fontWeight: FontWeight.w400, color: Colors.black, fontFamily: 'DMSans'),
 
     bodyLarge: const TextStyle().copyWith(fontSize: 14.0, fontWeight: FontWeight.w500, color: Colors.black, fontFamily: 'DMSans'),
-    bodyMedium: const TextStyle().copyWith(fontSize: 14.0, fontWeight: FontWeight.normal, color: Colors.black, fontFamily: 'DMSans'),
+    bodyMedium: const TextStyle().copyWith(fontSize: 14.0, fontWeight: FontWeight.normal, color: Color(0xFF5A5A5B), fontFamily: 'DMSans'),
     bodySmall: const TextStyle().copyWith(fontSize: 14.0, fontWeight: FontWeight.w500, color: Colors.black.withOpacity(0.5), fontFamily: 'DMSans'),
 
     labelLarge: const TextStyle().copyWith(fontSize: 20.0, fontWeight: FontWeight.normal, color: Colors.black, fontFamily: 'DMSans'),

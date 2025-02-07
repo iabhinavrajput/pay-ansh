@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import 'package:payansh/widgets/gradient_button.dart';
+import 'package:payansh/widgets/mobile_field.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -33,31 +35,37 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              const Center(
+              Center(
                 child: Text(
                   "Create Your Account",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 5),
-              const Center(
-                child: Text(
-                  "Your Gateway to Easy Payments & Seamless Bookings!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  style:TTextTheme.lightTextTheme.headlineMedium,
                 ),
               ),
               const SizedBox(height: 20),
-              CustomTextField(hintText: "Enter your name as per ID proof", controller: nameController, icon: Icons.person),
-              CustomTextField(hintText: "Enter your email", controller: emailController, icon: Icons.mail),
-              CustomTextField(hintText: "Enter your password", controller: passwordController, icon: Icons.lock, ),
-              CustomTextField(hintText: "Confirm your password", controller: confirmPasswordController, icon: Icons.lock, ),
-              CustomTextField(hintText: "Mobile Number*", controller: phoneController, icon: Icons.phone),
+               Container(
+                margin: EdgeInsets.symmetric(horizontal: 30),
+                child: Text(
+                  "Your Gateway to Easy Payments & Seamless Bookings!",
+                  textAlign: TextAlign.center,
+                  style:TTextTheme.lightTextTheme.bodyMedium,
+                ),
+              ),
+              const SizedBox(height: 30),
+              CustomTextField(hintText: "Enter your name as per ID proof", controller: nameController, icon: Icons.person_outline),
+                            const SizedBox(height: 20),
+
+              CustomTextField(hintText: "Enter your email", controller: emailController, icon: Icons.mail_outline),
+              const SizedBox(height: 15),
+              CustomTextField(hintText: "Enter your password", controller: passwordController, icon: Icons.lock_outline_rounded, ),
+              const SizedBox(height: 15),
+              CustomTextField(hintText: "Confirm your password", controller: confirmPasswordController, icon: Icons.lock_outline_rounded, ),
+              const SizedBox(height: 15),
+              MobileNumberField( controller: phoneController,),
               const SizedBox(height: 20),
               GradientButton(text: "Create Account", onPressed: () {
                 // Handle form submission logic
@@ -68,10 +76,7 @@ class _RegisterState extends State<Register> {
                 print("Phone: ${phoneController.text}");
               }),
               const SizedBox(height: 15),
-              const Center(child: Text("or", style: TextStyle(fontSize: 14))),
-              const SizedBox(height: 15),
-              // Add Google sign-in button if needed
-              const SizedBox(height: 20),
+             
             ],
           ),
         ),
