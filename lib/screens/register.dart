@@ -4,6 +4,7 @@ import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/theme/custom_themes/text_field_theme.dart';
 import 'package:payansh/theme/custom_themes/checkbox_theme.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
+import 'package:payansh/widgets/gradient_button.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -36,7 +37,7 @@ class _RegisterState extends State<Register> {
               "Let’s Connect Your Mobile Number",
               style: TextStyle(fontSize: 20, color: AppColors.greytextColors),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             // Use custom text field widget here
             CustomTextField(
               controller: mobileNumberController,
@@ -56,33 +57,20 @@ class _RegisterState extends State<Register> {
                   },
                   shape: TCheckboxTheme.lightCheckboxTheme.shape,
                 ),
-                const Text("I agree to "),
+                const Text("I agree to ",style: TextStyle(color: AppColors.greytextColors),),
                 GestureDetector(
                   onTap: () {},
                   child: const Text(
                     "Terms & Conditions",
                     style: TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.bold),
+                        color: AppColors.gradientStart, fontWeight: FontWeight.w500),
                   ),
                 )
               ],
             ),
             const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: isChecked ? () {} : null,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  backgroundColor:
-                      isChecked ? const Color(0xFF4686C5) : Colors.grey,
-                ),
-                child: const Text("Continue",
-                    style: TextStyle(color: Colors.white)),
-              ),
-            ),
+                         GradientButton(text: "Continue", onPressed: () {}),
+
           ],
         ),
       ),
