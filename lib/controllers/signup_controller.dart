@@ -21,10 +21,10 @@ class SignupController extends GetxController {
           "phoneNumber": phone,
         },
       );
-      
+
       if (response.statusCode == 201) {
         final responseData = response.data;
-        
+
         // Show success message as a bottom pop-up
         Get.snackbar(
           "Success",
@@ -39,7 +39,8 @@ class SignupController extends GetxController {
         // await Future.delayed(const Duration(seconds: 2));
         Get.to(() => const OtpVerification());
       } else {
-        _showErrorPopup(response.data['message'] ?? "Signup failed. Try again.");
+        _showErrorPopup(
+            response.data['message'] ?? "Signup failed. Try again.");
       }
     } catch (e) {
       _showErrorPopup("Something went wrong! Please try again.");
