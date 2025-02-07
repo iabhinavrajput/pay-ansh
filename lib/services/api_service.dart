@@ -4,7 +4,8 @@ import '../constants/api_endpoints.dart';
 
 class ApiService {
   /// **User Login API**
-  static Future<Map<String, dynamic>> loginUser(String email, String password) async {
+  static Future<Map<String, dynamic>> loginUser(
+      String email, String password) async {
     try {
       final response = await http.post(
         Uri.parse(ApiEndpoints.login),
@@ -56,7 +57,8 @@ class ApiService {
   }
 
   /// **Reset Password API**
-  static Future<Map<String, dynamic>> resetPassword(String email, String otp, String newPassword, String confirmPassword) async {
+  static Future<Map<String, dynamic>> resetPassword(String email, String otp,
+      String newPassword, String confirmPassword) async {
     try {
       final response = await http.post(
         Uri.parse(ApiEndpoints.resetPassword),
@@ -69,18 +71,27 @@ class ApiService {
         }),
       );
 
+      print("🔹 Reset Password API Response: ${response.statusCode}");
+      print("📜 Response Body: ${response.body}");
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data["status"] == "success") {
           return {"success": true, "message": data["message"]};
         } else {
-          return {"success": false, "message": "Failed to reset password"};
+          print("❌ Reset Password Failed: ${data["message"]}");
+          return {
+            "success": false,
+            "message": data["message"] ?? "Failed to reset password"
+          };
         }
       } else {
-        return {"success": false, "message": "Server error"};
+        print("❌ Server Error: ${response.body}");
+        return {"success": false, "message": "Server error: ${response.body}"};
       }
     } catch (e) {
-      return {"success": false, "message": e.toString()};
+      print("❌ Network Error: $e");
+      return {"success": false, "message": "Network error: $e"};
     }
   }
 }

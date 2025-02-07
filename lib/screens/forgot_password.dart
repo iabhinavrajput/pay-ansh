@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
+import 'package:payansh/widgets/gradient_button.dart';
 import '../controllers/forgot_password.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
@@ -25,7 +26,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Image.asset("assets/images/logo.png", height: 30),
             const SizedBox(height: 30),
-            Text(
+            const Text(
               "Enter your email to receive an OTP",
               style: TextStyle(fontSize: 18, color: AppColors.greytextColors),
             ),
@@ -38,18 +39,10 @@ class ForgotPasswordScreen extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             Obx(() => forgotPasswordController.isLoading.value
-                ? CircularProgressIndicator()
-                : SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
+                ? const CircularProgressIndicator()
+                : GradientButton(
+                  text: "Send OTP",
                       onPressed: () => forgotPasswordController.sendResetOTP(emailController.text),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        backgroundColor: const Color(0xFF4686C5),
-                      ),
-                      child: const Text("Send OTP", style: TextStyle(color: Colors.white)),
-                    ),
                   )),
           ],
         ),
