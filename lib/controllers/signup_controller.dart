@@ -21,22 +21,25 @@ class SignupController extends GetxController {
           "phoneNumber": phone,
         },
       );
-
-      if (response.statusCode == 200) {
+      
+      if (response.statusCode == 201) {
         final responseData = response.data;
-        Get.defaultDialog(
-          title: "Success",
-          middleText: responseData['message'] ?? "Signup successful!",
-          textConfirm: "OK",
-          confirmTextColor: Colors.white,
-          onConfirm: () {
-            Get.back(); // Close the dialog
-            Get.to(() => const OtpVerification());
-          },
+        
+        // Show success message as a bottom pop-up
+        Get.snackbar(
+          "Success",
+          responseData['message'] ?? "Signup successful!",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
         );
+
+        // Navigate to OTP Screen after 2 seconds
+        // await Future.delayed(const Duration(seconds: 2));
+        Get.to(() => const OtpVerification());
       } else {
-        _showErrorPopup(
-            response.data['message'] ?? "Signup failed. Try again.");
+        _showErrorPopup(response.data['message'] ?? "Signup failed. Try again.");
       }
     } catch (e) {
       _showErrorPopup("Something went wrong! Please try again.");
@@ -46,12 +49,13 @@ class SignupController extends GetxController {
   }
 
   void _showErrorPopup(String message) {
-    Get.defaultDialog(
-      title: "Error",
-      middleText: message,
-      textConfirm: "OK",
-      confirmTextColor: Colors.white,
-      onConfirm: () => Get.back(),
+    Get.snackbar(
+      "Error",
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      duration: const Duration(seconds: 3),
     );
   }
 }
