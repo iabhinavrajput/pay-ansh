@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/screens/forgot_password.dart';
+import 'package:payansh/screens/register.dart';
+import 'package:payansh/theme/custom_themes/text_theme.dart';
+import 'package:payansh/widgets/custom_text_field.dart';
 import '../constants/app_colors.dart';
 import '../widgets/gradient_button.dart';
 import '../services/api_service.dart';
@@ -23,11 +26,12 @@ class LoginScreen extends StatelessWidget {
           padding: const EdgeInsets.all(47),
           child: Column(
             children: [
-              const Text("WELCOME TO", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const Text("WELCOME TO",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
 
               // Logo
               Image.asset('assets/images/logo.png', width: screenWidth * 0.5),
-              
+
               const SizedBox(height: 20),
 
               // Illustration
@@ -36,47 +40,25 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Email Input
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.inputBackground,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    hintText: "Enter Your Email or Phone", 
-                    hintStyle: TextStyle(color: AppColors.textColors),
-                    suffixIcon: Icon(Icons.person, color: AppColors.textColors),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  ),
-                ),
+              CustomTextField(
+                controller: emailController,
+                hintText: "Enter Your Email or Phone",
+                icon: Icons.person,
+                keyboardType: TextInputType.emailAddress,
               ),
-
               const SizedBox(height: 15),
 
               // Password Input
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.inputBackground,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: "Enter your password",
-                    hintStyle: TextStyle(color: AppColors.textColors),
-                    suffixIcon: Icon(Icons.lock, color: AppColors.textColors),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  ),
-                ),
+              CustomTextField(
+                controller: passwordController,
+                hintText: "Enter your password",
+                icon: Icons.lock,
+                obscureText: true,
               ),
               const SizedBox(height: 10),
 
               // Remember Me & Forgot Password
-                Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
@@ -87,11 +69,11 @@ class LoginScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () => Get.to(() => ForgotPasswordScreen()),
-                    child: const Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
+                    child: const Text("Forgot Password?",
+                        style: TextStyle(color: Colors.blue)),
                   ),
                 ],
               ),
-
 
               const SizedBox(height: 20),
 
@@ -101,7 +83,8 @@ class LoginScreen extends StatelessWidget {
                   : GradientButton(
                       text: "Login",
                       onPressed: () async {
-                        await authController.login(emailController.text, passwordController.text);
+                        await authController.login(
+                            emailController.text, passwordController.text);
                       },
                     )),
 
@@ -115,6 +98,29 @@ class LoginScreen extends StatelessWidget {
               GradientButton(text: "Login with OTP", onPressed: () {}),
 
               const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't you have an account? ",
+                    style: TTextTheme.lightTextTheme.labelLarge,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // Navigate to Sign Up
+                      Get.off(() => Register());
+                    },
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          EdgeInsets.zero), // Remove padding
+                    ),
+                    child: const Text(
+                      "Sign Up",
+                      style: TTextTheme.link,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
