@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:payansh/controllers/signup_controller.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import 'package:payansh/widgets/gradient_button.dart';
@@ -12,7 +14,8 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  // Define controllers
+  final SignupController signupController = Get.put(SignupController());
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -21,13 +24,26 @@ class _RegisterState extends State<Register> {
 
   @override
   void dispose() {
-    // Dispose controllers to free memory
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     phoneController.dispose();
     super.dispose();
+  }
+
+  void _registerUser() {
+    if (passwordController.text != confirmPasswordController.text) {
+      Get.snackbar("Error", "Passwords do not match");
+      return;
+    }
+
+    signupController.signup(
+      nameController.text,
+      emailController.text,
+      passwordController.text,
+      phoneController.text,
+    );
   }
 
   @override
@@ -43,40 +59,33 @@ class _RegisterState extends State<Register> {
               Center(
                 child: Text(
                   "Create Your Account",
-                  style:TTextTheme.lightTextTheme.headlineMedium,
+                  style: TTextTheme.lightTextTheme.headlineMedium,
                 ),
               ),
               const SizedBox(height: 20),
-               Container(
-                margin: EdgeInsets.symmetric(horizontal: 30),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
                   "Your Gateway to Easy Payments & Seamless Bookings!",
                   textAlign: TextAlign.center,
-                  style:TTextTheme.lightTextTheme.bodyMedium,
+                  style: TTextTheme.lightTextTheme.bodyMedium,
                 ),
               ),
               const SizedBox(height: 30),
               CustomTextField(hintText: "Enter your name as per ID proof", controller: nameController, icon: Icons.person_outline),
-                            const SizedBox(height: 20),
-
+              const SizedBox(height: 20),
               CustomTextField(hintText: "Enter your email", controller: emailController, icon: Icons.mail_outline),
               const SizedBox(height: 15),
-              CustomTextField(hintText: "Enter your password", controller: passwordController, icon: Icons.lock_outline_rounded, ),
+              CustomTextField(hintText: "Enter your password", controller: passwordController, icon: Icons.lock_outline_rounded),
               const SizedBox(height: 15),
-              CustomTextField(hintText: "Confirm your password", controller: confirmPasswordController, icon: Icons.lock_outline_rounded, ),
+              CustomTextField(hintText: "Confirm your password", controller: confirmPasswordController, icon: Icons.lock_outline_rounded),
               const SizedBox(height: 15),
-              MobileNumberField( controller: phoneController,),
+              MobileNumberField(controller: phoneController),
               const SizedBox(height: 20),
-              GradientButton(text: "Create Account", onPressed: () {
-                // Handle form submission logic
-                print("Name: ${nameController.text}");
-                print("Email: ${emailController.text}");
-                print("Password: ${passwordController.text}");
-                print("Confirm Password: ${confirmPasswordController.text}");
-                print("Phone: ${phoneController.text}");
-              }),
+              Obx(() => signupController.isLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : GradientButton(text: "Create Account", onPressed: _registerUser)),
               const SizedBox(height: 15),
-             
             ],
           ),
         ),
