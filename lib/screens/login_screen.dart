@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/screens/forgot_password.dart';
-import 'package:payansh/screens/register.dart';
+import 'package:payansh/screens/email_otp.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import '../constants/app_colors.dart';
