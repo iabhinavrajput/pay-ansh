@@ -7,6 +7,7 @@ import 'package:payansh/screens/otp_verification.dart';
 class SignupController extends GetxController {
   final Dio _dio = Dio();
   final isLoading = false.obs;
+  var userId = 0.obs; // Store user ID
 
   Future<void> signup(
       String name, String email, String password, String phone) async {
@@ -24,8 +25,8 @@ class SignupController extends GetxController {
 
       if (response.statusCode == 201) {
         final responseData = response.data;
+        userId.value = responseData["data"]["userId"]; // Store userId
 
-        // Show success message as a bottom pop-up
         Get.snackbar(
           "Success",
           responseData['message'] ?? "Signup successful!",
@@ -35,9 +36,8 @@ class SignupController extends GetxController {
           duration: const Duration(seconds: 3),
         );
 
-        // Navigate to OTP Screen after 2 seconds
-        // await Future.delayed(const Duration(seconds: 2));
-        Get.to(() => const OtpVerification());
+        // Navigate to OTP Screen and pass userId
+        Get.to(() => OtpVerification(userId: userId.value));
       } else {
         _showErrorPopup(
             response.data['message'] ?? "Signup failed. Try again.");

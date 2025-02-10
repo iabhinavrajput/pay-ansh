@@ -21,18 +21,22 @@ class ResetPasswordScreen extends StatelessWidget {
             const SizedBox(height: 50),
 
             // Title
-            const Text(
-              "Forget Password",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
+            Obx(() => Text(
+                  forgotPasswordController.isSignupOtp.value
+                      ? "Verify Your Email"
+                      : "Forget Password",
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                )),
             const SizedBox(height: 10),
 
             // Subtitle
-            const Text(
-              "We’ll send the OTP as an E-Mail to your e-mail Id",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: Colors.grey),
-            ),
+            Obx(() => Text(
+                  forgotPasswordController.isSignupOtp.value
+                      ? "Enter the OTP sent to your email to verify your account"
+                      : "We’ll send the OTP as an E-Mail to your e-mail Id",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                )),
             const SizedBox(height: 30),
 
             // Lock Icon
@@ -68,9 +72,9 @@ class ResetPasswordScreen extends StatelessWidget {
                     ),
                     onChanged: (value) {
                       if (value.isNotEmpty && index < 3) {
-                        FocusScope.of(context).nextFocus(); // Move to next field
+                        FocusScope.of(context).nextFocus();
                       } else if (value.isEmpty && index > 0) {
-                        FocusScope.of(context).previousFocus(); // Move back
+                        FocusScope.of(context).previousFocus();
                       }
                     },
                   ),
@@ -82,10 +86,9 @@ class ResetPasswordScreen extends StatelessWidget {
 
             // Resend OTP Timer
             Obx(() => Text(
-  "OTP expires in: ${forgotPasswordController.otpTimer.value}s",
-  style: const TextStyle(color: Colors.red),
-)),
-
+                  "OTP expires in: ${forgotPasswordController.otpTimer.value}s",
+                  style: const TextStyle(color: Colors.red),
+                )),
 
             const SizedBox(height: 20),
 

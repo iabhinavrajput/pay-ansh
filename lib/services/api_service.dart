@@ -4,7 +4,7 @@ import '../constants/api_endpoints.dart';
 
 class ApiService {
   /// **User Login API**
-  static Future<Map<String, dynamic>> loginUser(
+ static Future<Map<String, dynamic>> loginUser(
       String email, String password) async {
     try {
       final response = await http.post(
@@ -33,7 +33,7 @@ class ApiService {
   }
 
   /// **Forgot Password API**
-  static Future<Map<String, dynamic>> forgotPassword(String email) async {
+   static Future<Map<String, dynamic>> forgotPassword(String email) async {
     try {
       final response = await http.post(
         Uri.parse(ApiEndpoints.forgotPassword),
@@ -57,7 +57,7 @@ class ApiService {
   }
 
   /// **Reset Password API**
-  static Future<Map<String, dynamic>> resetPassword(String email, String otp,
+ static Future<Map<String, dynamic>> resetPassword(String email, String otp,
       String newPassword, String confirmPassword) async {
     try {
       final response = await http.post(
@@ -92,6 +92,30 @@ class ApiService {
     } catch (e) {
       print("❌ Network Error: $e");
       return {"success": false, "message": "Network error: $e"};
+    }
+  }
+
+  /// **Sign-Up OTP Verification API**
+  static Future<Map<String, dynamic>> verifySignupOTP(int userId, String otp) async {
+    try {
+      final response = await http.post(
+        Uri.parse("${ApiEndpoints.baseUrl}/verify-email/$userId"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"otp": otp}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data["status"] == "success") {
+          return {"success": true, "message": data["message"]};
+        } else {
+          return {"success": false, "message": "Invalid OTP"};
+        }
+      } else {
+        return {"success": false, "message": "Server error"};
+      }
+    } catch (e) {
+      return {"success": false, "message": e.toString()};
     }
   }
 }
