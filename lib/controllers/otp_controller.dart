@@ -1,8 +1,23 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:payansh/services/api_service.dart';
 
 class OtpController extends GetxController {
   var isLoading = false.obs;
+  var otpTimer = 30.obs; // Default OTP expiry time in seconds
+
+
+  void startOtpTimer() {
+    otpTimer.value = 30; // Reset timer
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (otpTimer.value > 0) {
+        otpTimer.value--;
+      } else {
+        timer.cancel();
+      }
+    });
+  }
 
   Future<void> verifyOtp(int userId, String otp) async {
     if (otp.isEmpty) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/otp_controller.dart';
+import 'package:payansh/widgets/otp_input.dart';
 
 class OtpVerification extends StatelessWidget {
   final int userId;
@@ -10,8 +11,6 @@ class OtpVerification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController otpControllerText = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(title: const Text("OTP Verification")),
       body: Padding(
@@ -24,25 +23,20 @@ class OtpVerification extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: otpControllerText,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "OTP",
-                border: OutlineInputBorder(),
-              ),
+             CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.blue.shade50,
+              child: const Icon(Icons.message, size: 40, color: Colors.blue),
             ),
-            const SizedBox(height: 20),
-            Obx(() => ElevatedButton(
-                  onPressed: otpController.isLoading.value
-                      ? null
-                      : () {
-                          otpController.verifyOtp(userId, otpControllerText.text);
-                        },
-                  child: otpController.isLoading.value
-                      ? const CircularProgressIndicator()
-                      : const Text("Verify OTP"),
-                )),
+                        const SizedBox(height: 20),
+
+            // ✅ Use the OTPInput widget
+            OtpInput(
+              onOtpEntered: (otp) => otpController.verifyOtp(userId, otp),
+              otpTimer: otpController.otpTimer, // Now it's an RxInt
+              isLoading: otpController.isLoading,
+              onVerify: () {},
+            ),
           ],
         ),
       ),

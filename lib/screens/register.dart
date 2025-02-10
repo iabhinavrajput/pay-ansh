@@ -84,7 +84,8 @@ class _RegisterState extends State<Register> {
               const SizedBox(height: 20),
               Obx(() => signupController.isLoading.value
                   ? const Center(child: CircularProgressIndicator())
-                  : GradientButton(text: "Create Account", onPressed: _registerUser)),
+                  :
+                   GradientButton(text: "Create Account", onPressed: _registerUser)),
               const SizedBox(height: 15),
             ],
           ),
