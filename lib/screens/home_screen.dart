@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/routes/routes.dart';
 import '../utils/local_storage.dart';
 import '../screens/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   Future<void> logout() async {
     await LocalStorage.removeUserToken();
-    Get.offAll(() => LoginScreen());
+    Get.offAll(() => AppRoutes.login);
   }
 
   @override

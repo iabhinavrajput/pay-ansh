@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/enter_new_password.dart';
 import 'package:payansh/screens/login_screen.dart';
 import 'package:payansh/screens/reset_password.dart';
@@ -78,7 +79,7 @@ class ForgotPasswordController extends GetxController {
 
   if (response["success"]) {
     print("✅ Password Reset Successfully");
-    Get.offAll(() => LoginScreen());
+    Get.offAll(() => AppRoutes.login);
   } else {
     print("❌ Password Reset Failed: ${response["message"]}");
     Get.snackbar("Error", response["message"], snackPosition: SnackPosition.BOTTOM);

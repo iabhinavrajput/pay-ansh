@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:payansh/routes/routes.dart';
 import 'package:payansh/services/api_service.dart';
 
 class OtpController extends GetxController {
@@ -40,7 +41,7 @@ class OtpController extends GetxController {
         );
 
         // Navigate to home screen or login screen after successful verification
-        Get.offAllNamed('/home'); // Change '/home' to your actual home route
+        Get.offAllNamed(AppRoutes.home); // Change '/home' to your actual home route
       } else {
         Get.snackbar(
           "Error",

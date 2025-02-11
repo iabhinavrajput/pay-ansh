@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/auth_controller.dart';
+import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/splash_screen.dart';
 
 void main() {
@@ -16,6 +17,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Payansh',
+            getPages: AppRoutes.routes,   // Use the centralized routes list
+
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
