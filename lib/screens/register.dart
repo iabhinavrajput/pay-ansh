@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/signup_controller.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
+import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import 'package:payansh/widgets/gradient_button.dart';
@@ -67,8 +68,7 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               const SizedBox(height: 20),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 30),
+              Center(
                 child: Text(
                   "Your Gateway to Easy Payments & Seamless Bookings!",
                   textAlign: TextAlign.center,
@@ -81,7 +81,7 @@ class _RegisterState extends State<Register> {
                   controller: nameController,
                   icon: Icons.person_outline),
               const SizedBox(height: 20),
-              CustomTextField(
+              CustomEmailTextField(
                   hintText: "Enter your email",
                   controller: emailController,
                   icon: Icons.mail_outline),
