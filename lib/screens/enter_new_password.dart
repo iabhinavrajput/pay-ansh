@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/widgets/CustomPasswordTextField.dart';
 import '../controllers/forgot_password.dart';
 import '../widgets/gradient_button.dart';
 
 class EnterNewPasswordScreen extends StatelessWidget {
   final ForgotPasswordController forgotPasswordController = Get.find();
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+
+  final RxBool isPasswordVisible = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,8 @@ class EnterNewPasswordScreen extends StatelessWidget {
             CircleAvatar(
               radius: 40,
               backgroundColor: Colors.blue.shade50,
-              child: const Icon(Icons.lock_outline, size: 40, color: Colors.blue),
+              child:
+                  const Icon(Icons.lock_outline, size: 40, color: Colors.blue),
             ),
 
             const SizedBox(height: 30),
@@ -41,15 +46,13 @@ class EnterNewPasswordScreen extends StatelessWidget {
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: TextField(
+              child: CustomPasswordTextField(
                 controller: newPasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  hintText: "Enter your password",
-                  suffixIcon: Icon(Icons.lock, color: Colors.blue),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                ),
+                hintText: "Enter your password",
+                isPasswordVisible: isPasswordVisible,
+                togglePasswordVisibility: () =>
+                    isPasswordVisible.value = !isPasswordVisible.value,
+                showValidations: true,
               ),
             ),
 
@@ -61,44 +64,48 @@ class EnterNewPasswordScreen extends StatelessWidget {
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: TextField(
+              child: CustomPasswordTextField(
                 controller: confirmPasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  hintText: "Re-enter your password",
-                  suffixIcon: Icon(Icons.lock, color: Colors.blue),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                ),
+                hintText: "Re-enter your password",
+                isPasswordVisible: isPasswordVisible,
+                togglePasswordVisibility: () =>
+                    isPasswordVisible.value = !isPasswordVisible.value,
+                showValidations: true,
               ),
             ),
 
             const SizedBox(height: 30),
 
             // Continue Button
-           Obx(() => forgotPasswordController.isLoading.value
-    ? const CircularProgressIndicator()
-    : GradientButton(
-        text: "Continue",
-        onPressed: () {
-          print("🔹 Stored Email: ${forgotPasswordController.email.value}");
-          print("🔢 Stored OTP: ${forgotPasswordController.otpCode.value}");
-          print("🔑 New Password: ${newPasswordController.text}");
+            Obx(() => forgotPasswordController.isLoading.value
+                ? const CircularProgressIndicator()
+                : GradientButton(
+                    text: "Continue",
+                    onPressed: () {
+                      print(
+                          "🔹 Stored Email: ${forgotPasswordController.email.value}");
+                      print(
+                          "🔢 Stored OTP: ${forgotPasswordController.otpCode.value}");
+                      print("🔑 New Password: ${newPasswordController.text}");
 
-          if (newPasswordController.text == confirmPasswordController.text) {
-            forgotPasswordController.resetPassword(
-              forgotPasswordController.email.value,  // ✅ Ensure correct email is passed
-              forgotPasswordController.otpCode.value, // ✅ Ensure OTP is stored correctly
-              newPasswordController.text,
-              confirmPasswordController.text,
-            );
-          } else {
-            Get.snackbar("Error", "Passwords do not match!",
-                snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white);
-          }
-        },
-      )),
-
+                      if (newPasswordController.text ==
+                          confirmPasswordController.text) {
+                        forgotPasswordController.resetPassword(
+                          forgotPasswordController
+                              .email.value, // ✅ Ensure correct email is passed
+                          forgotPasswordController.otpCode
+                              .value, // ✅ Ensure OTP is stored correctly
+                          newPasswordController.text,
+                          confirmPasswordController.text,
+                        );
+                      } else {
+                        Get.snackbar("Error", "Passwords do not match!",
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white);
+                      }
+                    },
+                  )),
           ],
         ),
       ),

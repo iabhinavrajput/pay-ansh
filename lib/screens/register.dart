@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/signup_controller.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
+import 'package:payansh/widgets/CustomPasswordTextField.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import 'package:payansh/widgets/gradient_button.dart';
 import 'package:payansh/widgets/mobile_field.dart';
@@ -14,12 +15,15 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final RxBool isPasswordVisible = false.obs;
+
   final SignupController signupController = Get.put(SignupController());
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
   @override
@@ -72,20 +76,36 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               const SizedBox(height: 30),
-              CustomTextField(hintText: "Enter your name as per ID proof", controller: nameController, icon: Icons.person_outline),
+              CustomTextField(
+                  hintText: "Enter your name as per ID proof",
+                  controller: nameController,
+                  icon: Icons.person_outline),
               const SizedBox(height: 20),
-              CustomTextField(hintText: "Enter your email", controller: emailController, icon: Icons.mail_outline),
+              CustomTextField(
+                  hintText: "Enter your email",
+                  controller: emailController,
+                  icon: Icons.mail_outline),
               const SizedBox(height: 15),
-              CustomTextField(hintText: "Enter your password", controller: passwordController, icon: Icons.lock_outline_rounded),
+              CustomPasswordTextField(
+                hintText: "Enter your password",
+                controller: passwordController,
+                isPasswordVisible: isPasswordVisible,
+                togglePasswordVisibility: () =>
+                    isPasswordVisible.value = !isPasswordVisible.value,
+                showValidations: true,
+              ),
               const SizedBox(height: 15),
-              CustomTextField(hintText: "Confirm your password", controller: confirmPasswordController, icon: Icons.lock_outline_rounded),
+              CustomTextField(
+                  hintText: "Confirm your password",
+                  controller: confirmPasswordController,
+                  icon: Icons.lock_outline_rounded),
               const SizedBox(height: 15),
               MobileNumberField(controller: phoneController),
               const SizedBox(height: 20),
               Obx(() => signupController.isLoading.value
                   ? const Center(child: CircularProgressIndicator())
-                  :
-                   GradientButton(text: "Create Account", onPressed: _registerUser)),
+                  : GradientButton(
+                      text: "Create Account", onPressed: _registerUser)),
               const SizedBox(height: 15),
             ],
           ),
