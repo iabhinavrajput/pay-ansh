@@ -22,10 +22,12 @@ class ApiService {
             "accessToken": data["data"]["tokens"]["accessToken"]
           };
         } else {
-          return {"success": false, "message": "Login failed"};
+          final data = jsonDecode(response.body);
+          return {"success": false, "message": data["message"]};
         }
       } else {
-        return {"success": false, "message": "Server error"};
+        final data = jsonDecode(response.body);
+        return {"success": false, "message": data["message"]};
       }
     } catch (e) {
       return {"success": false, "message": e.toString()};
