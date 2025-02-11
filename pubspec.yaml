@@ -42,6 +42,7 @@ dependencies:
   dio: ^5.8.0+1
   device_info_plus: ^11.3.0
 
+  lottie: ^3.3.1
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/login.png
+    - assets/json/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

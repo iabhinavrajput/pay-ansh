@@ -1,18 +1,19 @@
 import 'dart:async';
-
 import 'package:get/get.dart';
+import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/enter_new_password.dart';
-import 'package:payansh/screens/forgot_password.dart';
+import 'package:payansh/screens/login_screen.dart';
 import 'package:payansh/screens/reset_password.dart';
-import '../screens/login_screen.dart';
-import '../services/api_service.dart';
+import 'package:payansh/services/api_service.dart';
 
 class ForgotPasswordController extends GetxController {
   var isLoading = false.obs;
   var email = ''.obs;
   var otpCode = ''.obs;
-  var otpTimer = 50.obs;
-  var autoReadOtp = false.obs;
+  var otpTimer = 60.obs;
+  var isSignupOtp = false.obs;
+  var userId = 0.obs; // Store user ID for signup OTP verification
+    var autoReadOtp = false.obs;
 
 
   void startOtpTimer() {
@@ -27,8 +28,7 @@ class ForgotPasswordController extends GetxController {
   });
 }
 
-
-Future<void> sendResetOTP(String emailInput) async {
+  Future<void> sendResetOTP(String emailInput) async {
   isLoading.value = true;
   var response = await ApiService.forgotPassword(emailInput);
   isLoading.value = false;
@@ -45,14 +45,28 @@ Future<void> sendResetOTP(String emailInput) async {
   }
 }
 
+  Future<void> sendSignupOTP(int userIdInput) async {
+    isLoading.value = true;
+    var response = await ApiService.verifySignupOTP(userIdInput, otpCode.value);
+    isLoading.value = false;
 
+    if (response["success"]) {
+      userId.value = userIdInput; // Store userId
+      otpCode.value = response["otp"] ?? "";
+      isSignupOtp.value = true; // This is for signup
+
+      startOtpTimer();
+      Get.to(() => ResetPasswordScreen());
+    } else {
+      Get.snackbar("Error", response["message"], snackPosition: SnackPosition.BOTTOM);
+    }
+  }
 
   void toggleAutoRead() {
     autoReadOtp.value = !autoReadOtp.value;
   }
-  
 
-Future<void> resetPassword(String email, String otp, String newPassword, String confirmPassword) async {
+  Future<void> resetPassword(String email, String otp, String newPassword, String confirmPassword) async {
   isLoading.value = true;
 
   print("📧 Email (Reset Request): $email");
@@ -65,7 +79,7 @@ Future<void> resetPassword(String email, String otp, String newPassword, String 
 
   if (response["success"]) {
     print("✅ Password Reset Successfully");
-    Get.offAll(() => LoginScreen());
+    Get.offAll(() => AppRoutes.login);
   } else {
     print("❌ Password Reset Failed: ${response["message"]}");
     Get.snackbar("Error", response["message"], snackPosition: SnackPosition.BOTTOM);
@@ -73,9 +87,7 @@ Future<void> resetPassword(String email, String otp, String newPassword, String 
 }
 
 
-
-
-  Future<void> verifyOTP(String otp) async {
+   Future<void> verifyOTP(String otp) async {
     isLoading.value = true;
     await Future.delayed(Duration(seconds: 2)); // Simulating API Call
     isLoading.value = false;
@@ -86,3 +98,4 @@ Future<void> resetPassword(String email, String otp, String newPassword, String 
     Get.to(() => EnterNewPasswordScreen());
   }
 }
+

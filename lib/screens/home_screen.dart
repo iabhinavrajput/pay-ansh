@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/routes/routes.dart';
 import '../utils/local_storage.dart';
 import '../screens/login_screen.dart';
 
@@ -8,6 +9,10 @@ class HomeScreen extends StatelessWidget {
   //   await LocalStorage.clearUserToken();
   //   Get.offAll(() => LoginScreen());
   // }
+  Future<void> logout() async {
+    await LocalStorage.clearUserToken();
+    Get.offAll(() => AppRoutes.login);
+  }
 
   @override
   Widget build(BuildContext context) {
