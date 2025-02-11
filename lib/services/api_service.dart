@@ -49,7 +49,8 @@ class ApiService {
           return {"success": false, "message": "Failed to send OTP"};
         }
       } else {
-        return {"success": false, "message": "Server error"};
+        final data = jsonDecode(response.body);
+        return {"success": false, "message": data["message"]};
       }
     } catch (e) {
       return {"success": false, "message": e.toString()};
@@ -87,7 +88,8 @@ class ApiService {
         }
       } else {
         print("❌ Server Error: ${response.body}");
-        return {"success": false, "message": "Server error: ${response.body}"};
+        final data = jsonDecode(response.body);
+        return {"success": false, "message": data["message"]};
       }
     } catch (e) {
       print("❌ Network Error: $e");

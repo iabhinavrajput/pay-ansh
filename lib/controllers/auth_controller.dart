@@ -13,6 +13,7 @@ Future<void> login(String email, String password) async {
   isLoading.value = false;
 
   if (response["success"]) {
+    Get.snackbar("Login Success", response["message"], snackPosition: SnackPosition.BOTTOM);
     String token = response["accessToken"];
     print("🔹 Saving Token: $token"); // Debugging statement
 
