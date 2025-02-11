@@ -1,8 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application
-        android:label="payansh"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+<uses-permission android:name="android.permission.INTERNET"/>
+
+
+<application
+    android:allowBackup="true"
+    android:label="payansh"
+    android:name="${applicationName}"
+    android:icon="@mipmap/ic_launcher"
+    android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
