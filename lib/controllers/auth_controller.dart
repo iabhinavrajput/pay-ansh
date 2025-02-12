@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/screens/home_screen.dart';
+import 'package:payansh/utils/snackbar_util.dart';
 import '../services/api_service.dart';
 import '../utils/local_storage.dart';
 
@@ -19,8 +21,8 @@ class AuthController extends GetxController {
     if (response["success"]) {
       Get.offAll(() => HomeScreen());
     } else {
-      Get.snackbar("Login Failed", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+      showSnackbar(title:"Login Failed", message:response["message"],
+         isSuccess: false);
     }
   }
 

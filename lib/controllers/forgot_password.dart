@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/enter_new_password.dart';
 import 'package:payansh/screens/login_screen.dart';
 import 'package:payansh/screens/reset_password.dart';
 import 'package:payansh/services/api_service.dart';
+import 'package:payansh/utils/snackbar_util.dart';
 
 class ForgotPasswordController extends GetxController {
   var isLoading = false.obs;
@@ -23,7 +25,7 @@ class ForgotPasswordController extends GetxController {
       otpTimer.value--;
     } else {
       timer.cancel();
-      Get.snackbar("Error", "OTP Expired! Request a new OTP.");
+      showSnackbar(title:"Error", message:"OTP Expired! Request a new OTP.",isSuccess: false);
     }
   });
 }
@@ -41,7 +43,7 @@ class ForgotPasswordController extends GetxController {
 
     Get.to(() => ResetPasswordScreen());
   } else {
-    Get.snackbar("Error", response["message"], snackPosition: SnackPosition.BOTTOM);
+    showSnackbar(title: "Error", message: response["message"], isSuccess: false);
   }
 }
 
@@ -58,7 +60,7 @@ class ForgotPasswordController extends GetxController {
       startOtpTimer();
       Get.to(() => ResetPasswordScreen());
     } else {
-      Get.snackbar("Error", response["message"], snackPosition: SnackPosition.BOTTOM);
+      showSnackbar(title: "Error", message: response["message"], isSuccess: false);
     }
   }
 
@@ -82,7 +84,7 @@ class ForgotPasswordController extends GetxController {
     Get.offAll(() => AppRoutes.login);
   } else {
     print("❌ Password Reset Failed: ${response["message"]}");
-    Get.snackbar("Error", response["message"], snackPosition: SnackPosition.BOTTOM);
+    showSnackbar(title: "Error", message: response["message"], isSuccess: false);
   }
 }
 
@@ -94,7 +96,7 @@ class ForgotPasswordController extends GetxController {
 
     otpCode.value = otp;  // ✅ Store the OTP before moving to the next screen
 
-    Get.snackbar("Success", "OTP Verified", snackPosition: SnackPosition.BOTTOM);
+    showSnackbar(title: "Success", message: "OTP Verified", isSuccess: true);
     Get.to(() => EnterNewPasswordScreen());
   }
 }

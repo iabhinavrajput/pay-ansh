@@ -39,7 +39,7 @@ class _RegisterState extends State<Register> {
 
   void _registerUser() {
     if (passwordController.text != confirmPasswordController.text) {
-      Get.snackbar("Error", "Passwords do not match");
+      Get.snackbar("Error", "Passwords do not match", backgroundColor: Colors.redAccent);
       return;
     }
 
