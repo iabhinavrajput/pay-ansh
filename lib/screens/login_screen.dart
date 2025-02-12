@@ -108,7 +108,7 @@ class LoginScreen extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       // Navigate to Sign Up
-                      Get.off(() => Register());
+                      Get.to(() => Register());
                     },
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(
