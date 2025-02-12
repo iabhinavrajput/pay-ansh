@@ -50,7 +50,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 50.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
