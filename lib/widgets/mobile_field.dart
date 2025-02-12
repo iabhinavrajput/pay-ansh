@@ -17,7 +17,7 @@ class MobileNumberField extends StatelessWidget {
             prefixIcon: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                "91+ ",
+                "+91",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

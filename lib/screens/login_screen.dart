@@ -4,6 +4,8 @@ import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/screens/forgot_password.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
+import 'package:payansh/widgets/CustomEmailTextField.dart';
+import 'package:payansh/widgets/CustomPasswordTextField.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import '../constants/app_colors.dart';
 import '../widgets/gradient_button.dart';
@@ -18,6 +20,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    final RxBool isPasswordVisible = false.obs;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -40,21 +43,25 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Email Input
-              CustomTextField(
+              CustomEmailTextField(
                 controller: emailController,
                 hintText: "Enter Your Email or Phone",
                 icon: Icons.person,
-                keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 15),
 
               // Password Input
-              CustomTextField(
+              // Password Input Field
+              CustomPasswordTextField(
                 controller: passwordController,
                 hintText: "Enter your password",
-                icon: Icons.lock,
-                obscureText: true,
+                isPasswordVisible: isPasswordVisible,
+                togglePasswordVisibility: () =>
+                    isPasswordVisible.value = !isPasswordVisible.value,
+                showValidations: false, // No validations in login screen
+                // Toggle visibility
               ),
+
               const SizedBox(height: 10),
 
               // Remember Me & Forgot Password
