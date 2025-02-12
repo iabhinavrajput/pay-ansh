@@ -19,23 +19,12 @@ class ResetPasswordScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
-
-            // Title
-            const Text(
-              "Forget Password",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
+            const Text("Forget Password", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-
-            // Subtitle
-            const Text(
-              "We’ll send the OTP as an E-Mail to your e-mail Id",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: Colors.grey),
-            ),
+            const Text("We’ll send the OTP as an E-Mail to your e-mail Id",
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: Colors.grey)),
             const SizedBox(height: 30),
 
-            // Lock Icon
             CircleAvatar(
               radius: 40,
               backgroundColor: Colors.blue.shade50,
@@ -61,16 +50,15 @@ class ResetPasswordScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
                     maxLength: 1,
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     decoration: const InputDecoration(
                       counterText: "",
                       border: InputBorder.none,
                     ),
                     onChanged: (value) {
                       if (value.isNotEmpty && index < 3) {
-                        FocusScope.of(context).nextFocus(); // Move to next field
+                        FocusScope.of(context).nextFocus();
                       } else if (value.isEmpty && index > 0) {
-                        FocusScope.of(context).previousFocus(); // Move back
+                        FocusScope.of(context).previousFocus();
                       }
                     },
                   ),
@@ -80,20 +68,11 @@ class ResetPasswordScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // Resend OTP Timer
-            Obx(() => Text(
-  "OTP expires in: ${forgotPasswordController.otpTimer.value}s",
-  style: const TextStyle(color: Colors.red),
-)),
-
-
-            const SizedBox(height: 20),
-
             // Verify Button
             Obx(() => forgotPasswordController.isLoading.value
                 ? const CircularProgressIndicator()
                 : GradientButton(
-                    text: "Verify",
+                    text: "Verify OTP",
                     onPressed: () {
                       String otp = otpControllers.map((controller) => controller.text).join();
                       forgotPasswordController.verifyOTP(otp);

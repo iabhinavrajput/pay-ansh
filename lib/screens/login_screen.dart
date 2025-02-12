@@ -63,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Checkbox(value: false, onChanged: (value) {}),
+                      Checkbox(value: true, onChanged: (value) {}),
                       const Text("Remember me"),
                     ],
                   ),
