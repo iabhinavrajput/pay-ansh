@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:payansh/controllers/otp_controller.dart';
 import 'package:payansh/widgets/otp_input.dart';
+import 'package:lottie/lottie.dart';
 
 class OtpVerification extends StatelessWidget {
   final int userId;
