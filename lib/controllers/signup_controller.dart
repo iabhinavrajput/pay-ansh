@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:payansh/constants/api_endpoints.dart';
 import 'package:payansh/screens/otp_verification.dart';
+import 'package:payansh/utils/snackbar_util.dart';
 
 class SignupController extends GetxController {
   final Dio _dio = Dio();
@@ -27,13 +29,9 @@ class SignupController extends GetxController {
         final responseData = response.data;
         userId.value = responseData["data"]["userId"]; // Store userId
 
-        Get.snackbar(
-          "Success",
-          responseData['message'] ?? "Signup successful!",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          duration: const Duration(seconds: 3),
+        showSnackbar(title:
+          "Success",message: 
+          responseData['message'] ?? "Signup successful!", isSuccess: false
         );
 
         // Navigate to OTP Screen and pass userId
@@ -50,13 +48,11 @@ class SignupController extends GetxController {
   }
 
   void _showErrorPopup(String message) {
-    Get.snackbar(
-      "Error",
+    showSnackbar(title: 
+      "Error",message: 
       message,
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-      duration: const Duration(seconds: 3),
+      isSuccess: false,
+     
     );
   }
 }

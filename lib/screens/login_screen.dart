@@ -20,6 +20,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+        double screenHeight = MediaQuery.of(context).size.height;
+
     final RxBool isPasswordVisible = false.obs;
 
     return Scaffold(
@@ -38,7 +40,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Illustration
-              Image.asset('assets/images/login.png', width: screenWidth * 0.8),
+              Image.asset('assets/images/login.png', ),
 
               const SizedBox(height: 20),
 
@@ -105,7 +107,7 @@ class LoginScreen extends StatelessWidget {
               GradientButton(text: "Login with OTP", onPressed: () {}),
 
               const SizedBox(height: 10),
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(

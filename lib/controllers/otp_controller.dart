@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/services/api_service.dart';
+import 'package:payansh/utils/snackbar_util.dart';
 
 class OtpController extends GetxController {
   var isLoading = false.obs;
@@ -22,8 +24,8 @@ class OtpController extends GetxController {
 
   Future<void> verifyOtp(int userId, String otp) async {
     if (otp.isEmpty) {
-      Get.snackbar("Error", "OTP cannot be empty",
-          snackPosition: SnackPosition.BOTTOM);
+     showSnackbar(title:"Error",message:  "OTP cannot be empty",
+         isSuccess: false);
       return;
     }
 
@@ -32,27 +34,23 @@ class OtpController extends GetxController {
       final response = await ApiService.verifySignupOTP(userId, otp);
 
       if (response["success"]) {
-        Get.snackbar(
-          "Success",
+        showSnackbar(title: 
+          "Success",message: 
           response["message"],
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Get.theme.primaryColor,
-          colorText: Get.theme.cardColor,
+         isSuccess: true
         );
 
         // Navigate to home screen or login screen after successful verification
         Get.offAllNamed(AppRoutes.home); // Change '/home' to your actual home route
       } else {
-        Get.snackbar(
-          "Error",
+       showSnackbar(title: 
+          "Error",message: 
           response["message"],
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Get.theme.colorScheme.error,
-          colorText: Get.theme.cardColor,
+        isSuccess: false
         );
       }
     } catch (e) {
-      Get.snackbar("Error", "Something went wrong. Try again.");
+     showSnackbar(title: "Error", message: "Something went wrong. Try again.",isSuccess: false);
     } finally {
       isLoading.value = false;
     }
