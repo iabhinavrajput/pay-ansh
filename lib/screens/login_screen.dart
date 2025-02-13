@@ -70,7 +70,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Checkbox(value: false, onChanged: (value) {}),
+                      Checkbox(value: true, onChanged: (value) {}),
                       const Text("Remember me"),
                     ],
                   ),
@@ -115,7 +115,7 @@ class LoginScreen extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       // Navigate to Sign Up
-                      Get.off(() => Register());
+                      Get.to(() => Register());
                     },
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(

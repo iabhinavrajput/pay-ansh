@@ -34,8 +34,7 @@ class ApiService {
     }
   }
 
-  /// **Forgot Password API**
-   static Future<Map<String, dynamic>> forgotPassword(String email) async {
+  static Future<Map<String, dynamic>> forgotPassword(String email) async {
     try {
       final response = await http.post(
         Uri.parse(ApiEndpoints.forgotPassword),
@@ -45,13 +44,9 @@ class ApiService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        if (data["status"] == "success") {
-          return {"success": true, "message": data["message"]};
-        } else {
-          return {"success": false, "message": "Failed to send OTP"};
-        }
+        return {"success": data["status"] == "success", "message": data["message"]};
       } else {
-        final data = jsonDecode(response.body);
+          final data = jsonDecode(response.body);
         return {"success": false, "message": data["message"]};
       }
     } catch (e) {
@@ -59,43 +54,46 @@ class ApiService {
     }
   }
 
-  /// **Reset Password API**
- static Future<Map<String, dynamic>> resetPassword(String email, String otp,
-      String newPassword, String confirmPassword) async {
+  /// **Step 2: Verify OTP API**
+  static Future<Map<String, dynamic>> verifyResetOTP(String email, String otp) async {
+    try {
+      final response = await http.post(
+        Uri.parse(ApiEndpoints.verifyOTP),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email, "otp": otp}),
+      );
+
+      final data = jsonDecode(response.body);
+      if (response.statusCode == 200 && data["status"] == "success") {
+        return {"success": true, "resetToken": data["data"]["resetToken"]};
+      } else {
+        return {"success": false, "message": data["message"]};
+      }
+    } catch (e) {
+      return {"success": false, "message": e.toString()};
+    }
+  }
+
+  /// **Step 3: Reset Password API**
+  static Future<Map<String, dynamic>> resetPassword(String resetToken, String newPassword, String confirmPassword) async {
     try {
       final response = await http.post(
         Uri.parse(ApiEndpoints.resetPassword),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          "email": email,
-          "otp": otp,
+          "resetToken": resetToken,
           "newPassword": newPassword,
           "confirmPassword": confirmPassword,
         }),
       );
 
-      print("🔹 Reset Password API Response: ${response.statusCode}");
-      print("📜 Response Body: ${response.body}");
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        if (data["status"] == "success") {
-          return {"success": true, "message": data["message"]};
-        } else {
-          print("❌ Reset Password Failed: ${data["message"]}");
-          return {
-            "success": false,
-            "message": data["message"] ?? "Failed to reset password"
-          };
-        }
-      } else {
-        print("❌ Server Error: ${response.body}");
-        final data = jsonDecode(response.body);
-        return {"success": false, "message": data["message"]};
-      }
+      final data = jsonDecode(response.body);
+      return {
+        "success": data["status"] == "success",
+        "message": data["message"]
+      };
     } catch (e) {
-      print("❌ Network Error: $e");
-      return {"success": false, "message": "Network error: $e"};
+      return {"success": false, "message": e.toString()};
     }
   }
 

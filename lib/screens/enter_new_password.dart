@@ -22,15 +22,8 @@ class EnterNewPasswordScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
-
-            // Title
-            const Text(
-              "Enter New Password",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
+            const Text("Enter New Password", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
-
-            // Lock Icon
             CircleAvatar(
               radius: 40,
               backgroundColor: Colors.blue.shade50,
@@ -82,27 +75,14 @@ class EnterNewPasswordScreen extends StatelessWidget {
                 : GradientButton(
                     text: "Continue",
                     onPressed: () {
-                      print(
-                          "🔹 Stored Email: ${forgotPasswordController.email.value}");
-                      print(
-                          "🔢 Stored OTP: ${forgotPasswordController.otpCode.value}");
-                      print("🔑 New Password: ${newPasswordController.text}");
-
-                      if (newPasswordController.text ==
-                          confirmPasswordController.text) {
+                      if (newPasswordController.text == confirmPasswordController.text) {
                         forgotPasswordController.resetPassword(
-                          forgotPasswordController
-                              .email.value, // ✅ Ensure correct email is passed
-                          forgotPasswordController.otpCode
-                              .value, // ✅ Ensure OTP is stored correctly
                           newPasswordController.text,
                           confirmPasswordController.text,
                         );
                       } else {
                         Get.snackbar("Error", "Passwords do not match!",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.red,
-                            colorText: Colors.white);
+                            snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red, colorText: Colors.white);
                       }
                     },
                   )),
