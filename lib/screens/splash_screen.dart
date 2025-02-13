@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/controllers/splash_controller.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -57,7 +58,8 @@ class _SplashScreenState extends State<SplashScreen>
           return Stack(
             children: [
               Positioned(
-                top: screenHeight * _positionAnimation.value, // Moves from bottom to top
+                top: screenHeight *
+                    _positionAnimation.value, // Moves from bottom to top
                 left: 0,
                 right: 0,
                 child: Center(

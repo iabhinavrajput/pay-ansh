@@ -10,6 +10,7 @@ class OtpInput extends StatelessWidget {
   final VoidCallback onVerify;
 
   OtpInput({
+    super.key,
     required this.onOtpEntered,
     required this.otpTimer,
     required this.isLoading,
@@ -45,8 +46,8 @@ class OtpInput extends StatelessWidget {
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.number,
                 maxLength: 1,
-                style: const TextStyle(
-                    fontSize: 22, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 decoration: const InputDecoration(
                   counterText: "",
                   border: InputBorder.none,
@@ -76,11 +77,12 @@ class OtpInput extends StatelessWidget {
         // Verify Button
         Obx(() => isLoading.value
             ? const CircularProgressIndicator()
-             : GradientButton(
+            : GradientButton(
                 text: "Verify OTP",
                 onPressed: () {
-                  String otp =
-                      otpControllers.map((controller) => controller.text).join();
+                  String otp = otpControllers
+                      .map((controller) => controller.text)
+                      .join();
                   onOtpEntered(otp);
                   onVerify();
                 },

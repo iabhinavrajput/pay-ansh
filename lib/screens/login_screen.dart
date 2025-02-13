@@ -6,21 +6,19 @@ import 'package:payansh/screens/register.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
-import 'package:payansh/widgets/custom_text_field.dart';
-import '../constants/app_colors.dart';
 import '../widgets/gradient_button.dart';
-import '../services/api_service.dart';
-import '../utils/local_storage.dart';
 
 class LoginScreen extends StatelessWidget {
   final AuthController authController = Get.put(AuthController());
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-        double screenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     final RxBool isPasswordVisible = false.obs;
 
@@ -40,7 +38,9 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Illustration
-              Image.asset('assets/images/login.png', ),
+              Image.asset(
+                'assets/images/login.png',
+              ),
 
               const SizedBox(height: 20),
 
@@ -117,10 +117,10 @@ class LoginScreen extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       // Navigate to Sign Up
-                      Get.to(() => Register());
+                      Get.to(() => const Register());
                     },
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(
                           EdgeInsets.zero), // Remove padding
                     ),
                     child: const Text(

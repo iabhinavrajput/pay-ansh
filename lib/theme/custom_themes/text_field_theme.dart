@@ -15,32 +15,32 @@ class TTextFormFieldTheme {
     ),
     filled: true,
     fillColor: Colors.transparent, // Transparent background
-    border: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    border: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 1.5,
         color: Colors.grey,
       ),
     ),
-    enabledBorder: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    enabledBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 1.5,
         color: Colors.grey, // Default border color
       ),
     ),
-    focusedBorder: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    focusedBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 1.5,
         color: Colors.black, // Border color when focused
       ),
     ),
-    errorBorder: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    errorBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 1.5,
         color: Colors.red, // Border color on error
       ),
     ),
-    focusedErrorBorder: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    focusedErrorBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 2,
         color: Colors.orange, // Border color on focused error
       ),
@@ -59,32 +59,32 @@ class TTextFormFieldTheme {
     ),
     filled: true,
     fillColor: Colors.transparent, // Transparent background
-    border: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    border: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 1.5,
         color: Colors.grey,
       ),
     ),
-    enabledBorder: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    enabledBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 1.5,
         color: Colors.grey, // Default border color
       ),
     ),
-    focusedBorder: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    focusedBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 1.5,
         color: Colors.white, // Border color when focused
       ),
     ),
-    errorBorder: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    errorBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 1.5,
         color: Colors.red, // Border color on error
       ),
     ),
-    focusedErrorBorder: UnderlineInputBorder(
-      borderSide: const BorderSide(
+    focusedErrorBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(
         width: 2,
         color: Colors.orange, // Border color on focused error
       ),

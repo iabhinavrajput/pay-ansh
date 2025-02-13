@@ -10,6 +10,8 @@ class ForgotPasswordScreen extends StatelessWidget {
       Get.put(ForgotPasswordController());
   final TextEditingController emailController = TextEditingController();
 
+  ForgotPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,12 +21,14 @@ class ForgotPasswordScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 80),
-            const Text("RESET PASSWORD", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text("RESET PASSWORD",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             Image.asset("assets/images/logo.png", height: 30),
             const SizedBox(height: 30),
             const Text("Enter your email to receive an OTP",
-                style: TextStyle(fontSize: 18, color: AppColors.greytextColors)),
+                style:
+                    TextStyle(fontSize: 18, color: AppColors.greytextColors)),
             const SizedBox(height: 20),
 
             // Email Input Field
@@ -40,7 +44,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ? const CircularProgressIndicator()
                 : GradientButton(
                     text: "Send OTP",
-                    onPressed: () => forgotPasswordController.sendResetOTP(emailController.text),
+                    onPressed: () => forgotPasswordController
+                        .sendResetOTP(emailController.text),
                   )),
           ],
         ),

@@ -28,11 +28,15 @@ class MobileNumberField extends StatelessWidget {
             prefixIconConstraints: const BoxConstraints(minWidth: 50),
             suffixIcon: ShaderMask(
               shaderCallback: (bounds) => const LinearGradient(
-                colors: [AppColors.gradientStart, AppColors.gradientEnd], // Blue Gradient
+                colors: [
+                  AppColors.gradientStart,
+                  AppColors.gradientEnd
+                ], // Blue Gradient
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ).createShader(bounds),
-              child: const Icon(Icons.phone_outlined, color: Colors.white), // Keep it white for gradient effect
+              child: const Icon(Icons.phone_outlined,
+                  color: Colors.white), // Keep it white for gradient effect
             ), // Right-side phone icon
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
@@ -59,7 +63,10 @@ class MobileNumberField extends StatelessWidget {
             color: Colors.white, // Matches background color
             child: ShaderMask(
               shaderCallback: (bounds) => const LinearGradient(
-                colors: [AppColors.gradientStart, AppColors.gradientEnd], // Blue Gradient
+                colors: [
+                  AppColors.gradientStart,
+                  AppColors.gradientEnd
+                ], // Blue Gradient
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ).createShader(bounds),

@@ -8,11 +8,11 @@ class CustomEmailTextField extends StatelessWidget {
   final IconData icon;
 
   CustomEmailTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.icon,
-  }) : super(key: key);
+  });
 
   final RxString validationMessage = ''.obs;
 
@@ -44,9 +44,11 @@ class CustomEmailTextField extends StatelessWidget {
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: const TextStyle(color: AppColors.textColors),
-              suffixIcon: Icon(icon, color: AppColors.textColors), // Custom icon
+              suffixIcon:
+                  Icon(icon, color: AppColors.textColors), // Custom icon
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             ),
           ),
         ),

@@ -9,13 +9,13 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.icon,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,8 @@ class CustomTextField extends StatelessWidget {
           hintStyle: const TextStyle(color: AppColors.textColors),
           suffixIcon: Icon(icon, color: AppColors.textColors),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         ),
       ),
     );

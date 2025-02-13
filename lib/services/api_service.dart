@@ -4,7 +4,7 @@ import '../constants/api_endpoints.dart';
 
 class ApiService {
   /// **User Login API**
- static Future<Map<String, dynamic>> loginUser(
+  static Future<Map<String, dynamic>> loginUser(
       String email, String password) async {
     try {
       final response = await http.post(
@@ -44,9 +44,12 @@ class ApiService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        return {"success": data["status"] == "success", "message": data["message"]};
+        return {
+          "success": data["status"] == "success",
+          "message": data["message"]
+        };
       } else {
-          final data = jsonDecode(response.body);
+        final data = jsonDecode(response.body);
         return {"success": false, "message": data["message"]};
       }
     } catch (e) {
@@ -55,7 +58,8 @@ class ApiService {
   }
 
   /// **Step 2: Verify OTP API**
-  static Future<Map<String, dynamic>> verifyResetOTP(String email, String otp) async {
+  static Future<Map<String, dynamic>> verifyResetOTP(
+      String email, String otp) async {
     try {
       final response = await http.post(
         Uri.parse(ApiEndpoints.verifyOTP),
@@ -75,7 +79,8 @@ class ApiService {
   }
 
   /// **Step 3: Reset Password API**
-  static Future<Map<String, dynamic>> resetPassword(String resetToken, String newPassword, String confirmPassword) async {
+  static Future<Map<String, dynamic>> resetPassword(
+      String resetToken, String newPassword, String confirmPassword) async {
     try {
       final response = await http.post(
         Uri.parse(ApiEndpoints.resetPassword),
@@ -98,7 +103,8 @@ class ApiService {
   }
 
   /// **Sign-Up OTP Verification API**
-  static Future<Map<String, dynamic>> verifySignupOTP(int userId, String otp) async {
+  static Future<Map<String, dynamic>> verifySignupOTP(
+      int userId, String otp) async {
     try {
       final response = await http.post(
         Uri.parse("${ApiEndpoints.baseUrl}/verify-email/$userId"),
@@ -114,7 +120,7 @@ class ApiService {
           return {"success": false, "message": data["message"]};
         }
       } else {
-                final data = jsonDecode(response.body);
+        final data = jsonDecode(response.body);
 
         return {"success": false, "message": data["message"]};
       }

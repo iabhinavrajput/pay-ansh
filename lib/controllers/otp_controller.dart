@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/services/api_service.dart';
@@ -9,7 +8,6 @@ import 'package:payansh/utils/snackbar_util.dart';
 class OtpController extends GetxController {
   var isLoading = false.obs;
   var otpTimer = 30.obs; // Default OTP expiry time in seconds
-
 
   void startOtpTimer() {
     otpTimer.value = 300; // Reset timer
@@ -24,8 +22,8 @@ class OtpController extends GetxController {
 
   Future<void> verifyOtp(int userId, String otp) async {
     if (otp.isEmpty) {
-     showSnackbar(title:"Error",message:  "OTP cannot be empty",
-         isSuccess: false);
+      showSnackbar(
+          title: "Error", message: "OTP cannot be empty", isSuccess: false);
       return;
     }
 
@@ -34,23 +32,21 @@ class OtpController extends GetxController {
       final response = await ApiService.verifySignupOTP(userId, otp);
 
       if (response["success"]) {
-        showSnackbar(title: 
-          "Success",message: 
-          response["message"],
-         isSuccess: true
-        );
+        showSnackbar(
+            title: "Success", message: response["message"], isSuccess: true);
 
         // Navigate to home screen or login screen after successful verification
-        Get.offAllNamed(AppRoutes.home); // Change '/home' to your actual home route
+        Get.offAllNamed(
+            AppRoutes.home); // Change '/home' to your actual home route
       } else {
-       showSnackbar(title: 
-          "Error",message: 
-          response["message"],
-        isSuccess: false
-        );
+        showSnackbar(
+            title: "Error", message: response["message"], isSuccess: false);
       }
     } catch (e) {
-     showSnackbar(title: "Error", message: "Something went wrong. Try again.",isSuccess: false);
+      showSnackbar(
+          title: "Error",
+          message: "Something went wrong. Try again.",
+          isSuccess: false);
     } finally {
       isLoading.value = false;
     }
