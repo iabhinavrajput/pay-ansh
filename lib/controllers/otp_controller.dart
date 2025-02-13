@@ -12,7 +12,7 @@ class OtpController extends GetxController {
 
 
   void startOtpTimer() {
-    otpTimer.value = 30; // Reset timer
+    otpTimer.value = 300; // Reset timer
     Timer.periodic(const Duration(seconds: 1), (timer) {
       if (otpTimer.value > 0) {
         otpTimer.value--;
