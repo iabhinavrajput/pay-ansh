@@ -111,10 +111,12 @@ class ApiService {
         if (data["status"] == "success") {
           return {"success": true, "message": data["message"]};
         } else {
-          return {"success": false, "message": "Invalid OTP"};
+          return {"success": false, "message": data["message"]};
         }
       } else {
-        return {"success": false, "message": "Server error"};
+                final data = jsonDecode(response.body);
+
+        return {"success": false, "message": data["message"]};
       }
     } catch (e) {
       return {"success": false, "message": e.toString()};
