@@ -48,13 +48,11 @@ class SignupController extends GetxController {
   }
 
   void _showErrorPopup(String message) {
-    Get.snackbar(
-      "Error",
+    showSnackbar(title: 
+      "Error",message: 
       message,
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-      duration: const Duration(seconds: 3),
+      isSuccess: false,
+     
     );
   }
 }

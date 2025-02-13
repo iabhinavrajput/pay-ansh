@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/utils/snackbar_util.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
 import '../controllers/forgot_password.dart';
 import '../widgets/gradient_button.dart';
@@ -99,10 +100,8 @@ class EnterNewPasswordScreen extends StatelessWidget {
                           confirmPasswordController.text,
                         );
                       } else {
-                        Get.snackbar("Error", "Passwords do not match!",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.red,
-                            colorText: Colors.white);
+                        showSnackbar(title: "Error",message:  "Passwords do not match!",isSuccess: false,
+                            );
                       }
                     },
                   )),

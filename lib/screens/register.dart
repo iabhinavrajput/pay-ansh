@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/signup_controller.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
+import 'package:payansh/utils/snackbar_util.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
@@ -39,7 +40,7 @@ class _RegisterState extends State<Register> {
 
   void _registerUser() {
     if (passwordController.text != confirmPasswordController.text) {
-      Get.snackbar("Error", "Passwords do not match", backgroundColor: Colors.redAccent);
+      showSnackbar(title: "Error",message:  "Passwords do not match",isSuccess: false, );
       return;
     }
 
