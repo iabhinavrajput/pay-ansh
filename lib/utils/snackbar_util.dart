@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void showSnackbar({required String title, required String message, required bool isSuccess}) {
+void showSnackbar(
+    {required String title, required String message, required bool isSuccess}) {
   Get.snackbar(
     title,
     message,

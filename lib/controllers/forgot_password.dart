@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/enter_new_password.dart';
 import 'package:payansh/screens/login_screen.dart';
 import 'package:payansh/screens/reset_password.dart';
@@ -15,8 +14,8 @@ class ForgotPasswordController extends GetxController {
 
   /// **Start OTP Timer**
   void startOtpTimer() {
-    otpTimer.value = 60; 
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    otpTimer.value = 60;
+    Timer.periodic(const Duration(seconds: 1), (timer) {
       if (otpTimer.value > 0) {
         otpTimer.value--;
       } else {
@@ -37,7 +36,8 @@ class ForgotPasswordController extends GetxController {
       startOtpTimer(); // ✅ Start OTP countdown
       Get.to(() => ResetPasswordScreen()); // Navigate to OTP screen
     } else {
-      Get.snackbar("Error", response["message"], snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", response["message"],
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -49,22 +49,26 @@ class ForgotPasswordController extends GetxController {
 
     if (response["success"]) {
       resetToken.value = response["resetToken"]; // ✅ Store resetToken
-      Get.to(() => EnterNewPasswordScreen()); // Navigate to password reset screen
+      Get.to(
+          () => EnterNewPasswordScreen()); // Navigate to password reset screen
     } else {
-      Get.snackbar("Error", response["message"], snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", response["message"],
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
   /// **Step 3: Reset Password**
   Future<void> resetPassword(String newPassword, String confirmPassword) async {
     isLoading.value = true;
-    var response = await ApiService.resetPassword(resetToken.value, newPassword, confirmPassword);
+    var response = await ApiService.resetPassword(
+        resetToken.value, newPassword, confirmPassword);
     isLoading.value = false;
 
     if (response["success"]) {
       Get.offAll(() => LoginScreen()); // ✅ Redirect to Login on success
     } else {
-      Get.snackbar("Error", response["message"], snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", response["message"],
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 }

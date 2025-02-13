@@ -10,7 +10,9 @@ class AppRoutes {
 
   static List<GetPage> routes = [
     GetPage(name: login, page: () => LoginScreen()),
-    GetPage(name: otp, page: () => OtpVerification(userId: 123)), // Pass userId dynamically
-    GetPage(name: home, page: () => HomeScreen()),
+    GetPage(
+        name: otp,
+        page: () => OtpVerification(userId: 123)), // Pass userId dynamically
+    GetPage(name: home, page: () => const HomeScreen()),
   ];
 }

@@ -8,22 +8,23 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final AuthController authController = Get.put(AuthController());
   authController.checkLoginStatus();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Payansh',
-            getPages: AppRoutes.routes,   // Use the centralized routes list
+      getPages: AppRoutes.routes, // Use the centralized routes list
 
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
-

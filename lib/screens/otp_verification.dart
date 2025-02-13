@@ -24,17 +24,17 @@ class OtpVerification extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 20),
-             CircleAvatar(
+            CircleAvatar(
               radius: 40,
               backgroundColor: Colors.blue.shade50,
-              child:  Lottie.asset(
-    'assets/json/message_gif.json', // Update the path to your Lottie file
-    width: 60, // Adjust size as needed
-    height: 60,
-    fit: BoxFit.cover,
-  ),
+              child: Lottie.asset(
+                'assets/json/message_gif.json', // Update the path to your Lottie file
+                width: 60, // Adjust size as needed
+                height: 60,
+                fit: BoxFit.cover,
+              ),
             ),
-                        const SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // ✅ Use the OTPInput widget
             OtpInput(

@@ -7,7 +7,10 @@ class ResetPasswordScreen extends StatelessWidget {
   final ForgotPasswordController forgotPasswordController = Get.find();
   final List<TextEditingController> otpControllers =
       List.generate(4, (index) => TextEditingController());
-  final List<FocusNode> otpFocusNodes = List.generate(4, (index) => FocusNode());
+  final List<FocusNode> otpFocusNodes =
+      List.generate(4, (index) => FocusNode());
+
+  ResetPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +22,19 @@ class ResetPasswordScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
-            const Text("Forget Password", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            const Text("Forget Password",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             const Text("We’ll send the OTP as an E-Mail to your e-mail Id",
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: Colors.grey)),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, color: Colors.grey)),
             const SizedBox(height: 30),
 
             CircleAvatar(
               radius: 40,
               backgroundColor: Colors.blue.shade50,
-              child: const Icon(Icons.lock_outline, size: 40, color: Colors.blue),
+              child:
+                  const Icon(Icons.lock_outline, size: 40, color: Colors.blue),
             ),
 
             const SizedBox(height: 30),
@@ -74,7 +80,9 @@ class ResetPasswordScreen extends StatelessWidget {
                 : GradientButton(
                     text: "Verify OTP",
                     onPressed: () {
-                      String otp = otpControllers.map((controller) => controller.text).join();
+                      String otp = otpControllers
+                          .map((controller) => controller.text)
+                          .join();
                       forgotPasswordController.verifyOTP(otp);
                     },
                   )),

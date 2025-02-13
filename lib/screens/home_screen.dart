@@ -5,6 +5,8 @@ import '../utils/local_storage.dart';
 import '../screens/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   // Future<void> logout() async {
   //   await LocalStorage.clearUserToken();
   //   Get.offAll(() => LoginScreen());
@@ -17,7 +19,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home")),
+      appBar: AppBar(title: const Text("Home")),
       body: Center(
         child: ElevatedButton(
           // onPressed: logout,
@@ -26,7 +28,7 @@ class HomeScreen extends StatelessWidget {
             await LocalStorage.clearUserToken();
             Get.offAll(() => LoginScreen());
           },
-          child: Text("Logout"),
+          child: const Text("Logout"),
         ),
       ),
     );

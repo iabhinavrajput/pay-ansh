@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:payansh/constants/api_endpoints.dart';
@@ -29,10 +27,10 @@ class SignupController extends GetxController {
         final responseData = response.data;
         userId.value = responseData["data"]["userId"]; // Store userId
 
-        showSnackbar(title:
-          "Success",message: 
-          responseData['message'] ?? "Signup successful!", isSuccess: false
-        );
+        showSnackbar(
+            title: "Success",
+            message: responseData['message'] ?? "Signup successful!",
+            isSuccess: false);
 
         // Navigate to OTP Screen and pass userId
         Get.to(() => OtpVerification(userId: userId.value));
@@ -48,11 +46,10 @@ class SignupController extends GetxController {
   }
 
   void _showErrorPopup(String message) {
-    showSnackbar(title: 
-      "Error",message: 
-      message,
+    showSnackbar(
+      title: "Error",
+      message: message,
       isSuccess: false,
-     
     );
   }
 }

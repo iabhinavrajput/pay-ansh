@@ -10,13 +10,14 @@ class CustomPasswordTextField extends StatelessWidget {
   final bool showValidations;
 
   CustomPasswordTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.isPasswordVisible,
     required this.togglePasswordVisibility,
-    this.showValidations = false, // Show validations only in signup & reset password
-  }) : super(key: key);
+    this.showValidations =
+        false, // Show validations only in signup & reset password
+  });
 
   final RxString validationMessage = ''.obs;
 
@@ -26,11 +27,13 @@ class CustomPasswordTextField extends StatelessWidget {
     } else if (password.length < 8) {
       validationMessage.value = "Password must be at least 8 characters";
     } else if (!RegExp(r'[A-Z]').hasMatch(password)) {
-      validationMessage.value = "Password must contain at least one uppercase letter";
+      validationMessage.value =
+          "Password must contain at least one uppercase letter";
     } else if (!RegExp(r'[0-9]').hasMatch(password)) {
       validationMessage.value = "Password must contain at least one digit";
     } else if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
-      validationMessage.value = "Password must contain at least one special character";
+      validationMessage.value =
+          "Password must contain at least one special character";
     } else {
       validationMessage.value = ''; // No validation errors
     }
@@ -55,13 +58,16 @@ class CustomPasswordTextField extends StatelessWidget {
                   hintStyle: const TextStyle(color: AppColors.textColors),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      isPasswordVisible.value ? Icons.visibility : Icons.visibility_off,
+                      isPasswordVisible.value
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                       color: AppColors.textColors,
                     ),
                     onPressed: togglePasswordVisibility,
                   ),
                   border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 ),
               )),
         ),

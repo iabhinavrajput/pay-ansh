@@ -40,7 +40,11 @@ class _RegisterState extends State<Register> {
 
   void _registerUser() {
     if (passwordController.text != confirmPasswordController.text) {
-      showSnackbar(title: "Error",message:  "Passwords do not match",isSuccess: false, );
+      showSnackbar(
+        title: "Error",
+        message: "Passwords do not match",
+        isSuccess: false,
+      );
       return;
     }
 
