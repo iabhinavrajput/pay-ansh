@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _positionAnimation;
   late Animation<double> _sizeAnimation;
 
-  final SplashController splashController = Get.put(SplashController());
+  final SplashController splashController = Get.put(SplashController()); // Initialize controller
 
   @override
   void initState() {
@@ -27,12 +27,10 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(milliseconds: 300),
     );
 
-    // Position Animation: Moves logo from bottom (1.0) to top (0.2)
     _positionAnimation = Tween<double>(begin: 0.8, end: 0.5).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
 
-    // Size Animation: Gradually increases size
     _sizeAnimation = Tween<double>(begin: 50.0, end: 200.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
@@ -58,14 +56,13 @@ class _SplashScreenState extends State<SplashScreen>
           return Stack(
             children: [
               Positioned(
-                top: screenHeight *
-                    _positionAnimation.value, // Moves from bottom to top
+                top: screenHeight * _positionAnimation.value,
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/images/logo.png',
-                    width: _sizeAnimation.value, // Changes size dynamically
+                    width: _sizeAnimation.value,
                   ),
                 ),
               ),

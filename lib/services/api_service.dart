@@ -11,16 +11,20 @@ class ApiService {
         Uri.parse(ApiEndpoints.login),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email, "password": password}),
-      );
+      ); 
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data["status"] == "success") {
+                              print("This is access tokn: ${data["data"]["tokens"]["accessToken"]}");
+
           return {
             "success": true,
             "message": "Login successful",
             "accessToken": data["data"]["tokens"]["accessToken"]
+            
           };
+          
         } else {
           final data = jsonDecode(response.body);
           return {"success": false, "message": data["message"]};

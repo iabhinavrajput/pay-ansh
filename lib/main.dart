@@ -6,8 +6,10 @@ import 'package:payansh/screens/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final AuthController authController = Get.put(AuthController());
-  authController.checkLoginStatus();
+  // final AuthController authController = Get.put(AuthController());
+  // authController.checkLoginStatus();
+    Get.put(AuthController()); // Initialize controller
+
   runApp(const MyApp());
 }
 
