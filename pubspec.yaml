@@ -43,6 +43,7 @@ dependencies:
   device_info_plus: ^11.3.0
 
   lottie: ^3.2.0
+  animated_bottom_navigation_bar: ^1.4.0
 
 dev_dependencies:
   flutter_test:

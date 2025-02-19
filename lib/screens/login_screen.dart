@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/auth_controller.dart';
+import 'package:payansh/screens/animated_bottom_bar.dart';
 import 'package:payansh/screens/forgot_password.dart';
+import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
@@ -104,7 +106,10 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 10),
 
               // Login with OTP
-              GradientButton(text: "Login with OTP", onPressed: () {}),
+              GradientButton(text: "Login with OTP", onPressed: () {
+
+                Get.to(() =>  MyHomePage());
+              }),
 
               const SizedBox(height: 10),
               Column(

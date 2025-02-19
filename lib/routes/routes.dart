@@ -13,6 +13,6 @@ class AppRoutes {
     GetPage(
         name: otp,
         page: () => OtpVerification(userId: 123)), // Pass userId dynamically
-    GetPage(name: home, page: () => const HomeScreen()),
+    GetPage(name: home, page: () =>  RechargeBillPage()),
   ];
 }
