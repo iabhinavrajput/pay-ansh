@@ -108,7 +108,7 @@ class LoginScreen extends StatelessWidget {
               // Login with OTP
               GradientButton(text: "Login with OTP", onPressed: () {
 
-                Get.to(() =>  MyHomePage());
+                Get.to(() =>  RechargeBillPage());
               }),
 
               const SizedBox(height: 10),
