@@ -110,10 +110,9 @@ class HomeScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset("assets/frame/Frame_recharge.svg"),
-                      SvgPicture.asset("assets/frame/view_all.svg"),
+                      SvgPicture.asset("assets/icon/Vector.svg"),
+                      
                     ],
                   )
                 ],
