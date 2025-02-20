@@ -2,13 +2,16 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/auth_controller.dart';
+import 'package:payansh/screens/animated_bottom_bar.dart';
 import 'package:payansh/screens/device_info.dart';
 import 'package:payansh/screens/forgot_password.dart';
+import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
 import '../widgets/gradient_button.dart';
+import 'recharge_bills.dart';
 
 class LoginScreen extends StatelessWidget {
   final AuthController authController = Get.put(AuthController());
@@ -107,7 +110,8 @@ class LoginScreen extends StatelessWidget {
 
               // Login with OTP
               GradientButton(text: "Login with OTP", onPressed: () {
-                Get.to(() =>  DeviceInfoScreen());
+
+                Get.to(() =>  RechargeBillPage());
               }),
 
               const SizedBox(height: 10),

@@ -56,7 +56,8 @@ class _SplashScreenState extends State<SplashScreen>
           return Stack(
             children: [
               Positioned(
-                top: screenHeight * _positionAnimation.value,
+                top: screenHeight *
+                    _positionAnimation.value, // Moves from bottom to top
                 left: 0,
                 right: 0,
                 child: Center(

@@ -7,4 +7,5 @@ class AppColors {
   static const Color inputBackground = Color(0x69DFE7EE);
   static const Color textColors = Color(0xFFB8B8BC);
   static const Color greytextColors = Color(0xFF5A5A5B);
+  static const Color iconBackground = Color(0x33CFE3F7);
 }

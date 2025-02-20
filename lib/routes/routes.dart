@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/login_screen.dart';
 import 'package:payansh/screens/otp_verification.dart';
+import 'package:payansh/screens/recharge_bills.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -13,6 +14,7 @@ class AppRoutes {
     GetPage(
         name: otp,
         page: () => OtpVerification(userId: 123)), // Pass userId dynamically
+    GetPage(name: home, page: () =>  RechargeBillPage()),
     GetPage(name: home, page: () => const HomeScreen()),
   ];
 }
