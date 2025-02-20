@@ -39,10 +39,14 @@ class AuthController extends GetxController {
     String? token = await LocalStorage.getUserToken();
 
     if (token != null && token.isNotEmpty) {
+      print("This is token inside checkLoginStatus: ${token}");
       // Navigate to home if token exists
       Get.offAll(() =>  RechargeBillPage());
     } else {
+      print("Now logged out");
       // If no token, navigate to login
+        await Future.delayed(const Duration(milliseconds: 500)); // Small delay for smooth transition
+
       Get.offAll(() => LoginScreen());
     }
   }

@@ -1,7 +1,9 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/screens/animated_bottom_bar.dart';
+import 'package:payansh/screens/device_info.dart';
 import 'package:payansh/screens/forgot_password.dart';
 import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/register.dart';

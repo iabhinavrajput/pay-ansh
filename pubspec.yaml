@@ -43,7 +43,13 @@ dependencies:
   device_info_plus: ^11.3.0
 
   lottie: ^3.2.0
+<<<<<<< HEAD
   animated_bottom_navigation_bar: ^1.4.0
+=======
+  flutter_secure_storage: ^9.2.4
+  marquee: ^2.3.0
+  flutter_svg: ^2.0.17
+>>>>>>> 599fbbc77c56b9709db8e2140bb74c0887680054
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +84,9 @@ flutter:
     - assets/images/login.png
     - assets/json/
     - assets/dashboard/
+    - assets/icon_image/
+    - assets/banner/
+    - assets/frame/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
