@@ -30,7 +30,7 @@ class AuthController extends GetxController {
       String? checkToken = await LocalStorage.getUserToken();
       print("✅ Token Saved: $checkToken"); // Verify storage
 
-      Get.offAll(() =>  RechargeBillPage());
+      Get.offAll(() =>  const HomeScreen());
     } else {
       Get.snackbar("Login Failed", response["message"],
           snackPosition: SnackPosition.BOTTOM);
@@ -43,7 +43,7 @@ class AuthController extends GetxController {
     if (token != null && token.isNotEmpty) {
       print("This is token inside checkLoginStatus: ${token}");
       // Navigate to home if token exists
-      Get.offAll(() =>  HomeScreen());
+      Get.offAll(() =>  const HomeScreen());
     } else {
       print("Now logged out");
       // If no token, navigate to login

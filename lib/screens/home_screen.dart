@@ -167,7 +167,9 @@ class HomeScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.home);
+                        },
                         child: Row(
                           children: [
                            Text(
