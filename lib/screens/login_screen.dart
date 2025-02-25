@@ -4,6 +4,7 @@ import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/screens/animated_bottom_bar.dart';
 import 'package:payansh/screens/forgot_password.dart';
 import 'package:payansh/screens/home_screen.dart';
+import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
