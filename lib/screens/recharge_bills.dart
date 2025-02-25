@@ -16,7 +16,7 @@ class RechargeBillPage extends StatelessWidget {
           children: [
             const CustomAppBar(height: 70),
             const Positioned(
-              left: 16,
+              left: 56, // Increased spacing from back button
               bottom: 20,
               child: Text(
                 'Recharge & Bill Pays',
@@ -24,6 +24,14 @@ class RechargeBillPage extends StatelessWidget {
                   color: Colors.white,
                   fontSize: 20,
                 ),
+              ),
+            ),
+            Positioned(
+              left: 16,
+              bottom: 10,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.pop(context),
               ),
             ),
             Positioned(
@@ -46,21 +54,21 @@ class RechargeBillPage extends StatelessWidget {
               GradientText('Recharge', style: TextStyle(fontSize: 22)),
               SizedBox(height: 20),
               RechargeGrid(iconData: [
-                {'image': 'assets/dashboard/bill.png', 'label': 'Bill\nPayment', 'screen': DeviceInfoScreen()},
-                {'image': 'assets/dashboard/mobile-recharge.png', 'label': 'Mobile\nRecharge', 'screen': DeviceInfoScreen()},
-                {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity\nBill', 'screen': DeviceInfoScreen()},
-                {'image': 'assets/dashboard/water-bill.png', 'label': 'Water\nBill', 'screen': DeviceInfoScreen()},
-                {'image': 'assets/dashboard/gas-cylinder.png', 'label': 'Gas\nPayment', 'screen': DeviceInfoScreen()}
+                {'image': 'assets/dashboard/bill.png', 'label': 'Bill\nPayment', 'screen': const DeviceInfoScreen()},
+                {'image': 'assets/dashboard/mobile-recharge.png', 'label': 'Mobile\nRecharge', 'screen': const DeviceInfoScreen()},
+                {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity\nBill', 'screen': const DeviceInfoScreen()},
+                {'image': 'assets/dashboard/water-bill.png', 'label': 'Water\nBill', 'screen': const DeviceInfoScreen()},
+                {'image': 'assets/dashboard/gas-cylinder.png', 'label': 'Gas\nPayment', 'screen': const DeviceInfoScreen()}
               ]),
               SizedBox(height: 20),
               GradientText('Recharge', style: TextStyle(fontSize: 22)),
               SizedBox(height: 20),
               RechargeGrid(iconData: [
-                {'image': 'assets/dashboard/bill.png', 'label': 'Bill\nPayment', 'screen': DeviceInfoScreen()},
-                {'image': 'assets/dashboard/mobile-recharge.png', 'label': 'Mobile\nRecharge', 'screen': DeviceInfoScreen()},
-                {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity\nBill', 'screen': DeviceInfoScreen()},
-                {'image': 'assets/dashboard/water-bill.png', 'label': 'Water\nBill', 'screen': DeviceInfoScreen()},
-                {'image': 'assets/dashboard/gas-cylinder.png', 'label': 'Gas\nPayment', 'screen': DeviceInfoScreen()}
+                {'image': 'assets/dashboard/bill.png', 'label': 'Bill\nPayment', 'screen': const DeviceInfoScreen()},
+                {'image': 'assets/dashboard/mobile-recharge.png', 'label': 'Mobile\nRecharge', 'screen': const DeviceInfoScreen()},
+                {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity\nBill', 'screen': const DeviceInfoScreen()},
+                {'image': 'assets/dashboard/water-bill.png', 'label': 'Water\nBill', 'screen': const DeviceInfoScreen()},
+                {'image': 'assets/dashboard/gas-cylinder.png', 'label': 'Gas\nPayment', 'screen': const DeviceInfoScreen()}
               ])
             ],
           ),
