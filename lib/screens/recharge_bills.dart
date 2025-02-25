@@ -25,12 +25,12 @@ class RechargeBillPage extends StatelessWidget {
            RechargeGrid(iconData: [
               {'image': 'assets/dashboard/bill.png', 'label': 'Bill\nPayment', 'screen': DeviceInfoScreen()},
               {'image': 'assets/dashboard/mobile-recharge.png', 'label': 'Mobile\nRecharge', 'screen': DeviceInfoScreen()},
-              {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity', 'screen': DeviceInfoScreen()},
+              {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity\nBill', 'screen': DeviceInfoScreen()},
               {'image': 'assets/dashboard/water-bill.png', 'label': 'Water\nBill', 'screen': DeviceInfoScreen()},
               {'image': 'assets/dashboard/gas-cylinder.png', 'label': 'Gas\nPayment', 'screen': DeviceInfoScreen()},
               {'image': 'assets/dashboard/bill.png', 'label': 'Bill\nPayment', 'screen': DeviceInfoScreen()},
               {'image': 'assets/dashboard/mobile-recharge.png', 'label': 'Mobile\nRecharge', 'screen': DeviceInfoScreen()},
-              {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity', 'screen': DeviceInfoScreen()},
+              {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity\nBill', 'screen': DeviceInfoScreen()},
               {'image': 'assets/dashboard/water-bill.png', 'label': 'Water\nBill', 'screen': DeviceInfoScreen()},
               {'image': 'assets/dashboard/gas-cylinder.png', 'label': 'Gas\nPayment', 'screen': DeviceInfoScreen()}
             ]),
