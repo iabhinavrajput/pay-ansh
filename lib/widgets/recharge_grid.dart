@@ -16,7 +16,7 @@ class RechargeGrid extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 for (int j = i; j < i + 4 && j < iconData.length; j++)
                   Padding(
