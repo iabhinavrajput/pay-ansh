@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/widgets/icon_container.dart';
 
 class RechargeGrid extends StatelessWidget {
@@ -19,7 +20,7 @@ class RechargeGrid extends StatelessWidget {
               children: [
                 for (int j = i; j < i + 4 && j < iconData.length; j++)
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    padding:  EdgeInsets.symmetric(horizontal: Dimensions.dynamicHeight(context, 0.01)),
                     child: IconContainer(
                       imagePath: iconData[j]['image']!,
                       label: iconData[j]['label']!,

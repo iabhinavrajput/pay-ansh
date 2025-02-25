@@ -48,6 +48,7 @@ import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/widgets/app_bar.dart';
+import 'package:payansh/widgets/gradient_text.dart';
 import '../utils/local_storage.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -152,9 +153,36 @@ class HomeScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset("assets/icon/Vector.svg"),
-                      
+                      Row(
+                        children: [
+                          SvgPicture.asset("assets/icon/Vector.svg"),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          GradientText('Recharge & Bill Pays',
+                              style: TextStyle(fontSize: 19)),
+                        ],
+                      ),
+                      ElevatedButton(
+                        
+                        onPressed: () {},
+                        child: Row(
+                          children: [
+                           Text(
+                          "View All",
+                          style: TextStyle(color: Colors.white,fontSize: 12),
+                        ),
+                        Icon(Icons.arrow_forward)
+                        ],),
+                       
+                        style: ElevatedButton.styleFrom(
+                        
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            backgroundColor: AppColors.gradientStart),
+                      )
                     ],
                   )
                 ],

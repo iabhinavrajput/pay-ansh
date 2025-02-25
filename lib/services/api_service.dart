@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:payansh/screens/device_info.dart';
 import '../constants/api_endpoints.dart';
 
 class ApiService {
@@ -7,24 +8,29 @@ class ApiService {
   static Future<Map<String, dynamic>> loginUser(
       String email, String password) async {
     try {
+      final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
+      print("Device Info: $deviceInfo");
       final response = await http.post(
         Uri.parse(ApiEndpoints.login),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"email": email, "password": password}),
-      ); 
+        body: jsonEncode({
+          "email": email,
+          "password": password,
+          "deviceInfo": deviceInfo,
+        }),
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data["status"] == "success") {
-                              print("This is access tokn: ${data["data"]["tokens"]["accessToken"]}");
+          print(
+              "This is access tokn: ${data["data"]["tokens"]["accessToken"]}");
 
           return {
             "success": true,
             "message": "Login successful",
             "accessToken": data["data"]["tokens"]["accessToken"]
-            
           };
-          
         } else {
           final data = jsonDecode(response.body);
           return {"success": false, "message": data["message"]};

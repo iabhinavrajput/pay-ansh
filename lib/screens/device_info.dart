@@ -76,3 +76,37 @@ class _DeviceInfoScreenState extends State<DeviceInfoScreen> {
     );
   }
 }
+
+
+class DeviceInfoHelper {
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
+  static Future<Map<String, dynamic>> getDeviceInfo() async {
+    try {
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        var info = await deviceInfoPlugin.androidInfo;
+        return {
+          "deviceId": info.id,
+          "deviceType": "mobile",
+          "deviceModel": info.model,
+          "osVersion": info.version.release,
+          "appVersion": "1.0.0", // Update dynamically if needed
+        };
+      } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+        var info = await deviceInfoPlugin.iosInfo;
+        return {
+          "deviceId": info.identifierForVendor,
+          "deviceType": "mobile",
+          "deviceModel": info.model,
+          "osVersion": info.systemVersion,
+          "appVersion": "1.0.0", // Update dynamically if needed
+        };
+      } else {
+        return {"error": "Unsupported platform"};
+      }
+    } on PlatformException {
+      return {"error": "Failed to get device info"};
+    }
+  }
+}
+
