@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
 import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/login_screen.dart';
-import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/services/api_service.dart';
 import '../utils/local_storage.dart';
-import 'package:payansh/screens/recharge_bills.dart';
+import '../constants/app_constants.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
@@ -25,12 +24,16 @@ class AuthController extends GetxController {
       String token = response["accessToken"];
       print("🔹 Saving Token: $token"); // Debugging statement
 
-      await LocalStorage.saveUserToken(token); // Save token
+      // Save token in local storage
+      await LocalStorage.saveUserToken(token);
+
+      // Also assign token to AppConstants for global access
+      AppConstants.authToken = token;
 
       String? checkToken = await LocalStorage.getUserToken();
       print("✅ Token Saved: $checkToken"); // Verify storage
 
-      Get.offAll(() =>  const HomeScreen());
+      Get.offAll(() => HomeScreen());
     } else {
       Get.snackbar("Login Failed", response["message"],
           snackPosition: SnackPosition.BOTTOM);
@@ -41,14 +44,15 @@ class AuthController extends GetxController {
     String? token = await LocalStorage.getUserToken();
 
     if (token != null && token.isNotEmpty) {
-      print("This is token inside checkLoginStatus: ${token}");
+      // Optionally update the global token if not already set
+      AppConstants.authToken ??= token;
+      print("This is token inside checkLoginStatus: $token");
       // Navigate to home if token exists
-      Get.offAll(() =>  const HomeScreen());
+      Get.offAll(() => HomeScreen());
     } else {
       print("Now logged out");
       // If no token, navigate to login
-        await Future.delayed(const Duration(milliseconds: 500)); // Small delay for smooth transition
-
+      await Future.delayed(const Duration(milliseconds: 500)); // Smooth transition
       Get.offAll(() => LoginScreen());
     }
   }

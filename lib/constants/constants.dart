@@ -1,5 +1,4 @@
 
-// File: ../utils/constants.dart
 import '../widgets/grid_item.dart';
 import 'package:flutter/material.dart';
 
