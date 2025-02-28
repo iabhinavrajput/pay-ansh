@@ -168,4 +168,38 @@ class ApiService {
       return null;
     }
   }
+  // **Update Profile API**
+  /// Pass new name and/or phone number. Only fields provided will be updated.
+static Future<Map<String, dynamic>> updateProfile({String? name, String? phoneNumber}) async {
+  try {
+    Map<String, dynamic> body = {};
+    if (name != null) body["name"] = name;
+    if (phoneNumber != null) body["phone_number"] = phoneNumber;
+
+    final token = AppConstants.authToken;
+    final response = await http.put(
+      Uri.parse(ApiEndpoints.profileUpdate),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: jsonEncode(body),
+    );
+
+    // Debug logs: print status code and raw response body.
+    print("Update API status code: ${response.statusCode}");
+    print("Update API response body: ${response.body}");
+
+    // Check if the response is in JSON format.
+    if (response.body.trim().startsWith("{") || response.body.trim().startsWith("[")) {
+      final decoded = jsonDecode(response.body);
+      return decoded;
+    } else {
+      return {"success": false, "message": "Unexpected response format"};
+    }
+  } catch (e) {
+    return {"success": false, "message": e.toString()};
+  }
+}
+
 }

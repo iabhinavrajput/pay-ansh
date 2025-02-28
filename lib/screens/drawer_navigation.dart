@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:payansh/routes/routes.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/widgets/sidebar_menu_item.dart';
 class DrawerNavigation extends StatefulWidget {
@@ -56,7 +59,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                       const SizedBox(height: 10),
                       ElevatedButton.icon(
                         onPressed: () {
-                          // Define view profile action
+                          Get.toNamed(AppRoutes.profileScreen);
                         },
                         icon: const Icon(Icons.person, size: 16),
                         label: const Text("View Profile"),
@@ -78,33 +81,33 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             const SizedBox(height: 30),
             const Text("Account Management", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-             SidebarMenuItem(
+             const SidebarMenuItem(
               icon: Icons.verified_user,
               title: "KYC Status",
               subtitle: "⚠ KYC Incomplete",
               subtitleColor: Colors.red,
             ),
-             SidebarMenuItem(
+             const SidebarMenuItem(
               icon: Icons.settings,
               title: "App Settings & Info",
               subtitle: "Change app settings",
             ),
-             SidebarMenuItem(
+             const SidebarMenuItem(
               icon: Icons.local_offer,
               title: "Cashback & Offers",
               subtitle: "Show all the Offers",
             ),
-             SidebarMenuItem(
+             const SidebarMenuItem(
               icon: Icons.help_outline,
               title: "Have a Complaint?",
               subtitle: "Raise a complaint",
             ),
-             SidebarMenuItem(
+             const SidebarMenuItem(
               icon: Icons.delete_forever,
               title: "Delete Account",
               subtitle: "Delete account from Payance",
             ),
-            SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.logout,
               title: "Logout",
               subtitle: "Do you want to logout",

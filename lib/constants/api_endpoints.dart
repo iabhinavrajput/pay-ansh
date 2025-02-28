@@ -7,5 +7,7 @@ class ApiEndpoints {
   static const String resetPassword = "$baseUrl/reset-password";
   static const String verifyOTP = "$baseUrl/verify-reset-otp";
   static const String profileEndpoint = '$baseUrl2/profile/user/profile';
+  static const String profileUpdate = '$baseUrl2/profile/user/profile-update';
+  static const String uploadProfilePicture = '$baseUrl2/profile/upload-profile-picture';
 
 }
