@@ -59,8 +59,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
-        height: 80, // Increased height of bottom bar
-        padding: EdgeInsets.only(bottom: 10), // Padding for better spacing
+        height: 0, // Increased height of bottom bar
+        padding: EdgeInsets.only(bottom: 0), // Padding for better spacing
         child: AnimatedBottomNavigationBar(
           icons: iconList,
           activeIndex: _bottomNavIndex,

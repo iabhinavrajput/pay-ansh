@@ -29,7 +29,7 @@ class AuthController extends GetxController {
       String? checkToken = await LocalStorage.getUserToken();
       print("✅ Token Saved: $checkToken"); // Verify storage
 
-      Get.offAll(() =>  RechargeBillPage());
+      Get.offAll(() =>  HomeScreen());
     } else {
       Get.snackbar("Login Failed", response["message"],
           snackPosition: SnackPosition.BOTTOM);
