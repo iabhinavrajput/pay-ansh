@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:payansh/constants/api_endpoints.dart';
 import 'package:payansh/constants/app_constants.dart';
@@ -201,5 +202,39 @@ static Future<Map<String, dynamic>> updateProfile({String? name, String? phoneNu
     return {"success": false, "message": e.toString()};
   }
 }
+ /// Update Profile Picture API using multipart/form-data with POST.
+  static Future<Map<String, dynamic>> updateProfilePicture(File imageFile) async {
+    try {
+      final token = AppConstants.authToken;
+      if (token == null) {
+        return {"success": false, "message": "No auth token found"};
+      }
+
+      final uri = Uri.parse(ApiEndpoints.uploadProfilePicture);
+      final request = http.MultipartRequest('POST', uri);
+      
+      // Set the Authorization header.
+      request.headers["Authorization"] = "Bearer $token";
+      // Note: Don't manually set the Content-Type header here.
+
+      // Attach the image file with the expected field name.
+      request.files.add(await http.MultipartFile.fromPath('profile_picture', imageFile.path));
+
+      final streamedResponse = await request.send();
+      final responseString = await streamedResponse.stream.bytesToString();
+
+      print("Upload profile picture status: ${streamedResponse.statusCode}");
+      print("Response: $responseString");
+
+      if (streamedResponse.statusCode == 200) {
+        final decoded = jsonDecode(responseString);
+        return decoded;
+      } else {
+        return {"success": false, "message": "Upload failed"};
+      }
+    } catch (e) {
+      return {"success": false, "message": e.toString()};
+    }
+  }
 
 }

@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/style_constants.dart';
 import 'package:payansh/widgets/profile_item_widget.dart';
 import 'package:payansh/services/api_service.dart';
+// import 'package:file_picker/file_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -12,16 +14,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  // Future holding the API response for the profile.
   late Future<Map<String, dynamic>?> _profileFuture;
-  
+
   @override
   void initState() {
     super.initState();
     _profileFuture = ApiService.getUserProfile();
   }
-  
-  /// Opens an edit dialog prefilled with current Name and Phone.
+
+  /// Opens a dialog to edit name and phone.
   void _showEditDialog(String currentName, String currentPhone) {
     TextEditingController nameController = TextEditingController(text: currentName);
     TextEditingController phoneController = TextEditingController(text: currentPhone);
@@ -57,42 +58,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 String newName = nameController.text.trim();
                 String newPhone = phoneController.text.trim();
                 
-                // Only run API if at least one field is changed.
-                if(newName != currentName || newPhone != currentPhone) {
-                  // Show a loading indicator while updating
+                // Only run API if at least one field changed.
+                if (newName != currentName || newPhone != currentPhone) {
+                  // Show loading indicator
                   showDialog(
                     context: context,
                     barrierDismissible: false,
-                    builder: (context) {
-                      return const Center(child: CircularProgressIndicator());
-                    },
+                    builder: (context) => const Center(child: CircularProgressIndicator()),
                   );
                   
                   var updateResponse = await ApiService.updateProfile(
                     name: newName,
                     phoneNumber: newPhone,
                   );
-                  Navigator.pop(context); // Close the loading indicator
+                  Navigator.pop(context); // Close loading indicator
                   
-                  // If update is successful (message contains "success")
-                  if(updateResponse["message"].toString().toLowerCase().contains("success")) {
+                  if (updateResponse["message"].toString().toLowerCase().contains("success")) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(updateResponse["message"]))
                     );
-                    
-                    // Refresh profile data
+                    // Refresh profile data.
                     setState(() {
                       _profileFuture = ApiService.getUserProfile();
                     });
                   } else {
-                    print("Update failed: ${updateResponse["message"]}");
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(updateResponse["message"] ?? "Update failed"))
-                      
                     );
                   }
                 }
-                Navigator.pop(context); // Close the edit dialog
+                Navigator.pop(context); // Close the edit dialog.
               },
               child: const Text("Save"),
             ),
@@ -101,6 +96,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     );
   }
+
+  /// Opens file picker to choose a new profile picture and uploads it.
+  // Future<void> _pickAndUploadImage() async {
+  //   // Use file_picker to select an image.
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //     type: FileType.image,
+  //   );
+
+  //   if (result != null && result.files.single.path != null) {
+  //     File imageFile = File(result.files.single.path!);
+  //     // Show a loading indicator while uploading.
+  //     showDialog(
+  //       context: context,
+  //       barrierDismissible: false,
+  //       builder: (context) => const Center(child: CircularProgressIndicator()),
+  //     );
+  //     var response = await ApiService.updateProfilePicture(imageFile);
+  //     Navigator.pop(context); // Close the loading indicator.
+      
+  //     if (response["message"].toString().toLowerCase().contains("success")) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text(response["message"]))
+  //       );
+  //       // Refresh profile data.
+  //       setState(() {
+  //         _profileFuture = ApiService.getUserProfile();
+  //       });
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text(response["message"] ?? "Upload failed"))
+  //       );
+  //     }
+  //   }
+  // }
   
   @override
   Widget build(BuildContext context) {
@@ -109,11 +138,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: FutureBuilder<Map<String, dynamic>?>(
         future: _profileFuture,
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          } else if(snapshot.hasError) {
+          } else if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}"));
-          } else if(!snapshot.hasData || snapshot.data == null) {
+          } else if (!snapshot.hasData || snapshot.data == null) {
             return const Center(child: Text("Failed to load profile"));
           } else {
             final userData = snapshot.data!;
@@ -127,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  // Header with Gradient and Profile Picture
+                  // Header with Gradient and Profile Picture.
                   Container(
                     height: 220,
                     decoration: const BoxDecoration(
@@ -142,13 +171,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     child: Stack(
                       children: [
-                        // Logout Button (Top Right)
+                        // Logout Button.
                         Positioned(
                           top: 50,
                           right: 16,
                           child: InkWell(
                             onTap: () {
-                              // Handle logout action
+                              // Handle logout action.
                             },
                             child: const Row(
                               children: [
@@ -159,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-                        // Centered Profile Info (Avatar, Name, Phone)
+                        // Centered Profile Info.
                         Align(
                           alignment: Alignment.center,
                           child: Column(
@@ -174,14 +203,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ? NetworkImage(profilePicture)
                                       : AssetImage(profilePicture) as ImageProvider,
                                   ),
-                                  // Tapping the edit icon here also opens the edit dialog.
+                                  // Edit icon for updating profile picture.
                                   Positioned(
                                     bottom: 0,
                                     right: 0,
                                     child: GestureDetector(
-                                      onTap: () {
-                                        _showEditDialog(userName, userPhone);
-                                      },
+                                      // onTap: _pickAndUploadImage,
                                       child: const CircleAvatar(
                                         radius: 16,
                                         backgroundColor: Colors.blue,
@@ -201,12 +228,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  // Profile Details Section
+                  // Profile Details Section.
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Column(
                       children: [
-                        // Name row with edit button
+                        // Name row.
                         ProfileItemWidget(
                           icon: Icons.person,
                           label: "Name",
@@ -216,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                         const Divider(height: 1),
-                        // Contact Number row with verification badge and edit button
+                        // Contact Number row.
                         ProfileItemWidget(
                           icon: Icons.phone,
                           label: "Contact Number",
@@ -256,7 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                         const Divider(height: 1),
-                        // Email row (editing not enabled as per update API)
+                        // Email row (editing not enabled for email).
                         ProfileItemWidget(
                           icon: Icons.email,
                           label: "Email ID",
@@ -292,7 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                           onEdit: () {
-                            // Optionally: Show a message that email cannot be edited.
+                            // Optionally notify the user that email cannot be edited.
                           },
                         ),
                       ],
