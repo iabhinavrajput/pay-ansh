@@ -4,10 +4,12 @@ import 'package:payansh/constants/dimensions.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
+  final Widget? child;
 
   const CustomAppBar({
     super.key,
     required this.height,
+    this.child,
   });
 
   @override
@@ -17,7 +19,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColors.gradientStart, AppColors.gradientEnd], // Left to Right Gradient
+          colors: [
+            AppColors.gradientStart,
+            AppColors.gradientEnd
+          ], // Left to Right Gradient
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
@@ -25,6 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 2))
         ],
       ),
+      child: child,
     );
   }
 
