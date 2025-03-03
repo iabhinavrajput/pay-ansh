@@ -5,6 +5,7 @@ import 'package:payansh/routes/routes.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/services/auth_service.dart';
 import 'package:payansh/widgets/sidebar_menu_item.dart';
+
 class DrawerNavigation extends StatefulWidget {
   const DrawerNavigation({Key? key}) : super(key: key);
 
@@ -46,12 +47,14 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                     children: [
                       CircleAvatar(
                         radius: 30,
-                        backgroundImage: NetworkImage(userData['profile_picture']),
+                        backgroundImage:
+                            NetworkImage(userData['profile_picture']),
                       ),
                       const SizedBox(height: 10),
                       Text(
                         userData['name'],
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         userData['phone'],
@@ -80,56 +83,57 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               },
             ),
             const SizedBox(height: 30),
-            const Text("Account Management", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const Text("Account Management",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.verified_user,
               title: "KYC Status",
               subtitle: "⚠ KYC Incomplete",
               subtitleColor: Colors.red,
             ),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.settings,
               title: "App Settings & Info",
               subtitle: "Change app settings",
             ),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.local_offer,
               title: "Cashback & Offers",
               subtitle: "Show all the Offers",
             ),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.help_outline,
               title: "Have a Complaint?",
               subtitle: "Raise a complaint",
             ),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.delete_forever,
               title: "Delete Account",
               subtitle: "Delete account from Payance",
             ),
-            
             SidebarMenuItem(
-  icon: Icons.logout,
-  title: "Logout",
-  subtitle: "Do you want to logout",
-  onTap: () {
-    Get.defaultDialog(
-      title: "Logout",
-      middleText: "Do you want to logout?",
-      textConfirm: "Yes",
-      textCancel: "No",
-      confirmTextColor: Colors.white,
-      buttonColor: Colors.blue,
-      onConfirm: () {
-        AuthService.logout(context);
-      },
-    );
-  },
-),
+              icon: Icons.logout,
+              title: "Logout",
+              subtitle: "Do you want to logout",
+              onTap: () {
+                Get.defaultDialog(
+                  title: "Logout",
+                  middleText: "Do you want to logout?",
+                  textConfirm: "Yes",
+                  textCancel: "No",
+                  confirmTextColor: Colors.white,
+                  buttonColor: Colors.blue,
+                  onConfirm: () {
+                    AuthService.logout(context);
+                  },
+                );
+              },
+            ),
             const SizedBox(height: 20),
             const Center(
-              child: Text("Version 3.2", style: TextStyle(color: Colors.grey, fontSize: 14)),
+              child: Text("Version 3.2",
+                  style: TextStyle(color: Colors.grey, fontSize: 14)),
             ),
           ],
         ),
