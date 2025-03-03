@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:payansh/widgets/app_bar.dart';
+import 'package:payansh/widgets/title_appbar.dart';
 
 class Offers extends StatefulWidget {
   const Offers({super.key});
@@ -11,18 +12,19 @@ class Offers extends StatefulWidget {
 
 class _OffersState extends State<Offers> {
   final List<String> offerImages = [
-    'assets/offers/offer1.svg',
-    'assets/offers/offer2.svg',
-    'assets/offers/offer3.svg',
-    'assets/offers/offer4.svg',
+    'assets/offers/offer1.png',
+    'assets/offers/offer2.png',
+    'assets/offers/offer3.png',
+    'assets/offers/offer4.png',
+    'assets/offers/offer5.png',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(height: 60),
+      appBar: TitleAppBar(height: 60, title: "Offers & Cashback"),
       body: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(top: 16,left: 16,right: 16, bottom: 150),
         itemCount: offerImages.length,
         itemBuilder: (context, index) {
           return Padding(
@@ -30,7 +32,7 @@ class _OffersState extends State<Offers> {
                 const EdgeInsets.only(bottom: 16), // Spacing between images
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: SvgPicture.asset(
+              child: Image.asset(
                 offerImages[index],
                 // width: double.infinity,
                 // height: 200, // Set a reasonable height
@@ -40,6 +42,7 @@ class _OffersState extends State<Offers> {
           );
         },
       ),
+      
     );
   }
 }

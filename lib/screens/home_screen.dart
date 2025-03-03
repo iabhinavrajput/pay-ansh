@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +11,7 @@ import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/device_info.dart';
 import 'package:payansh/services/api_service.dart';
+import 'package:payansh/widgets/bottom_drawer.dart';
 import 'package:payansh/widgets/gradient_text.dart';
 import 'package:payansh/widgets/recharge_grid.dart';
 import 'package:payansh/screens/drawer_navigation.dart';
@@ -274,17 +277,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       //     },
       //   ),
       // ),
-     
+
       extendBody: true,
       body: _getBody(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // FAB action
-        },
-        shape: const CircleBorder(),
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      floatingActionButton: const BottomNavWithDrawer(),
+
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // FAB action
+
+      //   },
+      //   shape: const CircleBorder(),
+      //   backgroundColor: Colors.blue,
+      //   child: const Icon(Icons.add, color: Colors.white),
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         height: 80,
@@ -308,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _getBody() {
     switch (_bottomNavIndex) {
       case 1:
-        return const SettingsScreen();
+        return const Offers();
       default:
         return _buildHomeContent();
     }
@@ -320,11 +326,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Stack(
           children: [
             SizedBox(
-              height: 150, // Fix the height of the CustomAppBar
+              height: 130, // Fix the height of the CustomAppBar
               child: CustomAppBar(
                 height: 50,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16, top: 30),
                   child: Row(
                     children: [
                       GestureDetector(
@@ -350,8 +357,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "Welcome to Payance!",
-                            style: TextStyle(color: Colors.white70, fontSize: 14),
+                            "Welcome to Payansh!",
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 14),
                           ),
                         ],
                       ),
@@ -378,10 +386,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     height: 180,
                     child: PageView(
                       children: [
-                        SvgPicture.asset("assets/banner/banner-1.svg", fit: BoxFit.fill),
-                        SvgPicture.asset("assets/banner/sBanner-2.svg", fit: BoxFit.fill),
-                        Image.asset("assets/banner/Banner-3.png", fit: BoxFit.fill),
-                        SvgPicture.asset("assets/banner/sBanner-4.svg", fit: BoxFit.fill),
+                        Image.asset("assets/banner/slider1.png",
+                            fit: BoxFit.fill),
+                        Image.asset("assets/banner/slider3.png",
+                            fit: BoxFit.fill),
+                        Image.asset("assets/banner/slider2.png",
+                            fit: BoxFit.fill),
+                        Image.asset("assets/banner/slider4.png",
+                            fit: BoxFit.fill),
                       ],
                     ),
                   ),
@@ -398,7 +410,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     children: [
                       Row(
                         children: [
-                          SvgPicture.asset("assets/icon/Vector.svg"),
+                          SvgPicture.asset("assets/icon/RechargeVector.svg"),
                           const SizedBox(width: 10),
                           const GradientText('Recharge & Bill Pays',
                               style: TextStyle(fontSize: 19)),
@@ -418,7 +430,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             Text("View All",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 12)),
-                            Icon(Icons.arrow_forward),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                            ),
                           ],
                         ),
                       ),
@@ -439,7 +457,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       },
                       {
                         'image': 'assets/dashboard/electricity-bill.png',
-                        'label': 'Electricity',
+                        'label': 'Electricity\nBill',
                         'screen': DeviceInfoScreen()
                       },
                       {
@@ -451,18 +469,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   const SizedBox(height: 20),
                   _buildSectionHeader("Travelling", Icons.travel_explore),
-                  const RechargeGrid(iconData: [
-                    {
-                      'image': 'assets/dashboard/bill.png',
-                      'label': 'Bill\nPayment',
-                      'screen': DeviceInfoScreen()
-                    },
-                    {
-                      'image': 'assets/dashboard/mobile-recharge.png',
-                      'label': 'Mobile\nRecharge',
-                      'screen': DeviceInfoScreen()
-                    },
-                  ]),
+                  const RechargeGrid(
+                    iconData: [
+                      {
+                        'image': 'assets/dashboard/bill.png',
+                        'label': 'Bill\nPayment',
+                        'screen': DeviceInfoScreen()
+                      },
+                      {
+                        'image': 'assets/dashboard/mobile-recharge.png',
+                        'label': 'Mobile\nRecharge',
+                        'screen': DeviceInfoScreen()
+                      },
+                    ],
+                  ),
                   const SizedBox(height: 100),
                 ],
               ),
