@@ -48,6 +48,7 @@ dependencies:
   flutter_svg: ^2.0.17
   flutter_slider_drawer: ^3.0.2
   # file_picker: ^5.2.4
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
