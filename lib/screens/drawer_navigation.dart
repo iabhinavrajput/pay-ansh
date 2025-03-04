@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/services/auth_service.dart';
@@ -24,9 +25,9 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 250, // Sidebar width
-      color: Colors.white,
+    return Drawer(
+      width: 300, // Sidebar width
+      // color: Colors.white,
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: Column(
@@ -112,7 +113,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               title: "Delete Account",
               subtitle: "Delete account from Payance",
             ),
-            SidebarMenuItem(
+            
+    SidebarMenuItem(
               icon: Icons.logout,
               title: "Logout",
               subtitle: "Do you want to logout",
@@ -124,8 +126,9 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                   textCancel: "No",
                   confirmTextColor: Colors.white,
                   buttonColor: Colors.blue,
-                  onConfirm: () {
-                    AuthService.logout(context);
+                  onConfirm: () async {
+                    Get.back();
+                    await AuthService.logout(context);
                   },
                 );
               },
@@ -141,3 +144,16 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
     );
   }
 }
+
+
+
+ 
+
+
+
+
+
+
+
+
+

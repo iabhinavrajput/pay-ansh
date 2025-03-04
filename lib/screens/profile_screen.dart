@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/style_constants.dart';
+import 'package:payansh/services/auth_service.dart';
 import 'package:payansh/widgets/profile_item_widget.dart';
 import 'package:payansh/services/api_service.dart';
 // import 'package:file_picker/file_picker.dart';
@@ -177,7 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           right: 16,
                           child: InkWell(
                             onTap: () {
-                              // Handle logout action.
+                              AuthService.logout(context);
                             },
                             child: const Row(
                               children: [
