@@ -4,50 +4,49 @@ import 'package:http/http.dart' as http;
 import 'package:payansh/constants/api_endpoints.dart';
 import 'package:payansh/constants/app_constants.dart';
 import 'package:payansh/screens/device_info.dart';
+import 'package:payansh/utils/local_storage.dart';
 
 class ApiService {
   /// **User Login API**
   static Future<Map<String, dynamic>> loginUser(
-      String email, String password) async {
-    try {
-      final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
-      print("Device Info: $deviceInfo");
-      final response = await http.post(
-        Uri.parse(ApiEndpoints.login),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "email": email,
-          "password": password,
-          "deviceInfo": deviceInfo,
-        }),
-      );
+    String email, String password) async {
+  try {
+    final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
+    final response = await http.post(
+      Uri.parse(ApiEndpoints.login),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "email": email,
+        "password": password,
+        "deviceInfo": deviceInfo,
+      }),
+    );
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        if (data["status"] == "success") {
-          String accessToken = data["data"]["tokens"]["accessToken"];
-          print("This is access token: $accessToken");
+    final data = jsonDecode(response.body);
 
-          // Store token in global AppConstants for easy access
-          AppConstants.authToken = accessToken;
+    if (response.statusCode == 200 && data["status"] == "success") {
+      String accessToken = data["data"]["tokens"]["accessToken"];
+      String refreshToken = data["data"]["tokens"]["refreshToken"];
 
-          return {
-            "success": true,
-            "message": "Login successful",
-            "accessToken": accessToken,
-          };
-        } else {
-          final data = jsonDecode(response.body);
-          return {"success": false, "message": data["message"]};
+      AppConstants.authToken = accessToken;
+      AppConstants.refreshToken = refreshToken;
+
+      return {
+        "success": true,
+        "message": "Login successful",
+        "data": {
+          "accessToken": accessToken,
+          "refreshToken": refreshToken,
         }
-      } else {
-        final data = jsonDecode(response.body);
-        return {"success": false, "message": data["message"]};
-      }
-    } catch (e) {
-      return {"success": false, "message": e.toString()};
+      };
+    } else {
+      return {"success": false, "message": data["message"]};
     }
+  } catch (e) {
+    return {"success": false, "message": e.toString()};
   }
+}
+
 
   /// **Forgot Password API**
   static Future<Map<String, dynamic>> forgotPassword(String email) async {
@@ -235,6 +234,66 @@ static Future<Map<String, dynamic>> updateProfile({String? name, String? phoneNu
     } catch (e) {
       return {"success": false, "message": e.toString()};
     }
+  }
+
+  static Future<bool> refreshTokens() async {
+    try {
+      String? refreshToken = await LocalStorage.getRefreshToken();
+      if (refreshToken == null) return false;
+
+      final response = await http.post(
+        Uri.parse(ApiEndpoints.refreshToken),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"refreshToken": refreshToken}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body)["data"];
+        String newAccessToken = data["accessToken"];
+        String newRefreshToken = data["refreshToken"];
+
+        await LocalStorage.saveUserToken(newAccessToken);
+        await LocalStorage.saveRefreshToken(newRefreshToken);
+
+        AppConstants.authToken = newAccessToken;
+        AppConstants.refreshToken = newRefreshToken;
+
+        print("🔄 Tokens refreshed successfully!");
+        return true;
+      } else {
+        print("❌ Failed to refresh tokens.");
+        return false;
+      }
+    } catch (e) {
+      print("❌ Error refreshing token: $e");
+      return false;
+    }
+  }
+
+  // 🔒 Authorized GET request with refresh handling
+  static Future<http.Response> authorizedGet(String url) async {
+    var response = await http.get(
+      Uri.parse(url),
+      headers: {
+        "Authorization": "Bearer ${AppConstants.authToken}",
+        "Content-Type": "application/json",
+      },
+    );
+
+    if (response.statusCode == 401) {
+      bool refreshed = await refreshTokens();
+      if (refreshed) {
+        response = await http.get(
+          Uri.parse(url),
+          headers: {
+            "Authorization": "Bearer ${AppConstants.authToken}",
+            "Content-Type": "application/json",
+          },
+        );
+      }
+    }
+
+    return response;
   }
 
 }
