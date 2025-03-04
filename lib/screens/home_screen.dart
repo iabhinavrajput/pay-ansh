@@ -22,10 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<SliderDrawerState> _drawerKey = GlobalKey<SliderDrawerState>();
 
-  Future<void> logout() async {
-    await LocalStorage.clearUserToken();
-    Get.offAllNamed(AppRoutes.login);
-  }
+
 
   @override
   Widget build(BuildContext context) {
