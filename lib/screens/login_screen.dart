@@ -1,7 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/auth_controller.dart';
+import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/screens/animated_bottom_bar.dart';
 import 'package:payansh/screens/device_info.dart';
 import 'package:payansh/screens/forgot_password.dart';
@@ -15,6 +18,15 @@ import '../widgets/gradient_button.dart';
 import 'recharge_bills.dart';
 
 class LoginScreen extends StatelessWidget {
+  final SliderController sliderController = Get.put(SliderController());
+
+  final RxInt currentIndex = 0.obs;
+  final List<String> sliderImages = [
+    'assets/login_slider/login_slider1.svg',
+    'assets/login_slider/login_slider2.svg',
+    'assets/login_slider/login_slider3.svg',
+  ];
+
   final AuthController authController = Get.put(AuthController());
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -44,10 +56,42 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Illustration
-              Image.asset(
-                'assets/images/login.png',
+              // Image Slider
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 200,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 1),
+                  enlargeCenterPage: true,
+                  onPageChanged: (index, reason) {
+                    sliderController.updateIndex(index);
+                  },
+                ),
+                items: sliderController.sliderImages.map((imagePath) {
+                  return Image.asset(imagePath);
+                }).toList(),
               ),
 
+              const SizedBox(height: 20),
+
+              // Dots Indicator using Obx
+              Obx(() => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      sliderController.sliderImages.length,
+                      (index) => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: sliderController.currentIndex.value == index
+                              ? Colors.blue
+                              : Colors.grey,
+                        ),
+                      ),
+                    ),
+                  )),
               const SizedBox(height: 20),
 
               // Email Input
@@ -110,10 +154,11 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 10),
 
               // Login with OTP
-              GradientButton(text: "Login with OTP", onPressed: () {
-
-                Get.to(() =>  RechargeBillPage());
-              }),
+              GradientButton(
+                  text: "Login with OTP",
+                  onPressed: () {
+                    Get.to(() => RechargeBillPage());
+                  }),
 
               const SizedBox(height: 10),
               Column(
