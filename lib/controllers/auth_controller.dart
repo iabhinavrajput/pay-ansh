@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/login_screen.dart';
 import 'package:payansh/services/api_service.dart';
@@ -7,10 +8,23 @@ import '../constants/app_constants.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
-  var isPasswordVisible = false.obs; // Password visibility toggle
+  var isPasswordVisible = false.obs;
+  var isRememberMe = false.obs; // "Remember Me" state
+  final GetStorage storage = GetStorage(); // GetStorage instance
+
+  @override
+  void onInit() {
+    super.onInit();
+    isRememberMe.value = storage.read('remember_me') ?? false;
+  }
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
+  }
+
+  void toggleRememberMe(bool value) {
+    isRememberMe.value = value;
+    storage.write('remember_me', value);
   }
 
   Future<void> login(String email, String password) async {
@@ -19,24 +33,19 @@ class AuthController extends GetxController {
     isLoading.value = false;
 
     if (response["success"]) {
-      Get.snackbar("Login Success", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Login Success", response["message"], snackPosition: SnackPosition.BOTTOM);
       String token = response["accessToken"];
-      print("🔹 Saving Token: $token"); // Debugging statement
+      print("🔹 Saving Token: $token");
 
-      // Save token in local storage
-      await LocalStorage.saveUserToken(token);
+      // Save token based on "Remember Me"
+      if (isRememberMe.value) {
+        await LocalStorage.saveUserToken(token);
+      }
 
-      // Also assign token to AppConstants for global access
       AppConstants.authToken = token;
-
-      String? checkToken = await LocalStorage.getUserToken();
-      print("✅ Token Saved: $checkToken"); // Verify storage
-
       Get.offAll(() => HomeScreen());
     } else {
-      Get.snackbar("Login Failed", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Login Failed", response["message"], snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -44,15 +53,12 @@ class AuthController extends GetxController {
     String? token = await LocalStorage.getUserToken();
 
     if (token != null && token.isNotEmpty) {
-      // Optionally update the global token if not already set
       AppConstants.authToken ??= token;
-      print("This is token inside checkLoginStatus: $token");
-      // Navigate to home if token exists
+      print("Token in checkLoginStatus: $token");
       Get.offAll(() => HomeScreen());
     } else {
-      print("Now logged out");
-      // If no token, navigate to login
-      await Future.delayed(const Duration(milliseconds: 500)); // Smooth transition
+      print("User logged out");
+      await Future.delayed(const Duration(milliseconds: 500));
       Get.offAll(() => LoginScreen());
     }
   }
