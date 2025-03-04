@@ -3,6 +3,7 @@ class ApiEndpoints {
   static const String baseUrl2 = "http://apipyaansh.nxgtech.io/api";
 
   static const String login = "$baseUrl/login";
+  static const String refreshToken = "$baseUrl/refresh-token";
   static const String forgotPassword = "$baseUrl/forgot-password";
   static const String resetPassword = "$baseUrl/reset-password";
   static const String verifyOTP = "$baseUrl/verify-reset-otp";
