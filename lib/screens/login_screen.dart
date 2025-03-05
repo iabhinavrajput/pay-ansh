@@ -76,17 +76,12 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Obx(() => Row(
-                        children: [
-                          Checkbox(
-                            value: authController.isRememberMe.value,
-                            onChanged: (value) {
-                              authController.toggleRememberMe(value!);
-                            },
-                          ),
-                          const Text("Remember me"),
-                        ],
-                      )),
+                  Row(
+                    children: [
+                      Checkbox(value: true, onChanged: (value) {}),
+                      const Text("Remember me"),
+                    ],
+                  ),
                   GestureDetector(
                     onTap: () => Get.to(() => ForgotPasswordScreen()),
                     child: const Text("Forgot Password?",
@@ -115,11 +110,10 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 10),
 
               // Login with OTP
-              GradientButton(
-                  text: "Login with OTP",
-                  onPressed: () {
-                    Get.to(() => RechargeBillPage());
-                  }),
+              GradientButton(text: "Login with OTP", onPressed: () {
+
+                Get.to(() =>  RechargeBillPage());
+              }),
 
               const SizedBox(height: 10),
               Column(
