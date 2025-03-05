@@ -8,7 +8,7 @@ import '../constants/app_constants.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
-  var isPasswordVisible = false.obs;
+  var isPasswordVisible = false.obs; // Password visibility toggle
   var isRememberMe = false.obs; // "Remember Me" state
   final GetStorage storage = GetStorage(); // GetStorage instance
 
@@ -33,19 +33,33 @@ class AuthController extends GetxController {
     isLoading.value = false;
 
     if (response["success"]) {
-      Get.snackbar("Login Success", response["message"], snackPosition: SnackPosition.BOTTOM);
-      String token = response["accessToken"];
-      print("🔹 Saving Token: $token");
-
-      // Save token based on "Remember Me"
-      if (isRememberMe.value) {
-        await LocalStorage.saveUserToken(token);
-      }
-
-      AppConstants.authToken = token;
+      Get.snackbar("Login Success", response["message"],
+          snackPosition: SnackPosition.BOTTOM);
       Get.offAll(() => HomeScreen());
+
+      String accessToken = response["data"]["tokens"]["accessToken"];
+      String refreshToken = response["data"]["tokens"]["refreshToken"];
+      print("🔹 Saving Tokens: $accessToken, $refreshToken");
+
+      // Save tokens
+      await LocalStorage.saveUserToken(accessToken);
+      await LocalStorage.saveRefreshToken(refreshToken);
+
+      // Save token in local storage
+      // await LocalStorage.saveUserToken(token);
+
+      // Also assign token to AppConstants for global access
+      AppConstants.authToken = accessToken;
+
+      String? checkToken = await LocalStorage.getUserToken();
+      print("✅ Token Saved: $checkToken"); // Verify storage
+
+      if (isRememberMe.value) {
+        await LocalStorage.saveUserToken(accessToken);
+      }
     } else {
-      Get.snackbar("Login Failed", response["message"], snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Login Failed", response["message"],
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -53,12 +67,16 @@ class AuthController extends GetxController {
     String? token = await LocalStorage.getUserToken();
 
     if (token != null && token.isNotEmpty) {
+      // Optionally update the global token if not already set
       AppConstants.authToken ??= token;
-      print("Token in checkLoginStatus: $token");
+      print("This is token inside checkLoginStatus: $token");
+      // Navigate to home if token exists
       Get.offAll(() => HomeScreen());
     } else {
-      print("User logged out");
-      await Future.delayed(const Duration(milliseconds: 500));
+      print("Now logged out");
+      // If no token, navigate to login
+      await Future.delayed(
+          const Duration(milliseconds: 500)); // Smooth transition
       Get.offAll(() => LoginScreen());
     }
   }

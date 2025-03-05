@@ -1,15 +1,18 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:payansh/controllers/auth_controller.dart';
+import 'package:payansh/screens/animated_bottom_bar.dart';
+import 'package:payansh/screens/device_info.dart';
 import 'package:payansh/screens/forgot_password.dart';
+import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
-import 'package:payansh/widgets/gradient_button.dart';
+import '../widgets/gradient_button.dart';
+import 'recharge_bills.dart';
 
 class LoginScreen extends StatelessWidget {
   final AuthController authController = Get.put(AuthController());
@@ -21,6 +24,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     final RxBool isPasswordVisible = false.obs;
 
@@ -31,27 +35,44 @@ class LoginScreen extends StatelessWidget {
           padding: const EdgeInsets.all(47),
           child: Column(
             children: [
-              const Text("WELCOME TO", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const Text("WELCOME TO",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
 
+              // Logo
               Image.asset('assets/images/logo.png', width: screenWidth * 0.5),
-              const SizedBox(height: 20),
-              Image.asset('assets/images/login.png'),
+
               const SizedBox(height: 20),
 
-              CustomEmailTextField(controller: emailController, hintText: "Enter Your Email or Phone", icon: Icons.person),
+              // Illustration
+              Image.asset(
+                'assets/images/login.png',
+              ),
+
+              const SizedBox(height: 20),
+
+              // Email Input
+              CustomEmailTextField(
+                controller: emailController,
+                hintText: "Enter Your Email or Phone",
+                icon: Icons.person,
+              ),
               const SizedBox(height: 15),
 
+              // Password Input
+              // Password Input Field
               CustomPasswordTextField(
                 controller: passwordController,
                 hintText: "Enter your password",
                 isPasswordVisible: isPasswordVisible,
-                togglePasswordVisibility: () => isPasswordVisible.value = !isPasswordVisible.value,
-                showValidations: false,
+                togglePasswordVisibility: () =>
+                    isPasswordVisible.value = !isPasswordVisible.value,
+                showValidations: false, // No validations in login screen
+                // Toggle visibility
               ),
 
               const SizedBox(height: 10),
 
-              // Remember Me & Forgot Password Row
+              // Remember Me & Forgot Password
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -68,7 +89,8 @@ class LoginScreen extends StatelessWidget {
                       )),
                   GestureDetector(
                     onTap: () => Get.to(() => ForgotPasswordScreen()),
-                    child: const Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
+                    child: const Text("Forgot Password?",
+                        style: TextStyle(color: Colors.blue)),
                   ),
                 ],
               ),
@@ -81,32 +103,45 @@ class LoginScreen extends StatelessWidget {
                   : GradientButton(
                       text: "Login",
                       onPressed: () async {
-                        await authController.login(emailController.text, passwordController.text);
+                        await authController.login(
+                            emailController.text, passwordController.text);
                       },
                     )),
 
               const SizedBox(height: 10),
 
               const Text("or", style: TextStyle(color: Colors.grey)),
+
               const SizedBox(height: 10),
 
+              // Login with OTP
               GradientButton(
-                text: "Login with OTP",
-                onPressed: () {
-                  Get.to(() => RechargeBillPage());
-                },
-              ),
+                  text: "Login with OTP",
+                  onPressed: () {
+                    Get.to(() => RechargeBillPage());
+                  }),
 
               const SizedBox(height: 10),
-
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have an account?", style: TTextTheme.lightTextTheme.labelLarge),
+                  Text(
+                    "Don't you have an account? ",
+                    style: TTextTheme.lightTextTheme.labelLarge,
+                  ),
                   TextButton(
-                    onPressed: () => Get.to(() => const Register()),
-                    style: ButtonStyle(padding: WidgetStateProperty.all(EdgeInsets.zero)),
-                    child: const Text("Sign Up", style: TTextTheme.link),
+                    onPressed: () {
+                      // Navigate to Sign Up
+                      Get.to(() => const Register());
+                    },
+                    style: ButtonStyle(
+                      padding: WidgetStateProperty.all(
+                          EdgeInsets.zero), // Remove padding
+                    ),
+                    child: const Text(
+                      "Sign Up",
+                      style: TTextTheme.link,
+                    ),
                   ),
                 ],
               )

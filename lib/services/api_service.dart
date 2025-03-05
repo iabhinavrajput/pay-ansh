@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:payansh/constants/api_endpoints.dart';
 import 'package:payansh/constants/app_constants.dart';
 import 'package:payansh/screens/device_info.dart';
+import 'package:payansh/utils/local_storage.dart';
 
 class ApiService {
   /// **User Login API**
@@ -143,14 +144,20 @@ class ApiService {
       return {"success": false, "message": e.toString()};
     }
   }
-  
+
   /// **User Profile API**
   static Future<Map<String, dynamic>?> getUserProfile() async {
     try {
-      // Retrieve token from AppConstants
+      // Get the token
       String? token = AppConstants.authToken;
-      if (token == null) return null;
+      if (token == null) {
+        token = await LocalStorage
+            .getUserToken(); // Fetch from local storage if null
+        if (token == null) return null;
+        AppConstants.authToken = token;
+      }
 
+      // API call to get user profile
       final response = await http.get(
         Uri.parse(ApiEndpoints.profileEndpoint),
         headers: {
@@ -161,49 +168,104 @@ class ApiService {
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
-      } else {
-        return null;
+      } else if (response.statusCode == 401) {
+        // Token expired, try to refresh
+        bool refreshed = await refreshToken();
+        if (refreshed) {
+          // Fetch the new token
+          token = AppConstants.authToken;
+          if (token == null) return null; // Stop if token is still null
+
+          // Retry the API call with the new token
+          final retryResponse = await http.get(
+            Uri.parse(ApiEndpoints.profileEndpoint),
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer $token",
+            },
+          );
+
+          if (retryResponse.statusCode == 200) {
+            return jsonDecode(retryResponse.body);
+          }
+        }
       }
+
+      return null;
     } catch (e) {
       print("Error fetching profile: ${e.toString()}");
       return null;
     }
   }
+
+  /// **Refresh Token API**
+  static Future<bool> refreshToken() async {
+    try {
+      String? refreshToken = await LocalStorage.getRefreshToken();
+      if (refreshToken == null) return false;
+
+      final response = await http.post(
+        Uri.parse(ApiEndpoints.refreshtoken),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"refreshToken": refreshToken}),
+      );
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        String newAccessToken = data["accessToken"];
+
+        // ✅ Save the new token properly
+        await LocalStorage.saveUserToken(newAccessToken);
+        AppConstants.authToken = newAccessToken;
+
+        return true;
+      }
+    } catch (e) {
+      print("Error refreshing token: ${e.toString()}");
+    }
+
+    return false;
+  }
+
   // **Update Profile API**
   /// Pass new name and/or phone number. Only fields provided will be updated.
-static Future<Map<String, dynamic>> updateProfile({String? name, String? phoneNumber}) async {
-  try {
-    Map<String, dynamic> body = {};
-    if (name != null) body["name"] = name;
-    if (phoneNumber != null) body["phone_number"] = phoneNumber;
+  static Future<Map<String, dynamic>> updateProfile(
+      {String? name, String? phoneNumber}) async {
+    try {
+      Map<String, dynamic> body = {};
+      if (name != null) body["name"] = name;
+      if (phoneNumber != null) body["phone_number"] = phoneNumber;
 
-    final token = AppConstants.authToken;
-    final response = await http.put(
-      Uri.parse(ApiEndpoints.profileUpdate),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $token",
-      },
-      body: jsonEncode(body),
-    );
+      final token = AppConstants.authToken;
+      final response = await http.put(
+        Uri.parse(ApiEndpoints.profileUpdate),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: jsonEncode(body),
+      );
 
-    // Debug logs: print status code and raw response body.
-    print("Update API status code: ${response.statusCode}");
-    print("Update API response body: ${response.body}");
+      // Debug logs: print status code and raw response body.
+      print("Update API status code: ${response.statusCode}");
+      print("Update API response body: ${response.body}");
 
-    // Check if the response is in JSON format.
-    if (response.body.trim().startsWith("{") || response.body.trim().startsWith("[")) {
-      final decoded = jsonDecode(response.body);
-      return decoded;
-    } else {
-      return {"success": false, "message": "Unexpected response format"};
+      // Check if the response is in JSON format.
+      if (response.body.trim().startsWith("{") ||
+          response.body.trim().startsWith("[")) {
+        final decoded = jsonDecode(response.body);
+        return decoded;
+      } else {
+        return {"success": false, "message": "Unexpected response format"};
+      }
+    } catch (e) {
+      return {"success": false, "message": e.toString()};
     }
-  } catch (e) {
-    return {"success": false, "message": e.toString()};
   }
-}
- /// Update Profile Picture API using multipart/form-data with POST.
-  static Future<Map<String, dynamic>> updateProfilePicture(File imageFile) async {
+
+  /// Update Profile Picture API using multipart/form-data with POST.
+  static Future<Map<String, dynamic>> updateProfilePicture(
+      File imageFile) async {
     try {
       final token = AppConstants.authToken;
       if (token == null) {
@@ -212,13 +274,14 @@ static Future<Map<String, dynamic>> updateProfile({String? name, String? phoneNu
 
       final uri = Uri.parse(ApiEndpoints.uploadProfilePicture);
       final request = http.MultipartRequest('POST', uri);
-      
+
       // Set the Authorization header.
       request.headers["Authorization"] = "Bearer $token";
       // Note: Don't manually set the Content-Type header here.
 
       // Attach the image file with the expected field name.
-      request.files.add(await http.MultipartFile.fromPath('profile_picture', imageFile.path));
+      request.files.add(
+          await http.MultipartFile.fromPath('profile_picture', imageFile.path));
 
       final streamedResponse = await request.send();
       final responseString = await streamedResponse.stream.bytesToString();
@@ -236,5 +299,4 @@ static Future<Map<String, dynamic>> updateProfile({String? name, String? phoneNu
       return {"success": false, "message": e.toString()};
     }
   }
-
 }
