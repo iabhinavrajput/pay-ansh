@@ -7,6 +7,7 @@ import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/screens/forgot_password.dart';
 import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/screens/register.dart';
+import 'package:payansh/services/google_sign_in_service.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
@@ -24,13 +25,11 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final RxBool isPasswordVisible = false.obs;
 
-    return 
-    Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
-    
+
       resizeToAvoidBottomInset: false, // Prevents overflow due to keyboard
-      body: 
-      LayoutBuilder(
+      body: LayoutBuilder(
         builder: (context, constraints) {
           return Center(
             child: ConstrainedBox(
@@ -48,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                   Image.asset('assets/images/logo.png',
                       width: Dimensions.dynamicWidth(context, 0.5)),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
-                  
+
                   // Image Slider inside Expanded to avoid overflow
                   Expanded(
                     flex: 2,
@@ -69,7 +68,8 @@ class LoginScreen extends StatelessWidget {
                             return Image.asset(imagePath);
                           }).toList(),
                         ),
-                        SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
+                        SizedBox(
+                            height: Dimensions.dynamicHeight(context, 0.02)),
                         Obx(() => Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: List.generate(
@@ -81,10 +81,11 @@ class LoginScreen extends StatelessWidget {
                                   height: 8,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: sliderController.currentIndex.value ==
-                                            index
-                                        ? Colors.blue
-                                        : Colors.grey,
+                                    color:
+                                        sliderController.currentIndex.value ==
+                                                index
+                                            ? Colors.blue
+                                            : Colors.grey,
                                   ),
                                 ),
                               ),
@@ -93,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
-                  
+
                   // Input fields inside Expanded
                   Expanded(
                     flex: 3,
@@ -105,16 +106,18 @@ class LoginScreen extends StatelessWidget {
                           hintText: "Enter Your Email or Phone",
                           icon: Icons.person,
                         ),
-                        SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
+                        SizedBox(
+                            height: Dimensions.dynamicHeight(context, 0.015)),
                         CustomPasswordTextField(
                           controller: passwordController,
                           hintText: "Enter your password",
                           isPasswordVisible: isPasswordVisible,
-                          togglePasswordVisibility: () =>
-                              isPasswordVisible.value = !isPasswordVisible.value,
+                          togglePasswordVisibility: () => isPasswordVisible
+                              .value = !isPasswordVisible.value,
                           showValidations: false,
                         ),
-                        SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
+                        SizedBox(
+                            height: Dimensions.dynamicHeight(context, 0.01)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -131,7 +134,8 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
+                        SizedBox(
+                            height: Dimensions.dynamicHeight(context, 0.02)),
                         Obx(() => authController.isLoading.value
                             ? const CircularProgressIndicator()
                             : GradientButton(
@@ -142,28 +146,43 @@ class LoginScreen extends StatelessWidget {
                                       passwordController.text);
                                 },
                               )),
-                        SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
+                        SizedBox(
+                            height: Dimensions.dynamicHeight(context, 0.01)),
                         const Text("or", style: TextStyle(color: Colors.grey)),
-                        SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
+                        SizedBox(
+                            height: Dimensions.dynamicHeight(context, 0.01)),
                         GradientButton(
                             text: "Login with OTP",
                             onPressed: () {
                               Get.to(() => RechargeBillPage());
                             }),
-                        SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
+                        SizedBox(
+                            height: Dimensions.dynamicHeight(context, 0.01)),
                       ],
                     ),
                   ),
-                  
+
                   // Sign up section
                   Expanded(
                     flex: 1,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Don't have an account? ",
-                          style: TTextTheme.lightTextTheme.labelLarge,
+                        GestureDetector(
+                          onTap: () async {
+                            final user =
+                                await GoogleSignInService.signInWithGoogle();
+                            if (user != null) {
+                              print("$user");
+                              print("Login successful: $user");
+                            } else {
+                              print("Login failed or cancelled.");
+                            }
+                          },
+                          child: Text(
+                            "Don't have an account? ",
+                            style: TTextTheme.lightTextTheme.labelLarge,
+                          ),
                         ),
                         TextButton(
                           onPressed: () {

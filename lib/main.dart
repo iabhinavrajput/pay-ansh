@@ -1,14 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/splash_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // final AuthController authController = Get.put(AuthController());
-  // authController.checkLoginStatus();
-    Get.put(AuthController()); // Initialize controller
+    // Get.put(AuthController());
+  await Firebase.initializeApp();
+  Get.put(AuthController());
 
   runApp(const MyApp());
 }
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Payansh',
-      getPages: AppRoutes.routes, // Use the centralized routes list
+      getPages: AppRoutes.routes, 
 
       theme: ThemeData(
         primarySwatch: Colors.blue,
