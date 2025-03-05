@@ -4,7 +4,7 @@ import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/style_constants.dart';
 import 'package:payansh/widgets/profile_item_widget.dart';
 import 'package:payansh/services/api_service.dart';
-// import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -98,38 +98,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   /// Opens file picker to choose a new profile picture and uploads it.
-  // Future<void> _pickAndUploadImage() async {
-  //   // Use file_picker to select an image.
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //     type: FileType.image,
-  //   );
+  Future<void> _pickAndUploadImage() async {
+    // Use file_picker to select an image.
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
 
-  //   if (result != null && result.files.single.path != null) {
-  //     File imageFile = File(result.files.single.path!);
-  //     // Show a loading indicator while uploading.
-  //     showDialog(
-  //       context: context,
-  //       barrierDismissible: false,
-  //       builder: (context) => const Center(child: CircularProgressIndicator()),
-  //     );
-  //     var response = await ApiService.updateProfilePicture(imageFile);
-  //     Navigator.pop(context); // Close the loading indicator.
+    if (result != null && result.files.single.path != null) {
+      File imageFile = File(result.files.single.path!);
+      // Show a loading indicator while uploading.
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator()),
+      );
+      var response = await ApiService.updateProfilePicture(imageFile);
+      Navigator.pop(context); // Close the loading indicator.
       
-  //     if (response["message"].toString().toLowerCase().contains("success")) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text(response["message"]))
-  //       );
-  //       // Refresh profile data.
-  //       setState(() {
-  //         _profileFuture = ApiService.getUserProfile();
-  //       });
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text(response["message"] ?? "Upload failed"))
-  //       );
-  //     }
-  //   }
-  // }
+      if (response["message"].toString().toLowerCase().contains("success")) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(response["message"]))
+        );
+        // Refresh profile data.
+        setState(() {
+          _profileFuture = ApiService.getUserProfile();
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(response["message"] ?? "Upload failed"))
+        );
+      }
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -208,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     bottom: 0,
                                     right: 0,
                                     child: GestureDetector(
-                                      // onTap: _pickAndUploadImage,
+                                      onTap: _pickAndUploadImage,
                                       child: const CircleAvatar(
                                         radius: 16,
                                         backgroundColor: Colors.blue,
