@@ -8,7 +8,7 @@ import 'package:file_picker/file_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
-  
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -19,82 +19,89 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _profileFuture = ApiService.getUserProfile();
+    _profileFuture = ApiService.getUserProfile().then((response) {
+      print("User Profile Response: $response");
+      return response;
+    });
   }
 
   /// Opens a dialog to edit name and phone.
   void _showEditDialog(String currentName, String currentPhone) {
-    TextEditingController nameController = TextEditingController(text: currentName);
-    TextEditingController phoneController = TextEditingController(text: currentPhone);
-    
+    TextEditingController nameController =
+        TextEditingController(text: currentName);
+    TextEditingController phoneController =
+        TextEditingController(text: currentPhone);
+
     showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Edit Profile"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(labelText: "Name"),
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Edit Profile"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(labelText: "Name"),
+                ),
+                TextField(
+                  controller: phoneController,
+                  decoration: const InputDecoration(labelText: "Phone Number"),
+                  keyboardType: TextInputType.phone,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close dialog
+                },
+                child: const Text("Cancel"),
               ),
-              TextField(
-                controller: phoneController,
-                decoration: const InputDecoration(labelText: "Phone Number"),
-                keyboardType: TextInputType.phone,
+              TextButton(
+                onPressed: () async {
+                  String newName = nameController.text.trim();
+                  String newPhone = phoneController.text.trim();
+
+                  // Only run API if at least one field changed.
+                  if (newName != currentName || newPhone != currentPhone) {
+                    // Show loading indicator
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) =>
+                          const Center(child: CircularProgressIndicator()),
+                    );
+
+                    var updateResponse = await ApiService.updateProfile(
+                      name: newName,
+                      phoneNumber: newPhone,
+                    );
+                    Navigator.pop(context); // Close loading indicator
+
+                    if (updateResponse["message"]
+                        .toString()
+                        .toLowerCase()
+                        .contains("success")) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(updateResponse["message"])));
+                      // Refresh profile data.
+                      setState(() {
+                        _profileFuture = ApiService.getUserProfile();
+                      });
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              updateResponse["message"] ?? "Update failed")));
+                    }
+                  }
+                  Navigator.pop(context); // Close the edit dialog.
+                },
+                child: const Text("Save"),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close dialog
-              },
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () async {
-                String newName = nameController.text.trim();
-                String newPhone = phoneController.text.trim();
-                
-                // Only run API if at least one field changed.
-                if (newName != currentName || newPhone != currentPhone) {
-                  // Show loading indicator
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) => const Center(child: CircularProgressIndicator()),
-                  );
-                  
-                  var updateResponse = await ApiService.updateProfile(
-                    name: newName,
-                    phoneNumber: newPhone,
-                  );
-                  Navigator.pop(context); // Close loading indicator
-                  
-                  if (updateResponse["message"].toString().toLowerCase().contains("success")) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(updateResponse["message"]))
-                    );
-                    // Refresh profile data.
-                    setState(() {
-                      _profileFuture = ApiService.getUserProfile();
-                    });
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(updateResponse["message"] ?? "Update failed"))
-                    );
-                  }
-                }
-                Navigator.pop(context); // Close the edit dialog.
-              },
-              child: const Text("Save"),
-            ),
-          ],
-        );
-      }
-    );
+          );
+        });
   }
 
   /// Opens file picker to choose a new profile picture and uploads it.
@@ -114,23 +121,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
       var response = await ApiService.updateProfilePicture(imageFile);
       Navigator.pop(context); // Close the loading indicator.
-      
+
       if (response["message"].toString().toLowerCase().contains("success")) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response["message"]))
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(response["message"])));
         // Refresh profile data.
         setState(() {
           _profileFuture = ApiService.getUserProfile();
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response["message"] ?? "Upload failed"))
-        );
+            SnackBar(content: Text(response["message"] ?? "Upload failed")));
       }
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,8 +156,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             final userEmail = userData['email'] ?? 'No Email';
             final phoneVerified = (userData['phone_verified'] == 1);
             final emailVerified = (userData['email_verified'] == 1);
-            final profilePicture = userData['profile_picture'] ?? 'assets/images/user.png';
-            
+            final profilePicture =
+                userData['profile_picture'] ?? 'assets/images/user.png';
+
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -183,7 +189,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Icon(Icons.logout, color: Colors.white),
                                 SizedBox(width: 4),
-                                Text("Logout", style: StyleConstants.whiteTextBold),
+                                Text("Logout",
+                                    style: StyleConstants.whiteTextBold),
                               ],
                             ),
                           ),
@@ -199,9 +206,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   CircleAvatar(
                                     radius: 50,
                                     backgroundColor: Colors.white,
-                                    backgroundImage: profilePicture.startsWith('http')
-                                      ? NetworkImage(profilePicture)
-                                      : AssetImage(profilePicture) as ImageProvider,
+                                    backgroundImage:
+                                        profilePicture.startsWith('http')
+                                            ? NetworkImage(profilePicture)
+                                            : AssetImage(profilePicture)
+                                                as ImageProvider,
                                   ),
                                   // Edit icon for updating profile picture.
                                   Positioned(
@@ -212,16 +221,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       child: const CircleAvatar(
                                         radius: 16,
                                         backgroundColor: Colors.blue,
-                                        child: Icon(Icons.edit, size: 16, color: Colors.white),
+                                        child: Icon(Icons.edit,
+                                            size: 16, color: Colors.white),
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 8),
-                              Text(userName, style: StyleConstants.profileNameText),
+                              Text(userName,
+                                  style: StyleConstants.profileNameText),
                               const SizedBox(height: 4),
-                              Text(userPhone, style: StyleConstants.profilePhoneText),
+                              Text(userPhone,
+                                  style: StyleConstants.profilePhoneText),
                             ],
                           ),
                         ),
@@ -252,25 +264,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text("$userPhone "),
                               const SizedBox(width: 8),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: phoneVerified
                                       ? AppColors.verifiedColor.withOpacity(0.1)
-                                      : AppColors.unverifiedColor.withOpacity(0.1),
+                                      : AppColors.unverifiedColor
+                                          .withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Row(
                                   children: [
                                     Icon(
-                                      phoneVerified ? Icons.check_circle : Icons.info_outline,
+                                      phoneVerified
+                                          ? Icons.check_circle
+                                          : Icons.info_outline,
                                       size: 14,
-                                      color: phoneVerified ? AppColors.verifiedColor : AppColors.unverifiedColor,
+                                      color: phoneVerified
+                                          ? AppColors.verifiedColor
+                                          : AppColors.unverifiedColor,
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
                                       phoneVerified ? "Verified" : "Unverified",
                                       style: StyleConstants.badgeText.copyWith(
-                                        color: phoneVerified ? AppColors.verifiedColor : AppColors.unverifiedColor,
+                                        color: phoneVerified
+                                            ? AppColors.verifiedColor
+                                            : AppColors.unverifiedColor,
                                       ),
                                     ),
                                   ],
@@ -292,25 +312,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text("$userEmail "),
                               const SizedBox(width: 8),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: emailVerified
                                       ? AppColors.verifiedColor.withOpacity(0.1)
-                                      : AppColors.unverifiedColor.withOpacity(0.1),
+                                      : AppColors.unverifiedColor
+                                          .withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Row(
                                   children: [
                                     Icon(
-                                      emailVerified ? Icons.check_circle : Icons.info_outline,
+                                      emailVerified
+                                          ? Icons.check_circle
+                                          : Icons.info_outline,
                                       size: 14,
-                                      color: emailVerified ? AppColors.verifiedColor : AppColors.unverifiedColor,
+                                      color: emailVerified
+                                          ? AppColors.verifiedColor
+                                          : AppColors.unverifiedColor,
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
                                       emailVerified ? "Verified" : "Unverified",
                                       style: StyleConstants.badgeText.copyWith(
-                                        color: emailVerified ? AppColors.verifiedColor : AppColors.unverifiedColor,
+                                        color: emailVerified
+                                            ? AppColors.verifiedColor
+                                            : AppColors.unverifiedColor,
                                       ),
                                     ),
                                   ],
