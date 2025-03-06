@@ -21,17 +21,9 @@ class AuthController extends GetxController {
     if (response["success"]) {
       Get.snackbar("Login Success", response["message"],
           snackPosition: SnackPosition.BOTTOM);
-      String token = response["accessToken"];
-      print("🔹 Saving Token: $token"); // Debugging statement
-
-      // Save token in local storage
-      await LocalStorage.saveUserToken(token);
-
-      // Also assign token to AppConstants for global access
-      AppConstants.authToken = token;
 
       String? checkToken = await LocalStorage.getUserToken();
-      print("✅ Token Saved: $checkToken"); // Verify storage
+      print("✅ Token Saved: $checkToken");
 
       Get.offAll(() => HomeScreen());
     } else {
@@ -40,19 +32,24 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> logout() async {
+    await LocalStorage.clearUserToken();
+    AppConstants.authToken = null;
+    Get.offAll(() => LoginScreen());
+    Get.snackbar("Logged Out", "You have been logged out.",
+        snackPosition: SnackPosition.BOTTOM);
+  }
+
   Future<void> checkLoginStatus() async {
     String? token = await LocalStorage.getUserToken();
 
     if (token != null && token.isNotEmpty) {
-      // Optionally update the global token if not already set
       AppConstants.authToken ??= token;
       print("This is token inside checkLoginStatus: $token");
-      // Navigate to home if token exists
       Get.offAll(() => HomeScreen());
     } else {
-      print("Now logged out");
-      // If no token, navigate to login
-      await Future.delayed(const Duration(milliseconds: 500)); // Smooth transition
+      print("User not logged in, redirecting to login...");
+      await Future.delayed(const Duration(milliseconds: 500));
       Get.offAll(() => LoginScreen());
     }
   }

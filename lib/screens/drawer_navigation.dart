@@ -4,27 +4,30 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/widgets/sidebar_menu_item.dart';
-class DrawerNavigation extends StatefulWidget {
-  const DrawerNavigation({Key? key}) : super(key: key);
 
+
+class DrawerNavigation extends StatefulWidget {
   @override
-  _DrawerNavigationState createState() => _DrawerNavigationState();
+  State<DrawerNavigation> createState() => _DrawerNavigationState();
 }
 
 class _DrawerNavigationState extends State<DrawerNavigation> {
-  late Future<Map<String, dynamic>?> _userProfileFuture;
+  late final Future<Map<String, dynamic>?> _userProfileFuture;
 
   @override
   void initState() {
     super.initState();
-    _userProfileFuture = ApiService.getUserProfile();
+    _userProfileFuture = ApiService.getUserProfile().then((response) {
+      print("User Profile Response: $response");
+      return response;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 250, // Sidebar width
-      color: Colors.white,
+    return Drawer(
+      width: 300, // Sidebar width
+      // color: Colors.white,
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: Column(
@@ -45,12 +48,14 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                     children: [
                       CircleAvatar(
                         radius: 30,
-                        backgroundImage: NetworkImage(userData['profile_picture']),
+                        backgroundImage:
+                            NetworkImage(userData['profile_picture']),
                       ),
                       const SizedBox(height: 10),
                       Text(
                         userData['name'],
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         userData['phone'],
@@ -79,30 +84,31 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               },
             ),
             const SizedBox(height: 30),
-            const Text("Account Management", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const Text("Account Management",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.verified_user,
               title: "KYC Status",
               subtitle: "⚠ KYC Incomplete",
               subtitleColor: Colors.red,
             ),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.settings,
               title: "App Settings & Info",
               subtitle: "Change app settings",
             ),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.local_offer,
               title: "Cashback & Offers",
               subtitle: "Show all the Offers",
             ),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.help_outline,
               title: "Have a Complaint?",
               subtitle: "Raise a complaint",
             ),
-             const SidebarMenuItem(
+            const SidebarMenuItem(
               icon: Icons.delete_forever,
               title: "Delete Account",
               subtitle: "Delete account from Payance",
@@ -114,7 +120,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             ),
             const SizedBox(height: 20),
             const Center(
-              child: Text("Version 3.2", style: TextStyle(color: Colors.grey, fontSize: 14)),
+              child: Text("Version 3.2",
+                  style: TextStyle(color: Colors.grey, fontSize: 14)),
             ),
           ],
         ),
