@@ -6,27 +6,29 @@ import 'package:payansh/services/api_service.dart';
 import 'package:payansh/services/auth_service.dart';
 import 'package:payansh/widgets/sidebar_menu_item.dart';
 
-class DrawerNavigation extends StatefulWidget {
-  const DrawerNavigation({Key? key}) : super(key: key);
 
+class DrawerNavigation extends StatefulWidget {
   @override
-  _DrawerNavigationState createState() => _DrawerNavigationState();
+  State<DrawerNavigation> createState() => _DrawerNavigationState();
 }
 
 class _DrawerNavigationState extends State<DrawerNavigation> {
-  late Future<Map<String, dynamic>?> _userProfileFuture;
+  late final Future<Map<String, dynamic>?> _userProfileFuture;
 
   @override
   void initState() {
     super.initState();
-    _userProfileFuture = ApiService.getUserProfile();
+    _userProfileFuture = ApiService.getUserProfile().then((response) {
+      print("User Profile Response: $response");
+      return response;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 250, // Sidebar width
-      color: Colors.white,
+    return Drawer(
+      width: 300, // Sidebar width
+      // color: Colors.white,
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: Column(
