@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "785964433867",
+    "firebase_url": "https://payansh-d5dd0-default-rtdb.firebaseio.com",
+    "project_id": "payansh-d5dd0",
+    "storage_bucket": "payansh-d5dd0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785964433867:android:f9e9e896b69f24c8cb764e",
+        "android_client_info": {
+          "package_name": "com.payansh.payansh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785964433867-e418qokido4kho2bsl1sc30keps4lv7o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payansh.payansh",
+            "certificate_hash": "7eea33ae9dd8f87bbba151dbaf3035c95e297bd9"
+          }
+        },
+        {
+          "client_id": "785964433867-s68lh8f955jc079n6717ke3j5kaup09v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payansh.payansh",
+            "certificate_hash": "d3b71dc5d437aaed50de9f29b0ba243ecb5b2e3a"
+          }
+        },
+        {
+          "client_id": "785964433867-2ft4l1rb75b9tq79urpd5f18jfmjdfr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQmX11gOCire0e-DbNhWd51-pYB4mB58o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785964433867-2ft4l1rb75b9tq79urpd5f18jfmjdfr6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "785964433867-dec817c0reiln3buaodjb6rh3c0rfoda.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.payansh.payansh"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

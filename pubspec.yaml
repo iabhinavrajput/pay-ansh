@@ -51,6 +51,10 @@ dependencies:
   file_picker: ^9.0.2
   # file_picker: ^5.2.4
   shimmer: ^3.0.0
+  carousel_slider: ^5.0.0
+  google_sign_in: ^6.2.2
+  firebase_core: ^3.12.1
+  firebase_auth: ^5.5.1
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +94,7 @@ flutter:
     - assets/frame/
     - assets/icon/
     - assets/offers/
+    - assets/login_slider/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

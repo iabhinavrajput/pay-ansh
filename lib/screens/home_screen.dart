@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
 import 'package:payansh/constants/app_colors.dart';
@@ -11,17 +8,12 @@ import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/device_info.dart';
 import 'package:payansh/services/api_service.dart';
+import 'package:payansh/widgets/app_bar.dart';
 import 'package:payansh/widgets/bottom_drawer.dart';
 import 'package:payansh/widgets/gradient_text.dart';
 import 'package:payansh/widgets/recharge_grid.dart';
 import 'package:payansh/screens/drawer_navigation.dart';
 import 'package:payansh/screens/offers.dart';
-import 'package:payansh/screens/setting.dart';
-import 'package:payansh/widgets/app_bar.dart';
-import 'package:payansh/widgets/gradient_text.dart';
-import 'package:payansh/widgets/recharge_grid.dart';
-import 'package:payansh/widgets/sidebar_menu_item.dart';
-import '../utils/local_storage.dart';
 
 // class HomeScreen extends StatefulWidget {
 //   const HomeScreen({super.key});
@@ -189,7 +181,7 @@ class NoticeWidget extends StatelessWidget {
       height: Dimensions.dynamicHeight(context, 0.05),
       decoration: BoxDecoration(
         border:
-            Border(bottom: BorderSide(color: AppColors.gradientEnd, width: 1)),
+            const Border(bottom: BorderSide(color: AppColors.gradientEnd, width: 1)),
         borderRadius: BorderRadius.circular(10),
         gradient: LinearGradient(
             colors: [AppColors.gradientStart.withOpacity(0.35), Colors.white]),
@@ -345,10 +337,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text(
                             "Hiii...",
                             style: TextStyle(

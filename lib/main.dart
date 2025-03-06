@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -9,10 +10,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // final AuthController authController = Get.put(AuthController());
   // authController.checkLoginStatus();
-    Get.put(AuthController()); // Initialize controller
-      await GetStorage.init(); // Initialize GetStorage
-
-
+  await Firebase.initializeApp();
+  Get.put(AuthController()); // Initialize controller
+  await GetStorage.init(); // Initialize GetStorage
   runApp(const MyApp());
 }
 
@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Payansh',
-      getPages: AppRoutes.routes, // Use the centralized routes list
-
+      getPages: AppRoutes.routes,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

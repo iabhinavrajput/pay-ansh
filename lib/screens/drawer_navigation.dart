@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/services/auth_service.dart';
@@ -88,33 +89,48 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             const Text("Account Management",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            const SidebarMenuItem(
+             SidebarMenuItem(
               icon: Icons.verified_user,
               title: "KYC Status",
               subtitle: "⚠ KYC Incomplete",
               subtitleColor: Colors.red,
+              onTap: () {
+              },
             ),
-            const SidebarMenuItem(
+             SidebarMenuItem(
               icon: Icons.settings,
               title: "App Settings & Info",
               subtitle: "Change app settings",
+              onTap: () {
+                Get.toNamed(AppRoutes.appSetting);
+              },
             ),
-            const SidebarMenuItem(
+             SidebarMenuItem(
               icon: Icons.local_offer,
               title: "Cashback & Offers",
               subtitle: "Show all the Offers",
+              onTap: () {
+                Get.toNamed(AppRoutes.cashback);
+              },
             ),
-            const SidebarMenuItem(
+             SidebarMenuItem(
               icon: Icons.help_outline,
               title: "Have a Complaint?",
               subtitle: "Raise a complaint",
+              onTap: () {
+                
+              },
             ),
-            const SidebarMenuItem(
+            SidebarMenuItem(
               icon: Icons.delete_forever,
               title: "Delete Account",
               subtitle: "Delete account from Payance",
+              onTap: () {
+
+              },
             ),
-            SidebarMenuItem(
+            
+              SidebarMenuItem(
               icon: Icons.logout,
               title: "Logout",
               subtitle: "Do you want to logout",
@@ -126,8 +142,9 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                   textCancel: "No",
                   confirmTextColor: Colors.white,
                   buttonColor: Colors.blue,
-                  onConfirm: () {
-                    AuthService.logout(context);
+                  onConfirm: () async {
+                    Get.back();
+                    await AuthService.logout(context);
                   },
                 );
               },
@@ -143,3 +160,16 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
     );
   }
 }
+
+
+
+ 
+
+
+
+
+
+
+
+
+

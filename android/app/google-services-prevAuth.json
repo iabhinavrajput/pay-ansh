@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "785964433867",
+    "project_id": "payansh-d5dd0",
+    "storage_bucket": "payansh-d5dd0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785964433867:android:f9e9e896b69f24c8cb764e",
+        "android_client_info": {
+          "package_name": "com.payansh.payansh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQmX11gOCire0e-DbNhWd51-pYB4mB58o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
