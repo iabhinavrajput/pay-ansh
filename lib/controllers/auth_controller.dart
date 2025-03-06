@@ -12,59 +12,44 @@ class AuthController extends GetxController {
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
+
   Future<void> login(String email, String password) async {
-  isLoading.value = true;
-  var response = await ApiService.loginUser(email, password);
-  isLoading.value = false;
+    isLoading.value = true;
+    var response = await ApiService.loginUser(email, password);
+    isLoading.value = false;
 
-  print("Login API Response: $response"); // Debug the full response
+    if (response["success"]) {
+      Get.snackbar("Login Success", response["message"],
+          snackPosition: SnackPosition.BOTTOM);
 
-  if (response["success"]) {
-    Get.snackbar("Login Success", response["message"],
-        snackPosition: SnackPosition.BOTTOM);
-
-    // Extract tokens from nested 'data' object
-    var data = response["data"];
-    String? accessToken = data?["accessToken"];
-    String? refreshToken = data?["refreshToken"];
-
-    if (accessToken != null && refreshToken != null) {
-      print("🔹 Saving Access Token: $accessToken");
-      print("🔹 Saving Refresh Token: $refreshToken");
-
-      await LocalStorage.saveUserToken(accessToken);
-      await LocalStorage.saveRefreshToken(refreshToken);
-
-      AppConstants.authToken = accessToken;
-      AppConstants.refreshToken = refreshToken;
+      String? checkToken = await LocalStorage.getUserToken();
+      print("✅ Token Saved: $checkToken");
 
       Get.offAll(() => HomeScreen());
     } else {
-      Get.snackbar("Error", "Tokens are missing from response.",
+      Get.snackbar("Login Failed", response["message"],
           snackPosition: SnackPosition.BOTTOM);
-      print("❌ Error: Tokens are null.");
     }
-  } else {
-    Get.snackbar("Login Failed", response["message"],
+  }
+
+  Future<void> logout() async {
+    await LocalStorage.clearUserToken();
+    AppConstants.authToken = null;
+    Get.offAll(() => LoginScreen());
+    Get.snackbar("Logged Out", "You have been logged out.",
         snackPosition: SnackPosition.BOTTOM);
   }
-}
-
 
   Future<void> checkLoginStatus() async {
     String? token = await LocalStorage.getUserToken();
 
     if (token != null && token.isNotEmpty) {
-      // Optionally update the global token if not already set
       AppConstants.authToken ??= token;
       print("This is token inside checkLoginStatus: $token");
-
-      // Navigate to home if token exists
-      Get.offAll(() => const HomeScreen());
+      Get.offAll(() => HomeScreen());
     } else {
-      print("Now logged out");
-      // If no token, navigate to login
-      await Future.delayed(const Duration(milliseconds: 500)); // Smooth transition
+      print("User not logged in, redirecting to login...");
+      await Future.delayed(const Duration(milliseconds: 500));
       Get.offAll(() => LoginScreen());
     }
   }
