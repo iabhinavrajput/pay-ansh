@@ -11,7 +11,7 @@ class ApiService {
   static Future<Map<String, dynamic>> loginUser(
       String email, String password) async {
     try {
-            final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
+      final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
 
       final response = await http.post(
         Uri.parse(ApiEndpoints.login),
@@ -19,7 +19,7 @@ class ApiService {
         body: jsonEncode({
           "email": email,
           "password": password,
-           "deviceInfo": deviceInfo,
+          "deviceInfo": deviceInfo,
         }),
       );
 
@@ -235,7 +235,7 @@ class ApiService {
   }
 
   /// **User Profile API**
-  static Future<Map<String, dynamic>?> getUserProfile() async { 
+  static Future<Map<String, dynamic>?> getUserProfile() async {
     try {
       // Retrieve token from AppConstants
       String? token = AppConstants.authToken;
@@ -251,8 +251,24 @@ class ApiService {
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
-      } else {
-        return null;
+      }
+      bool refreshed = await _refreshToken();
+      if (refreshed) {
+        // Retry the request with new token
+        String? newToken = AppConstants.authToken;
+        if (newToken == null) return null;
+
+        final retryResponse = await http.get(
+          Uri.parse(ApiEndpoints.profileEndpoint),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $newToken",
+          },
+        );
+
+        if (retryResponse.statusCode == 200) {
+          return jsonDecode(retryResponse.body);
+        }
       }
     } catch (e) {
       print("Error fetching profile: ${e.toString()}");
