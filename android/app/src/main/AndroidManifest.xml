@@ -9,6 +9,7 @@
     android:allowBackup="true"
     android:label="payansh"
     android:name="${applicationName}"
+    android:extractNativeLibs="true"
     android:icon="@mipmap/ic_launcher"
     android:enableOnBackInvokedCallback="true">
         <activity
