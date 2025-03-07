@@ -34,7 +34,7 @@ class CustomEmailTextField extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: AppColors.inputBackground,
+            color: AppColors.iconBackground,
             borderRadius: BorderRadius.circular(10),
           ),
           child: TextField(

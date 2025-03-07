@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payansh/constants/dimensions.dart';
 import '../../constants/app_colors.dart';
 
 class GradientButton extends StatelessWidget {
@@ -12,7 +13,7 @@ class GradientButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 50,
+      height: Dimensions.dynamicHeight(context, 0.06),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [AppColors.gradientStart, AppColors.gradientEnd],
