@@ -10,4 +10,15 @@ class AppColors {
   static const Color iconBackground = Color(0x33CFE3F7);
   static const Color verifiedColor = Colors.green;
   static const Color unverifiedColor = Colors.red;
+  static const Color drawerTextColor = Color(0xFF346CA4);
+  // Gradient for SidebarMenuItem icon background
+  static const LinearGradient iconGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromRGBO(207, 227, 247, 0.14), // rgba(207, 227, 247, 0.14)
+      Color.fromRGBO(65, 198, 238, 0.14), // rgba(65, 198, 238, 0.14)
+    ],
+    stops: [0.08, 0.92], // Matching the given CSS stops
+  );
 }
