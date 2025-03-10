@@ -183,71 +183,33 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
 
-                  // Input fields inside Expanded
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomEmailTextField(
-                          controller: emailController,
-                          hintText: "Enter Your Email or Phone",
-                          icon: Icons.person,
-                        ),
-                        SizedBox(
-                            height: Dimensions.dynamicHeight(context, 0.015)),
-                        CustomPasswordTextField(
-                          controller: passwordController,
-                          hintText: "Enter your password",
-                          isPasswordVisible: isPasswordVisible,
-                          togglePasswordVisibility: () => isPasswordVisible
-                              .value = !isPasswordVisible.value,
-                          showValidations: false,
-                        ),
-                        SizedBox(
-                            height: Dimensions.dynamicHeight(context, 0.01)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Checkbox(value: true, onChanged: (value) {}),
-                                const Text("Remember me"),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () => Get.to(() => ForgotPasswordScreen()),
-                              child: const Text("Forgot Password?",
-                                  style: TextStyle(color: Colors.blue)),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                            height: Dimensions.dynamicHeight(context, 0.02)),
-                        Obx(() => authController.isLoading.value
-                            ? const CircularProgressIndicator()
-                            : GradientButton(
-                                text: "Login",
-                                onPressed: () async {
-                                  await authController.login(
-                                      emailController.text,
-                                      passwordController.text);
-                                },
-                              )),
-                        SizedBox(
-                            height: Dimensions.dynamicHeight(context, 0.01)),
-                        const Text("or", style: TextStyle(color: Colors.grey)),
-                        SizedBox(
-                            height: Dimensions.dynamicHeight(context, 0.01)),
-                        GradientButton(
-                            text: "Login with OTP",
-                            onPressed: () {
-                              // Get.to(() => RechargeBillPage());
-                            }),
-                        SizedBox(
-                            height: Dimensions.dynamicHeight(context, 0.01)),
-                      ],
-                    ),
+                  // Login Button
+                  Obx(() => authController.isLoading.value
+                      ? const CircularProgressIndicator()
+                      : GradientButton(
+                          text: "Login",
+                          onPressed: () async {
+                            await authController.login(
+                                emailController.text, passwordController.text);
+                          },
+                        )),
+                  SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
+                  const Text("or", style: TextStyle(color: Colors.grey)),
+                  SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
+
+                  // Fix Overflow: Using Column and Spacer
+
+                  GradientButton(
+                    text: "Login with Phone number",
+                    onPressed: () {
+                      Get.to(() => RechargeBillPage());
+                    },
+                  ),
+                  SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
+                  SizedBox(
+                    height: Dimensions.dynamicHeight(
+                        context, 0.06), // Adjust as needed
+                    child: GoogleBtn(),
                   ),
 
                   // Spacer(), // Pushes Sign Up Section to the bottom
