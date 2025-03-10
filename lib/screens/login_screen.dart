@@ -187,7 +187,7 @@ class LoginScreen extends StatelessWidget {
                   Obx(() => authController.isLoading.value
                       ? const CircularProgressIndicator()
                       : GradientButton(
-                          text: "Login with email",
+                          text: "Login",
                           onPressed: () async {
                             await authController.login(
                                 emailController.text, passwordController.text);
