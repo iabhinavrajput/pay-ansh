@@ -42,6 +42,7 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     await LocalStorage.clearUserToken();
     AppConstants.authToken = null;
+    AppConstants.refreshToken = null;
     Get.offAll(() => LoginScreen());
 
     showSnackbar(

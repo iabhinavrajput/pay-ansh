@@ -8,7 +8,6 @@ import 'package:payansh/services/api_service.dart';
 import 'package:payansh/services/auth_service.dart';
 import 'package:payansh/widgets/sidebar_menu_item.dart';
 
-
 class DrawerNavigation extends StatefulWidget {
   @override
   State<DrawerNavigation> createState() => _DrawerNavigationState();
@@ -51,8 +50,23 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                     children: [
                       CircleAvatar(
                         radius: 30,
-                        backgroundImage:
-                            NetworkImage(userData['profile_picture']),
+                        backgroundColor:
+                            Colors.blue.shade200, // Default background color
+                        backgroundImage: (userData['profile_picture'] != null &&
+                                userData['profile_picture'].isNotEmpty)
+                            ? NetworkImage(userData['profile_picture'])
+                            : null, // Load image if available
+                        child: (userData['profile_picture'] == null ||
+                                userData['profile_picture'].isEmpty)
+                            ? Text(
+                                userData['name'][0]
+                                    .toUpperCase(), // First letter of name
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              )
+                            : null, // Show nothing if image is loaded
                       ),
                       const SizedBox(height: 10),
                       Text(
@@ -90,49 +104,45 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             const Text("Account Management",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-             SidebarMenuItem(
-              icon: SvgPicture.asset('assets/drawer_navigation/idCard.svg'), 
+            SidebarMenuItem(
+              icon: SvgPicture.asset('assets/drawer_navigation/idCard.svg'),
               title: "KYC Status",
               subtitle: "⚠ KYC Incomplete",
               subtitleColor: Colors.red,
-              onTap: () {
-              },
+              onTap: () {},
             ),
-             SidebarMenuItem(
-              icon: SvgPicture.asset('assets/drawer_navigation/setting.svg'), 
+            SidebarMenuItem(
+              icon: SvgPicture.asset('assets/drawer_navigation/setting.svg'),
               title: "App Settings & Info",
               subtitle: "Change app settings",
               onTap: () {
                 Get.toNamed(AppRoutes.appSetting);
               },
             ),
-             SidebarMenuItem(
-              icon: SvgPicture.asset('assets/drawer_navigation/offer.svg'), 
+            SidebarMenuItem(
+              icon: SvgPicture.asset('assets/drawer_navigation/offer.svg'),
               title: "Cashback & Offers",
               subtitle: "Show all the Offers",
               onTap: () {
                 Get.toNamed(AppRoutes.cashback);
               },
             ),
-             SidebarMenuItem(
-              icon: SvgPicture.asset('assets/drawer_navigation/symbol.svg'), 
+            SidebarMenuItem(
+              icon: SvgPicture.asset('assets/drawer_navigation/symbol.svg'),
               title: "Have a Complaint?",
               subtitle: "Raise a complaint",
-              onTap: () {
-                
-              },
+              onTap: () {},
             ),
             SidebarMenuItem(
-              icon: SvgPicture.asset(('assets/drawer_navigation/person.svg'),), 
+              icon: SvgPicture.asset(
+                ('assets/drawer_navigation/person.svg'),
+              ),
               title: "Delete Account",
               subtitle: "Delete account from Payance",
-              onTap: () {
-
-              },
+              onTap: () {},
             ),
-            
-              SidebarMenuItem(
-              icon: SvgPicture.asset('assets/drawer_navigation/logout.svg'), 
+            SidebarMenuItem(
+              icon: SvgPicture.asset('assets/drawer_navigation/logout.svg'),
               title: "Logout",
               subtitle: "Do you want to logout",
               onTap: () {
@@ -161,16 +171,3 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
     );
   }
 }
-
-
-
- 
-
-
-
-
-
-
-
-
-
