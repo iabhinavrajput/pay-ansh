@@ -337,18 +337,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          FutureBuilder<Map<String, dynamic>?>(
+              future: _userProfileFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError || !snapshot.hasData) {
+                  return const Center(child: Text("Failed to load profile"));
+                }
+
+                final userData = snapshot.data!;
+                return
                           Text(
-                            "Hiii...",
+                            userData['name'],
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold),
+                          );
+              }
                           ),
-                          Text(
+
+                          const Text(
                             "Welcome to Payansh!",
                             style:
                                 TextStyle(color: Colors.white70, fontSize: 14),

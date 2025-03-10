@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:payansh/constants/api_endpoints.dart';
 import 'package:payansh/constants/app_constants.dart';
 import 'package:payansh/screens/device_info.dart';
+import 'package:payansh/screens/login_screen.dart';
 import 'package:payansh/utils/local_storage.dart';
 
 class ApiService {
   /// **User Login API**
+  ///
+  ///
   static Future<Map<String, dynamic>> loginUser(
       String email, String password) async {
     try {
@@ -105,6 +110,7 @@ class ApiService {
     String? refreshToken = await LocalStorage.getRefreshToken();
     if (refreshToken == null) {
       print("No refresh token found, user must log in again.");
+      _handleInvalidSession();
       return false;
     }
 
@@ -130,13 +136,35 @@ class ApiService {
           print("🔄 Token refreshed successfully!");
           return true;
         }
+      } else if (response.statusCode == 401) {
+        final data = jsonDecode(response.body);
+        if (data["message"] == "Invalid refresh token") {
+          print("❌ Invalid refresh token, multiple device login detected.");
+          _handleInvalidSession();
+        }
       }
-      print("❌ Refresh token invalid, user must re-login.");
+
       return false;
     } catch (e) {
       print("❌ Refresh token request failed: $e");
       return false;
     }
+  }
+
+  static void _handleInvalidSession() {
+    Get.snackbar(
+      "Session Expired",
+      "Same credentials have been used to log in on another device. To continue using this device, log out from the other device.",
+      snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(seconds: 5),
+    );
+
+    // Clear user tokens
+    LocalStorage.clearUserToken();
+    AppConstants.authToken = null;
+
+    // Redirect to login screen
+    Get.offAll(() => LoginScreen());
   }
 
   /// **Forgot Password API**
