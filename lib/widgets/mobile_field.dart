@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:payansh/constants/app_colors.dart';
 
 class MobileNumberField extends StatelessWidget {
@@ -13,7 +14,13 @@ class MobileNumberField extends StatelessWidget {
         TextField(
           controller: controller,
           keyboardType: TextInputType.phone,
+          maxLength: 10, // Restrict to 10 digits
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly, // Allow only numbers
+            LengthLimitingTextInputFormatter(10), // Limit to 10 characters
+          ],
           decoration: InputDecoration(
+            counterText: "", // Hide the counter text below input field
             prefixIcon: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
@@ -37,7 +44,7 @@ class MobileNumberField extends StatelessWidget {
               ).createShader(bounds),
               child: const Icon(Icons.phone_outlined,
                   color: Colors.white), // Keep it white for gradient effect
-            ), // Right-side phone icon
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide:
