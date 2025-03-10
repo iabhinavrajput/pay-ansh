@@ -15,17 +15,16 @@ class LocalStorage {
   }
 
   static Future<void> saveRefreshToken(String refreshToken) async {
-    await _storage.write(key:'refresh_token',value: refreshToken);
+    await _storage.write(key: AppConstants.refreshTokenKey, value: refreshToken);
   }
 
   static Future<String?> getRefreshToken() async {
-    return _storage.read(key:'refresh_token');
+    return _storage.read(key: AppConstants.refreshTokenKey);
   }
-
 
   static Future<void> clearUserToken() async {
-    await _storage.delete(key: 'user_token');
-        await _storage.delete(key:'refresh_token');
-
+    await _storage.delete(key: AppConstants.authTokenKey);
+    await _storage.delete(key: AppConstants.refreshTokenKey);
   }
 }
+
