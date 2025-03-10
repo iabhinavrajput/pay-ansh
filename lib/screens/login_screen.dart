@@ -154,7 +154,7 @@ class LoginScreen extends StatelessWidget {
                         GradientButton(
                             text: "Login with OTP",
                             onPressed: () {
-                              Get.to(() => RechargeBillPage());
+                              // Get.to(() => RechargeBillPage());
                             }),
                         SizedBox(
                             height: Dimensions.dynamicHeight(context, 0.01)),
