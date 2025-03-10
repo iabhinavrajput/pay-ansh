@@ -18,6 +18,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final RxBool isPasswordVisible = false.obs;
+  final RxBool isFormValid = false.obs;
 
   final SignupController signupController = Get.put(SignupController());
 
@@ -27,6 +28,28 @@ class _RegisterState extends State<Register> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _addListeners();
+  }
+
+  void _addListeners() {
+    nameController.addListener(_validateForm);
+    emailController.addListener(_validateForm);
+    passwordController.addListener(_validateForm);
+    confirmPasswordController.addListener(_validateForm);
+    phoneController.addListener(_validateForm);
+  }
+
+  void _validateForm() {
+    isFormValid.value = nameController.text.trim().isNotEmpty &&
+        emailController.text.trim().isNotEmpty &&
+        passwordController.text.trim().isNotEmpty &&
+        confirmPasswordController.text.trim().isNotEmpty &&
+        phoneController.text.trim().isNotEmpty;
+  }
 
   @override
   void dispose() {
@@ -82,14 +105,16 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 30),
               CustomTextField(
-                  hintText: "Enter your name as per ID proof",
-                  controller: nameController,
-                  icon: Icons.person_outline),
+                hintText: "Enter your name as per ID proof",
+                controller: nameController,
+                icon: Icons.person_outline,
+              ),
               const SizedBox(height: 20),
               CustomEmailTextField(
-                  hintText: "Enter your email",
-                  controller: emailController,
-                  icon: Icons.mail_outline),
+                hintText: "Enter your email",
+                controller: emailController,
+                icon: Icons.mail_outline,
+              ),
               const SizedBox(height: 15),
               CustomPasswordTextField(
                 hintText: "Enter your password",
@@ -101,16 +126,27 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 15),
               CustomTextField(
-                  hintText: "Confirm your password",
-                  controller: confirmPasswordController,
-                  icon: Icons.lock_outline_rounded),
+                hintText: "Confirm your password",
+                controller: confirmPasswordController,
+                icon: Icons.lock_outline_rounded,
+              ),
               const SizedBox(height: 15),
               MobileNumberField(controller: phoneController),
               const SizedBox(height: 20),
               Obx(() => signupController.isLoading.value
                   ? const Center(child: CircularProgressIndicator())
-                  : GradientButton(
-                      text: "Create Account", onPressed: _registerUser)),
+                  : Obx(() => GradientButton(
+                        text: "Create Account",
+                        onPressed: isFormValid.value
+                            ? _registerUser
+                            : () {
+                                showSnackbar(
+                                  title: "Error",
+                                  message: "Please fill all fields",
+                                  isSuccess: false,
+                                );
+                              },
+                      ))),
               const SizedBox(height: 15),
             ],
           ),

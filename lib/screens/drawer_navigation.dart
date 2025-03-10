@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/controllers/auth_controller.dart';
@@ -28,7 +29,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: 300, // Sidebar width
+      width: 340, // Sidebar width
       // color: Colors.white,
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
@@ -90,7 +91,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
              SidebarMenuItem(
-              icon: Icons.verified_user,
+              icon: SvgPicture.asset('assets/drawer_navigation/idCard.svg'), 
               title: "KYC Status",
               subtitle: "⚠ KYC Incomplete",
               subtitleColor: Colors.red,
@@ -98,7 +99,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               },
             ),
              SidebarMenuItem(
-              icon: Icons.settings,
+              icon: SvgPicture.asset('assets/drawer_navigation/setting.svg'), 
               title: "App Settings & Info",
               subtitle: "Change app settings",
               onTap: () {
@@ -106,7 +107,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               },
             ),
              SidebarMenuItem(
-              icon: Icons.local_offer,
+              icon: SvgPicture.asset('assets/drawer_navigation/offer.svg'), 
               title: "Cashback & Offers",
               subtitle: "Show all the Offers",
               onTap: () {
@@ -114,7 +115,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               },
             ),
              SidebarMenuItem(
-              icon: Icons.help_outline,
+              icon: SvgPicture.asset('assets/drawer_navigation/symbol.svg'), 
               title: "Have a Complaint?",
               subtitle: "Raise a complaint",
               onTap: () {
@@ -122,7 +123,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               },
             ),
             SidebarMenuItem(
-              icon: Icons.delete_forever,
+              icon: SvgPicture.asset(('assets/drawer_navigation/person.svg'),), 
               title: "Delete Account",
               subtitle: "Delete account from Payance",
               onTap: () {
@@ -131,7 +132,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             ),
             
               SidebarMenuItem(
-              icon: Icons.logout,
+              icon: SvgPicture.asset('assets/drawer_navigation/logout.svg'), 
               title: "Logout",
               subtitle: "Do you want to logout",
               onTap: () {

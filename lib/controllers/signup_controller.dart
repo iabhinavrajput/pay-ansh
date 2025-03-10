@@ -24,32 +24,53 @@ class SignupController extends GetxController {
       );
 
       if (response.statusCode == 201) {
+        print("Signup Response: ${response.data}");
         final responseData = response.data;
         userId.value = responseData["data"]["userId"]; // Store userId
 
         showSnackbar(
-            title: "Success",
-            message: responseData['message'] ?? "Signup successful!",
-            isSuccess: false);
-
+          title: "Success",
+          message: responseData['message'] ?? "Signup successful!",
+          isSuccess: true,
+        );
         // Navigate to OTP Screen and pass userId
         Get.to(() => OtpVerification(userId: userId.value));
       } else {
-        _showErrorPopup(
-            response.data['message'] ?? "Signup failed. Try again.");
+        _handleErrorResponse(response);
       }
+    } on DioException catch (e) {
+      _handleDioException(e);
     } catch (e) {
-      _showErrorPopup("Something went wrong! Please try again.");
+      print("Unexpected Error: $e");
+      showSnackbar(title: "Error", message: "Something went wrong!", isSuccess: false);
     } finally {
       isLoading.value = false;
     }
   }
 
-  void _showErrorPopup(String message) {
-    showSnackbar(
-      title: "Error",
-      message: message,
-      isSuccess: false,
-    );
+  /// Handles API response errors dynamically
+  void _handleErrorResponse(response) {
+    final responseData = response.data;
+    if (responseData is Map && responseData.containsKey('message')) {
+      showSnackbar(title: "Error", message: responseData['message'], isSuccess: false);
+    } else {
+      showSnackbar(title: "Error", message: "Unexpected error occurred!", isSuccess: false);
+    }
+  }
+
+  /// Handles network and request errors
+  void _handleDioException(DioException e) {
+    if (e.response != null) {
+      // Server responded with an error
+      _handleErrorResponse(e.response!);
+    } else if (e.type == DioExceptionType.connectionTimeout || 
+               e.type == DioExceptionType.receiveTimeout || 
+               e.type == DioExceptionType.sendTimeout) {
+      showSnackbar(title: "Network Error", message: "Connection timed out!", isSuccess: false);
+    } else if (e.type == DioExceptionType.connectionError) {
+      showSnackbar(title: "Network Error", message: "No internet connection!", isSuccess: false);
+    } else {
+      showSnackbar(title: "Error", message: "Something went wrong!", isSuccess: false);
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:payansh/screens/login_screen.dart';
 import 'package:payansh/services/api_service.dart';
 import '../utils/local_storage.dart';
 import '../constants/app_constants.dart';
+import '../utils/snackbar_util.dart'; // Import custom snackbar
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
@@ -19,16 +20,22 @@ class AuthController extends GetxController {
     isLoading.value = false;
 
     if (response["success"]) {
-      Get.snackbar("Login Success", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+      showSnackbar(
+        title: "Login Success",
+        message: response["message"],
+        isSuccess: true, // Green snackbar
+      );
 
       String? checkToken = await LocalStorage.getUserToken();
       print("✅ Token Saved: $checkToken");
 
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => const HomeScreen());
     } else {
-      Get.snackbar("Login Failed", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+      showSnackbar(
+        title: "Login Failed",
+        message: response["message"],
+        isSuccess: false, // Red snackbar
+      );
     }
   }
 
@@ -36,8 +43,12 @@ class AuthController extends GetxController {
     await LocalStorage.clearUserToken();
     AppConstants.authToken = null;
     Get.offAll(() => LoginScreen());
-    Get.snackbar("Logged Out", "You have been logged out.",
-        snackPosition: SnackPosition.BOTTOM);
+
+    showSnackbar(
+      title: "Logged Out",
+      message: "You have been logged out.",
+      isSuccess: false, // Red snackbar for logout
+    );
   }
 
   Future<void> checkLoginStatus() async {
