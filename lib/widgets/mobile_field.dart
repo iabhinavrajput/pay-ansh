@@ -3,8 +3,11 @@ import 'package:payansh/constants/app_colors.dart';
 
 class MobileNumberField extends StatelessWidget {
   final TextEditingController controller;
+    final ValueChanged<String>? onChanged; // Add this
 
-  const MobileNumberField({super.key, required this.controller});
+
+  const MobileNumberField({super.key, required this.controller,    this.onChanged, // Accept the parameter
+});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +16,8 @@ class MobileNumberField extends StatelessWidget {
         TextField(
           controller: controller,
           keyboardType: TextInputType.phone,
+                    onChanged: onChanged, // Pass it here
+
           decoration: InputDecoration(
             prefixIcon: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),

@@ -26,6 +26,10 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  final RxBool isEmailValid = false.obs;
+  final RxBool isPasswordValid = false.obs;
+  final RxBool isPasswordVisible = false.obs;
+
   LoginScreen({super.key});
 
   @override
@@ -119,8 +123,13 @@ class LoginScreen extends StatelessWidget {
 
                   CustomEmailTextField(
                     controller: emailController,
-                    hintText: "Enter Your Email or Phone",
+                    hintText: "Enter Your Email",
                     icon: Icons.person_outline,
+                    onValidationChanged: (isValid) {
+                      isEmailValid.value = isValid;
+                        print("Email Valid: $isValid");
+
+                    },
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
                   CustomPasswordTextField(
@@ -130,6 +139,11 @@ class LoginScreen extends StatelessWidget {
                     togglePasswordVisibility: () =>
                         isPasswordVisible.value = !isPasswordVisible.value,
                     showValidations: false,
+                    onValidationChanged: (isValid) {
+                      isPasswordValid.value = isValid;
+                        print("Password Valid: $isValid");
+
+                    },
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
 
@@ -188,10 +202,16 @@ class LoginScreen extends StatelessWidget {
                       ? const CircularProgressIndicator()
                       : GradientButton(
                           text: "Login",
-                          onPressed: () async {
-                            await authController.login(
-                                emailController.text, passwordController.text);
-                          },
+                          onPressed:
+                              (isEmailValid.value && isPasswordValid.value)
+                                  ? () {
+                                       authController.login(
+                                          emailController.text,
+                                          passwordController.text);
+                                    }
+                                  : () {},
+                          isEnabled:
+                              isEmailValid.value && isPasswordValid.value,
                         )),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
                   const Text("or", style: TextStyle(color: Colors.grey)),
@@ -219,39 +239,38 @@ class LoginScreen extends StatelessWidget {
                     height: Dimensions.dynamicHeight(context, 0.015),
                   ),
                   FittedBox(
-  child:
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          final user =
-                              await GoogleSignInService.signInWithGoogle();
-                          if (user != null) {
-                            print("Login successful: $user");
-                          } else {
-                            print("Login failed or cancelled.");
-                          }
-                        },
-                        child: Text(
-                          "Don't have an account? ",
-                          style: TTextTheme.lightTextTheme.labelLarge,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            final user =
+                                await GoogleSignInService.signInWithGoogle();
+                            if (user != null) {
+                              print("Login successful: $user");
+                            } else {
+                              print("Login failed or cancelled.");
+                            }
+                          },
+                          child: Text(
+                            "Don't have an account? ",
+                            style: TTextTheme.lightTextTheme.labelLarge,
+                          ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Get.to(() => const Register());
-                        },
-                        style: ButtonStyle(
-                          padding: WidgetStateProperty.all(EdgeInsets.zero),
+                        TextButton(
+                          onPressed: () {
+                            Get.to(() => const Register());
+                          },
+                          style: ButtonStyle(
+                            padding: WidgetStateProperty.all(EdgeInsets.zero),
+                          ),
+                          child: const Text(
+                            "Sign Up",
+                            style: TTextTheme.link,
+                          ),
                         ),
-                        child: const Text(
-                          "Sign Up",
-                          style: TTextTheme.link,
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   )
 
                   // SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),

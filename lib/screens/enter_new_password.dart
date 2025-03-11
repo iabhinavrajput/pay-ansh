@@ -10,7 +10,10 @@ class EnterNewPasswordScreen extends StatelessWidget {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  final RxBool isPasswordVisible = false.obs;
+  final RxBool isNewPasswordVisible = false.obs;
+  final RxBool isConfirmPasswordVisible = false.obs;
+  final RxBool isNewPasswordValid = false.obs;
+  final RxBool isConfirmPasswordValid = false.obs;
 
   EnterNewPasswordScreen({super.key});
 
@@ -45,10 +48,14 @@ class EnterNewPasswordScreen extends StatelessWidget {
               child: CustomPasswordTextField(
                 controller: newPasswordController,
                 hintText: "Enter your password",
-                isPasswordVisible: isPasswordVisible,
-                togglePasswordVisibility: () =>
-                    isPasswordVisible.value = !isPasswordVisible.value,
+                isPasswordVisible: isNewPasswordVisible,
+                togglePasswordVisibility: () {
+                  isNewPasswordVisible.value = !isNewPasswordVisible.value;
+                },
                 showValidations: true,
+                onValidationChanged: (isValid) {
+                  isNewPasswordValid.value = isValid;
+                },
               ),
             ),
 
@@ -63,10 +70,15 @@ class EnterNewPasswordScreen extends StatelessWidget {
               child: CustomPasswordTextField(
                 controller: confirmPasswordController,
                 hintText: "Re-enter your password",
-                isPasswordVisible: isPasswordVisible,
-                togglePasswordVisibility: () =>
-                    isPasswordVisible.value = !isPasswordVisible.value,
+                isPasswordVisible: isConfirmPasswordVisible,
+                togglePasswordVisibility: () {
+                  isConfirmPasswordVisible.value =
+                      !isConfirmPasswordVisible.value;
+                },
                 showValidations: true,
+                onValidationChanged: (isValid) {
+                  isConfirmPasswordValid.value = isValid;
+                },
               ),
             ),
 

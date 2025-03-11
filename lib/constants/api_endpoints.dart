@@ -1,6 +1,6 @@
 class ApiEndpoints {
-  static const String baseUrl = "http://apipyaansh.nxgtech.io/api/auth";
-  static const String baseUrl2 = "http://apipyaansh.nxgtech.io/api";
+  static const String baseUrl = "http://51.20.16.29/api/auth";
+  static const String baseUrl2 = "http://51.20.16.29/api";
 
   static const String login = "$baseUrl/login";
   static const String refreshtoken = "$baseUrl/refresh-token";
