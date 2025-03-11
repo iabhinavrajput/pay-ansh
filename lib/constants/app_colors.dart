@@ -11,6 +11,18 @@ class AppColors {
   static const Color verifiedColor = Colors.green;
   static const Color unverifiedColor = Colors.red;
   static const Color drawerTextColor = Color(0xFF346CA4);
+  
+  static const LinearGradient userLetterBg = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color(0xFF4686C5), // #4686C5
+        Color(0xFF41C6EE), // #41C6EE
+      ],
+      stops: [0.1876, 0.9483],
+      transform: GradientRotation(133 * (3.1415927 / 180)), // Convert degrees to radians
+    );
+
   // Gradient for SidebarMenuItem icon background
   static const LinearGradient iconGradient = LinearGradient(
     begin: Alignment.topLeft,
@@ -21,4 +33,11 @@ class AppColors {
     ],
     stops: [0.08, 0.92], // Matching the given CSS stops
   );
+  static const LinearGradient drawerColourUser = LinearGradient(
+    colors: [
+      Color.fromRGBO(70, 134, 197, 0.12),
+      Color.fromRGBO(65, 194, 236, 0.20),
+    ],
+  );
+  
 }
