@@ -30,7 +30,11 @@ class LoginScreen extends StatelessWidget {
   final RxBool isPasswordValid = false.obs;
   final RxBool isPasswordVisible = false.obs;
 
-  LoginScreen({super.key});
+  LoginScreen({super.key}) {
+    // Prefill stored credentials
+    emailController.text = rememberMeController.savedEmail;
+    passwordController.text = rememberMeController.savedPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,8 +131,7 @@ class LoginScreen extends StatelessWidget {
                     icon: Icons.person_outline,
                     onValidationChanged: (isValid) {
                       isEmailValid.value = isValid;
-                        print("Email Valid: $isValid");
-
+                      print("Email Valid: $isValid");
                     },
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
@@ -141,8 +144,7 @@ class LoginScreen extends StatelessWidget {
                     showValidations: false,
                     onValidationChanged: (isValid) {
                       isPasswordValid.value = isValid;
-                        print("Password Valid: $isValid");
-
+                      print("Password Valid: $isValid");
                     },
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
@@ -155,7 +157,8 @@ class LoginScreen extends StatelessWidget {
                         children: [
                           Obx(() => GestureDetector(
                                 onTap: () {
-                                  rememberMeController.isRemembered.toggle();
+                                  rememberMeController.toggleRememberMe(
+                                      !rememberMeController.isRemembered.value);
                                 },
                                 child: Container(
                                   width:
@@ -205,7 +208,9 @@ class LoginScreen extends StatelessWidget {
                           onPressed:
                               (isEmailValid.value && isPasswordValid.value)
                                   ? () {
-                                       authController.login(
+                                      authController.login(emailController.text,
+                                          passwordController.text);
+                                      rememberMeController.saveCredentials(
                                           emailController.text,
                                           passwordController.text);
                                     }
