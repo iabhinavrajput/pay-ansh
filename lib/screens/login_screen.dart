@@ -8,6 +8,7 @@ import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/controllers/remember_me.dart';
 import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/screens/forgot_password.dart';
+import 'package:payansh/screens/login_phone.dart';
 import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/services/google_sign_in_service.dart';
@@ -34,6 +35,14 @@ class LoginScreen extends StatelessWidget {
     // Prefill stored credentials
     emailController.text = rememberMeController.savedEmail;
     passwordController.text = rememberMeController.savedPassword;
+
+    // Validate the prefilled values
+    if (emailController.text.isNotEmpty) {
+      isEmailValid.value = true;
+    }
+    if (passwordController.text.isNotEmpty) {
+      isPasswordValid.value = true;
+    }
   }
 
   @override
@@ -227,7 +236,7 @@ class LoginScreen extends StatelessWidget {
                   GradientButton(
                     text: "Login with Phone number",
                     onPressed: () {
-                      Get.to(() => RechargeBillPage());
+                      Get.to(() => LoginPhoneNum());
                     },
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),

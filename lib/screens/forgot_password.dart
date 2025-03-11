@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import 'package:payansh/widgets/gradient_button.dart';
@@ -18,6 +19,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0),
         child: Column(
@@ -29,9 +31,10 @@ class ForgotPasswordScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Image.asset("assets/images/logo.png", height: 30),
             const SizedBox(height: 30),
-            const Text("Enter your email to receive an OTP",
+             Text("Enter your email to receive an OTP",
+             textAlign: TextAlign.center,
                 style:
-                    TextStyle(fontSize: 18, color: AppColors.greytextColors)),
+                    TextStyle(fontSize: Dimensions.dynamicWidth(context, 0.045), color: AppColors.greytextColors)),
             const SizedBox(height: 20),
 
             // Email Input Field
