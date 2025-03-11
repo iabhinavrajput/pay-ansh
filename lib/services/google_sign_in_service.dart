@@ -107,7 +107,7 @@ class GoogleSignInService {
 
       // Send serverAuthCode to your backend for verification
       final response = await http.get(
-        Uri.parse('http://apipyaansh.nxgtech.io/api/auth/google/callback?code=${account.serverAuthCode}'),
+        Uri.parse(''),
         headers: {'Content-Type': 'application/json'},
       );
 
