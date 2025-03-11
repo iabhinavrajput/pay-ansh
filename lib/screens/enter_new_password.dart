@@ -14,6 +14,8 @@ class EnterNewPasswordScreen extends StatelessWidget {
   final RxBool isConfirmPasswordVisible = false.obs;
   final RxBool isNewPasswordValid = false.obs;
   final RxBool isConfirmPasswordValid = false.obs;
+  final RxString newPasswordError = ''.obs;
+  final RxString confirmPasswordError = ''.obs;
 
   EnterNewPasswordScreen({super.key});
 
@@ -52,12 +54,26 @@ class EnterNewPasswordScreen extends StatelessWidget {
                 togglePasswordVisibility: () {
                   isNewPasswordVisible.value = !isNewPasswordVisible.value;
                 },
-                showValidations: true,
+                showValidations: false,
                 onValidationChanged: (isValid) {
                   isNewPasswordValid.value = isValid;
+                  newPasswordError.value =
+                      isValid ? '' : 'Password is not valid';
                 },
               ),
             ),
+            Obx(() => newPasswordError.value.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5, left: 5),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        newPasswordError.value,
+                        style: const TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
+                  )
+                : const SizedBox()),
 
             const SizedBox(height: 15),
 
@@ -75,12 +91,26 @@ class EnterNewPasswordScreen extends StatelessWidget {
                   isConfirmPasswordVisible.value =
                       !isConfirmPasswordVisible.value;
                 },
-                showValidations: true,
+                showValidations: false,
                 onValidationChanged: (isValid) {
                   isConfirmPasswordValid.value = isValid;
+                  confirmPasswordError.value =
+                      isValid ? '' : 'Password does not match';
                 },
               ),
             ),
+            Obx(() => confirmPasswordError.value.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5, left: 5),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        confirmPasswordError.value,
+                        style: const TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
+                  )
+                : const SizedBox()),
 
             const SizedBox(height: 30),
 

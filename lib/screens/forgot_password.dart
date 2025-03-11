@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import 'package:payansh/widgets/gradient_button.dart';
 import '../controllers/forgot_password.dart';
@@ -9,6 +10,8 @@ class ForgotPasswordScreen extends StatelessWidget {
   final ForgotPasswordController forgotPasswordController =
       Get.put(ForgotPasswordController());
   final TextEditingController emailController = TextEditingController();
+
+  final RxBool isEmailValid = false.obs;
 
   ForgotPasswordScreen({super.key});
 
@@ -32,10 +35,14 @@ class ForgotPasswordScreen extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Email Input Field
-            CustomTextField(
+            CustomEmailTextField(
               controller: emailController,
               hintText: "Enter your email",
               icon: Icons.message,
+              onValidationChanged: (isValid) {
+                isEmailValid.value = isValid;
+                print("Email Valid: $isValid");
+              },
             ),
             const SizedBox(height: 30),
 
@@ -44,9 +51,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ? const CircularProgressIndicator()
                 : GradientButton(
                     text: "Send OTP",
-                    onPressed: () => forgotPasswordController
-                        .sendResetOTP(emailController.text),
-                  )),
+                    onPressed: isEmailValid.value ? () { forgotPasswordController
+                        .sendResetOTP(emailController.text);} : () {},
+                          isEnabled:
+                              isEmailValid.value ),
+                  ),
           ],
         ),
       ),
