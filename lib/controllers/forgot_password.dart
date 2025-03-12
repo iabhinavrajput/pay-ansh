@@ -10,11 +10,11 @@ class ForgotPasswordController extends GetxController {
   var email = ''.obs;
   var otpCode = ''.obs;
   var resetToken = ''.obs; // ✅ Store resetToken for password reset
-  var otpTimer = 60.obs;
+  var otpTimer = 180.obs;
 
   /// **Start OTP Timer**
   void startOtpTimer() {
-    otpTimer.value = 60;
+    otpTimer.value = 180;
     Timer.periodic(const Duration(seconds: 1), (timer) {
       if (otpTimer.value > 0) {
         otpTimer.value--;
@@ -34,7 +34,7 @@ class ForgotPasswordController extends GetxController {
     if (response["success"]) {
       email.value = emailInput;
       startOtpTimer(); // ✅ Start OTP countdown
-      Get.to(() => ResetPasswordScreen()); // Navigate to OTP screen
+       Get.to(() => ResetPasswordScreen(email: email.value)); // Navigate to OTP screen
     } else {
       Get.snackbar("Error", response["message"],
           snackPosition: SnackPosition.BOTTOM);

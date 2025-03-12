@@ -10,7 +10,9 @@ import '../controllers/forgot_password.dart';
 import '../widgets/gradient_button.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  final String email; // Accept email from previous screen
+
+  const ResetPasswordScreen({super.key, required this.email});
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -56,6 +58,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         timer.cancel();
       }
     });
+  }
+
+  void resendOTP() {
+    forgotPasswordController.sendResetOTP(widget.email); // Resend OTP
+    startTimer(); // Restart timer
   }
 
   @override
@@ -228,8 +235,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 },
                               )),
                         const SizedBox(height: 10),
-                        GradientText('Resend OTP ?',
-                            style: TextStyle(fontSize: 17)),
+                        GestureDetector(
+                          onTap: resendOTP,
+                          child: GradientText(
+                            'Resend OTP ?',
+                            style: const TextStyle(fontSize: 17),
+                          ),
+                        )
                       ],
                     );
             }),
