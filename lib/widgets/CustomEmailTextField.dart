@@ -53,7 +53,7 @@ class CustomEmailTextField extends StatelessWidget {
             onChanged: validateEmail, // Live validation
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: const TextStyle(color: AppColors.textColors),
+              hintStyle: const TextStyle(color: AppColors.textColors,),
               suffixIcon:
                   Icon(icon, color: AppColors.textColors), // Custom icon
               border: InputBorder.none,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payansh/constants/dimensions.dart';
 import '../constants/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -21,7 +22,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.inputBackground,
+        color: AppColors.iconBackground,
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextField(
@@ -30,7 +31,7 @@ class CustomTextField extends StatelessWidget {
         keyboardType: keyboardType,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: AppColors.textColors),
+          hintStyle:  TextStyle(color: AppColors.textColors, ),
           suffixIcon: Icon(icon, color: AppColors.textColors),
           border: InputBorder.none,
           contentPadding:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/signup_controller.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/utils/snackbar_util.dart';
@@ -104,7 +105,7 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 50.0),
+          padding:  EdgeInsets.symmetric(horizontal: Dimensions.dynamicHeight(context, 0.05)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -125,7 +126,7 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 30),
               CustomTextField(
-                hintText: "Enter your name as per ID proof",
+                hintText: "Enter name as per ID proof",
                 controller: nameController,
                 icon: Icons.person_outline,
               ),
