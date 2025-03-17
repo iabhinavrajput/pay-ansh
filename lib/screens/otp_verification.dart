@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/otp_controller.dart';
 import 'package:payansh/widgets/otp_input.dart';
 import 'package:lottie/lottie.dart';
@@ -13,15 +14,19 @@ class OtpVerification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("OTP Verification")),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding:  EdgeInsets.symmetric(horizontal: Dimensions.dynamicWidth(context, 0.1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: Dimensions.dynamicHeight(context, 0.07),),
+            Text("OTP Verification" ,style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
+                        SizedBox(height: Dimensions.dynamicHeight(context, 0.01),),
+
             const Text(
-              "Enter the OTP sent to your email",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              "We'll sent the OTP as a SMS to your registered mobile number",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal,color: Colors.grey),
             ),
             const SizedBox(height: 20),
             CircleAvatar(

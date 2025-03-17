@@ -8,6 +8,7 @@ import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/controllers/remember_me.dart';
 import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/screens/forgot_password.dart';
+import 'package:payansh/screens/login_phone.dart';
 import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/services/google_sign_in_service.dart';
@@ -26,7 +27,23 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  LoginScreen({super.key});
+  final RxBool isEmailValid = false.obs;
+  final RxBool isPasswordValid = false.obs;
+  final RxBool isPasswordVisible = false.obs;
+
+  LoginScreen({super.key}) {
+    // Prefill stored credentials
+    emailController.text = rememberMeController.savedEmail;
+    passwordController.text = rememberMeController.savedPassword;
+
+    // Validate the prefilled values
+    if (emailController.text.isNotEmpty) {
+      isEmailValid.value = true;
+    }
+    if (passwordController.text.isNotEmpty) {
+      isPasswordValid.value = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +136,12 @@ class LoginScreen extends StatelessWidget {
 
                   CustomEmailTextField(
                     controller: emailController,
-                    hintText: "Enter Your Email or Phone",
+                    hintText: "Enter Your Email",
                     icon: Icons.person_outline,
+                    onValidationChanged: (isValid) {
+                      isEmailValid.value = isValid;
+                      print("Email Valid: $isValid");
+                    },
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
                   CustomPasswordTextField(
@@ -130,6 +151,10 @@ class LoginScreen extends StatelessWidget {
                     togglePasswordVisibility: () =>
                         isPasswordVisible.value = !isPasswordVisible.value,
                     showValidations: false,
+                    onValidationChanged: (isValid) {
+                      isPasswordValid.value = isValid;
+                      print("Password Valid: $isValid");
+                    },
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
 
@@ -141,7 +166,8 @@ class LoginScreen extends StatelessWidget {
                         children: [
                           Obx(() => GestureDetector(
                                 onTap: () {
-                                  rememberMeController.isRemembered.toggle();
+                                  rememberMeController.toggleRememberMe(
+                                      !rememberMeController.isRemembered.value);
                                 },
                                 child: Container(
                                   width:
@@ -188,10 +214,18 @@ class LoginScreen extends StatelessWidget {
                       ? const CircularProgressIndicator()
                       : GradientButton(
                           text: "Login",
-                          onPressed: () async {
-                            await authController.login(
-                                emailController.text, passwordController.text);
-                          },
+                          onPressed:
+                              (isEmailValid.value && isPasswordValid.value)
+                                  ? () {
+                                      authController.login(emailController.text,
+                                          passwordController.text);
+                                      rememberMeController.saveCredentials(
+                                          emailController.text,
+                                          passwordController.text);
+                                    }
+                                  : () {},
+                          isEnabled:
+                              isEmailValid.value && isPasswordValid.value,
                         )),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
                   const Text("or", style: TextStyle(color: Colors.grey)),
@@ -202,7 +236,7 @@ class LoginScreen extends StatelessWidget {
                   GradientButton(
                     text: "Login with Phone number",
                     onPressed: () {
-                      Get.to(() => RechargeBillPage());
+                      Get.to(() => LoginPhoneNum());
                     },
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
@@ -210,7 +244,7 @@ class LoginScreen extends StatelessWidget {
                     height: Dimensions.dynamicHeight(
                         context, 0.06), // Adjust as needed
                     child: GoogleBtn(),
-                  ),
+                    ),
 
                   // Spacer(), // Pushes Sign Up Section to the bottom
 
@@ -219,39 +253,28 @@ class LoginScreen extends StatelessWidget {
                     height: Dimensions.dynamicHeight(context, 0.015),
                   ),
                   FittedBox(
-  child:
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          final user =
-                              await GoogleSignInService.signInWithGoogle();
-                          if (user != null) {
-                            print("Login successful: $user");
-                          } else {
-                            print("Login failed or cancelled.");
-                          }
-                        },
-                        child: Text(
-                          "Don't have an account? ",
-                          style: TTextTheme.lightTextTheme.labelLarge,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                         Text(
+                            "Don't have an account? ",
+                            style: TTextTheme.lightTextTheme.labelLarge,
+                          ),
+                        
+                        TextButton(
+                          onPressed: () {
+                            Get.to(() => const Register());
+                          },
+                          style: ButtonStyle(
+                            padding: WidgetStateProperty.all(EdgeInsets.zero),
+                          ),
+                          child: const Text(
+                            "Sign Up",
+                            style: TTextTheme.link,
+                          ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Get.to(() => const Register());
-                        },
-                        style: ButtonStyle(
-                          padding: WidgetStateProperty.all(EdgeInsets.zero),
-                        ),
-                        child: const Text(
-                          "Sign Up",
-                          style: TTextTheme.link,
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   )
 
                   // SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),

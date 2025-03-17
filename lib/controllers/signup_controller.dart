@@ -73,4 +73,20 @@ class SignupController extends GetxController {
       showSnackbar(title: "Error", message: "Something went wrong!", isSuccess: false);
     }
   }
+
+  /// Handles network and request errors
+  // void _handleDioException(DioException e) {
+  //   if (e.response != null) {
+  //     // Server responded with an error
+  //     _handleErrorResponse(e.response!);
+  //   } else if (e.type == DioExceptionType.connectionTimeout || 
+  //              e.type == DioExceptionType.receiveTimeout || 
+  //              e.type == DioExceptionType.sendTimeout) {
+  //     showSnackbar(title: "Network Error", message: "Connection timed out!", isSuccess: false);
+  //   } else if (e.type == DioExceptionType.connectionError) {
+  //     showSnackbar(title: "Network Error", message: "No internet connection!", isSuccess: false);
+  //   } else {
+  //     showSnackbar(title: "Error", message: "Something went wrong!", isSuccess: false);
+  //   }
+  // }
 }

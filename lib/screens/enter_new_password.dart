@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
 import '../controllers/forgot_password.dart';
 import '../widgets/gradient_button.dart';
@@ -10,7 +12,12 @@ class EnterNewPasswordScreen extends StatelessWidget {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  final RxBool isPasswordVisible = false.obs;
+  final RxBool isNewPasswordVisible = false.obs;
+  final RxBool isConfirmPasswordVisible = false.obs;
+  final RxBool isNewPasswordValid = false.obs;
+  final RxBool isConfirmPasswordValid = false.obs;
+  final RxString newPasswordError = ''.obs;
+  final RxString confirmPasswordError = ''.obs;
 
   EnterNewPasswordScreen({super.key});
 
@@ -19,19 +26,17 @@ class EnterNewPasswordScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 50),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 50),
+            const SizedBox(height: 70),
             const Text("Enter New Password",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
-            CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.blue.shade50,
-              child:
-                  const Icon(Icons.lock_outline, size: 40, color: Colors.blue),
+            Image.asset(
+              'assets/icon/Enter-password-animation.png',
+              width: Dimensions.dynamicWidth(context, 0.3),
             ),
 
             const SizedBox(height: 30),
@@ -39,36 +44,73 @@ class EnterNewPasswordScreen extends StatelessWidget {
             // New Password Field
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: Colors.white24,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: CustomPasswordTextField(
                 controller: newPasswordController,
                 hintText: "Enter your password",
-                isPasswordVisible: isPasswordVisible,
-                togglePasswordVisibility: () =>
-                    isPasswordVisible.value = !isPasswordVisible.value,
-                showValidations: true,
+                isPasswordVisible: isNewPasswordVisible,
+                togglePasswordVisibility: () {
+                  isNewPasswordVisible.value = !isNewPasswordVisible.value;
+                },
+                showValidations: false,
+                onValidationChanged: (isValid) {
+                  isNewPasswordValid.value = isValid;
+                  newPasswordError.value =
+                      isValid ? '' : 'Password is not valid';
+                },
               ),
             ),
+            Obx(() => newPasswordError.value.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5, left: 5),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        newPasswordError.value,
+                        style: const TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
+                  )
+                : const SizedBox()),
 
             const SizedBox(height: 15),
 
             // Confirm Password Field
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: Colors.white24,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: CustomPasswordTextField(
                 controller: confirmPasswordController,
                 hintText: "Re-enter your password",
-                isPasswordVisible: isPasswordVisible,
-                togglePasswordVisibility: () =>
-                    isPasswordVisible.value = !isPasswordVisible.value,
-                showValidations: true,
+                isPasswordVisible: isConfirmPasswordVisible,
+                togglePasswordVisibility: () {
+                  isConfirmPasswordVisible.value =
+                      !isConfirmPasswordVisible.value;
+                },
+                showValidations: false,
+                onValidationChanged: (isValid) {
+                  isConfirmPasswordValid.value = isValid;
+                  confirmPasswordError.value =
+                      isValid ? '' : 'Password does not match';
+                },
               ),
             ),
+            Obx(() => confirmPasswordError.value.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 5, left: 5),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        confirmPasswordError.value,
+                        style: const TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
+                  )
+                : const SizedBox()),
 
             const SizedBox(height: 30),
 

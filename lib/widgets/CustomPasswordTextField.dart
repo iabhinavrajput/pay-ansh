@@ -8,6 +8,7 @@ class CustomPasswordTextField extends StatelessWidget {
   final RxBool isPasswordVisible;
   final Function() togglePasswordVisibility;
   final bool showValidations;
+  final Function(bool) onValidationChanged; // Callback for validation
 
   CustomPasswordTextField({
     super.key,
@@ -17,6 +18,7 @@ class CustomPasswordTextField extends StatelessWidget {
     required this.togglePasswordVisibility,
     this.showValidations =
         false, // Show validations only in signup & reset password
+    required this.onValidationChanged,
   });
 
   final RxString validationMessage = ''.obs;
@@ -24,18 +26,24 @@ class CustomPasswordTextField extends StatelessWidget {
   void validatePassword(String password) {
     if (password.isEmpty) {
       validationMessage.value = "Password cannot be empty";
+      onValidationChanged(false);
     } else if (password.length < 8) {
       validationMessage.value = "Password must be at least 8 characters";
+      onValidationChanged(false);
     } else if (!RegExp(r'[A-Z]').hasMatch(password)) {
       validationMessage.value =
           "Password must contain at least one uppercase letter";
+      onValidationChanged(false);
     } else if (!RegExp(r'[0-9]').hasMatch(password)) {
       validationMessage.value = "Password must contain at least one digit";
+      onValidationChanged(false);
     } else if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
       validationMessage.value =
           "Password must contain at least one special character";
+      onValidationChanged(false);
     } else {
       validationMessage.value = ''; // No validation errors
+      onValidationChanged(true);
     }
   }
 
@@ -52,15 +60,18 @@ class CustomPasswordTextField extends StatelessWidget {
           child: Obx(() => TextField(
                 controller: controller,
                 obscureText: !isPasswordVisible.value,
-                onChanged: showValidations ? validatePassword : null,
+                onChanged: (value) {
+                  validatePassword(
+                      value); // ✅ Always validate, even if `showValidations` is false
+                },
                 decoration: InputDecoration(
                   hintText: hintText,
                   hintStyle: const TextStyle(color: AppColors.textColors),
                   suffixIcon: IconButton(
                     icon: Icon(
                       isPasswordVisible.value
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                          ? Icons.lock_open
+                          : Icons.lock_outline_rounded,
                       color: AppColors.textColors,
                     ),
                     onPressed: togglePasswordVisibility,

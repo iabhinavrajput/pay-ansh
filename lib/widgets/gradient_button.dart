@@ -4,10 +4,15 @@ import '../../constants/app_colors.dart';
 
 class GradientButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed; // Allow nullable
+  final bool isEnabled;
 
-  const GradientButton(
-      {super.key, required this.text, required this.onPressed});
+  const GradientButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.isEnabled = true, // Default is true
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +20,23 @@ class GradientButton extends StatelessWidget {
       width: double.infinity,
       height: Dimensions.dynamicHeight(context, 0.06),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColors.gradientStart, AppColors.gradientEnd],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
+        gradient: isEnabled
+            ? const LinearGradient(
+                colors: [AppColors.gradientStart, AppColors.gradientEnd],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              )
+            :  LinearGradient(
+                colors: [AppColors.gradientStart.withOpacity(0.5), AppColors.gradientEnd.withOpacity(0.5)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ), // No gradient when disabled
+       
         borderRadius: BorderRadius.circular(10),
       ),
+      
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isEnabled ? onPressed : null, // Disable when not enabled
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,

@@ -4,8 +4,11 @@ import 'package:payansh/constants/app_colors.dart';
 
 class MobileNumberField extends StatelessWidget {
   final TextEditingController controller;
+    final ValueChanged<String>? onChanged; // Add this
 
-  const MobileNumberField({super.key, required this.controller});
+
+  const MobileNumberField({super.key, required this.controller,    this.onChanged, // Accept the parameter
+});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +22,8 @@ class MobileNumberField extends StatelessWidget {
             FilteringTextInputFormatter.digitsOnly, // Allow only numbers
             LengthLimitingTextInputFormatter(10), // Limit to 10 characters
           ],
+                    onChanged: onChanged, // Pass it here
+
           decoration: InputDecoration(
             counterText: "", // Hide the counter text below input field
             prefixIcon: Padding(

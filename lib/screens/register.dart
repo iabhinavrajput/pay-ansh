@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/signup_controller.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/utils/snackbar_util.dart';
@@ -18,6 +19,8 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final RxBool isPasswordVisible = false.obs;
+  final RxBool isConfirmPasswordVisible =
+      false.obs; // Separate visibility controller
   final RxBool isFormValid = false.obs;
 
   final SignupController signupController = Get.put(SignupController());
@@ -29,11 +32,31 @@ class _RegisterState extends State<Register> {
       TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
+  final RxBool isNameValid = false.obs;
+  final RxBool isEmailValid = false.obs;
+  final RxBool isPasswordValid = false.obs;
+  final RxBool isConfirmPasswordValid = false.obs;
+  final RxBool isPhoneValid = false.obs;
+
   @override
   void initState() {
     super.initState();
-    _addListeners();
+        _addListeners();
+
+
+    // Add listener for name field validation
+    nameController.addListener(() {
+      isNameValid.value = nameController.text.isNotEmpty;
+      print(
+          "Name field updated: ${nameController.text}, Valid: ${isNameValid.value}");
+      updateFormValidity();
+    });
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   void _addListeners() {
     nameController.addListener(_validateForm);
@@ -58,7 +81,26 @@ class _RegisterState extends State<Register> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     phoneController.dispose();
+    Get.delete<
+        SignupController>(); // Delete controller instance if not needed globally
+
     super.dispose();
+  }
+
+  void updateFormValidity() {
+    print("Updating form validity:");
+    print("Name Valid: ${isNameValid.value}");
+    print("Email Valid: ${isEmailValid.value}");
+    print("Password Valid: ${isPasswordValid.value}");
+    print("Confirm Password Valid: ${isConfirmPasswordValid.value}");
+    print("Phone Valid: ${isPhoneValid.value}");
+
+    isFormValid.value = isNameValid.value &&
+        isEmailValid.value &&
+        isPasswordValid.value &&
+        isConfirmPasswordValid.value &&
+        isPhoneValid.value;
+    print("Form Valid: ${isFormValid.value}");
   }
 
   void _registerUser() {
@@ -70,6 +112,8 @@ class _RegisterState extends State<Register> {
       );
       return;
     }
+
+    if (!isFormValid.value) return;
 
     signupController.signup(
       nameController.text,
@@ -84,7 +128,7 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 50.0),
+          padding:  EdgeInsets.symmetric(horizontal: Dimensions.dynamicHeight(context, 0.05)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -105,7 +149,7 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 30),
               CustomTextField(
-                hintText: "Enter your name as per ID proof",
+                hintText: "Enter name as per ID proof",
                 controller: nameController,
                 icon: Icons.person_outline,
               ),
@@ -114,6 +158,12 @@ class _RegisterState extends State<Register> {
                 hintText: "Enter your email",
                 controller: emailController,
                 icon: Icons.mail_outline,
+                onValidationChanged: (isValid) {
+                  isEmailValid.value = isValid;
+                  print("Email Valid: $isValid");
+
+                  updateFormValidity();
+                },
               ),
               const SizedBox(height: 15),
               CustomPasswordTextField(
@@ -123,29 +173,54 @@ class _RegisterState extends State<Register> {
                 togglePasswordVisibility: () =>
                     isPasswordVisible.value = !isPasswordVisible.value,
                 showValidations: true,
+                onValidationChanged: (isValid) {
+                  isPasswordValid.value = isValid;
+                  print("Password Valid: $isValid");
+
+                  // Revalidate confirm password when password changes
+                  isConfirmPasswordValid.value = confirmPasswordController
+                          .text.isNotEmpty &&
+                      confirmPasswordController.text == passwordController.text;
+                  print(
+                      "Confirm Password Valid (on password change): ${isConfirmPasswordValid.value}");
+
+                  updateFormValidity();
+                },
               ),
               const SizedBox(height: 15),
-              CustomTextField(
+              CustomPasswordTextField(
                 hintText: "Confirm your password",
                 controller: confirmPasswordController,
-                icon: Icons.lock_outline_rounded,
+                isPasswordVisible: isConfirmPasswordVisible,
+                togglePasswordVisibility: () => isConfirmPasswordVisible.value =
+                    !isConfirmPasswordVisible.value,
+                showValidations: true,
+                onValidationChanged: (_) {
+                  isConfirmPasswordValid.value = confirmPasswordController
+                          .text.isNotEmpty &&
+                      confirmPasswordController.text == passwordController.text;
+                  print(
+                      "Confirm Password Valid (on confirm password change): ${isConfirmPasswordValid.value}");
+                  updateFormValidity();
+                },
               ),
               const SizedBox(height: 15),
-              MobileNumberField(controller: phoneController),
+              MobileNumberField(
+                controller: phoneController,
+                onChanged: (value) {
+                  isPhoneValid.value = RegExp(r'^\d{10}$').hasMatch(value);
+                  print("Phone Valid: ${isPhoneValid.value}");
+
+                  updateFormValidity();
+                },
+              ),
               const SizedBox(height: 20),
               Obx(() => signupController.isLoading.value
                   ? const Center(child: CircularProgressIndicator())
                   : Obx(() => GradientButton(
                         text: "Create Account",
-                        onPressed: isFormValid.value
-                            ? _registerUser
-                            : () {
-                                showSnackbar(
-                                  title: "Error",
-                                  message: "Please fill all fields",
-                                  isSuccess: false,
-                                );
-                              },
+                        onPressed: isFormValid.value ? _registerUser : null,
+                        isEnabled: isFormValid.value,
                       ))),
               const SizedBox(height: 15),
             ],

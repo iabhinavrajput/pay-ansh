@@ -6,12 +6,16 @@ class CustomEmailTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final IconData icon;
+    final Function(bool) onValidationChanged; // Callback for validation state
+
 
   CustomEmailTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.icon,
+        required this.onValidationChanged,
+
   });
 
   final RxString validationMessage = ''.obs;
@@ -19,11 +23,17 @@ class CustomEmailTextField extends StatelessWidget {
   void validateEmail(String email) {
     if (email.isEmpty) {
       validationMessage.value = "Email cannot be empty";
+            onValidationChanged(false);
+
     } else if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
         .hasMatch(email)) {
       validationMessage.value = "Enter a valid email address";
+            onValidationChanged(false);
+
     } else {
       validationMessage.value = ''; // No errors
+            onValidationChanged(true);
+
     }
   }
 
@@ -43,7 +53,7 @@ class CustomEmailTextField extends StatelessWidget {
             onChanged: validateEmail, // Live validation
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: const TextStyle(color: AppColors.textColors),
+              hintStyle: const TextStyle(color: AppColors.textColors,),
               suffixIcon:
                   Icon(icon, color: AppColors.textColors), // Custom icon
               border: InputBorder.none,
