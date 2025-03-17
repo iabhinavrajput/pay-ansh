@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/login_screen.dart';
@@ -20,7 +22,7 @@ class AuthController extends GetxController {
 
     if (response["success"]) {
       Get.snackbar("Login Success", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.green);
 
       String? checkToken = await LocalStorage.getUserToken();
       print("✅ Token Saved: $checkToken");
@@ -28,7 +30,7 @@ class AuthController extends GetxController {
       Get.offAll(() => HomeScreen());
     } else {
       Get.snackbar("Login Failed", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.red);
     }
   }
 

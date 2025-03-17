@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
 import '../controllers/forgot_password.dart';
 import '../widgets/gradient_button.dart';
@@ -24,19 +26,17 @@ class EnterNewPasswordScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 50),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 50),
+            const SizedBox(height: 70),
             const Text("Enter New Password",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
-            CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.blue.shade50,
-              child:
-                  const Icon(Icons.lock_outline, size: 40, color: Colors.blue),
+            Image.asset(
+              'assets/icon/Enter-password-animation.png',
+              width: Dimensions.dynamicWidth(context, 0.3),
             ),
 
             const SizedBox(height: 30),
@@ -44,7 +44,7 @@ class EnterNewPasswordScreen extends StatelessWidget {
             // New Password Field
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: Colors.white24,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: CustomPasswordTextField(
@@ -80,7 +80,7 @@ class EnterNewPasswordScreen extends StatelessWidget {
             // Confirm Password Field
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: Colors.white24,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: CustomPasswordTextField(

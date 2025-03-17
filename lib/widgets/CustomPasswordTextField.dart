@@ -70,8 +70,8 @@ class CustomPasswordTextField extends StatelessWidget {
                   suffixIcon: IconButton(
                     icon: Icon(
                       isPasswordVisible.value
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                          ? Icons.lock_open
+                          : Icons.lock_outline_rounded,
                       color: AppColors.textColors,
                     ),
                     onPressed: togglePasswordVisibility,

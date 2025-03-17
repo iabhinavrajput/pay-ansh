@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:payansh/screens/enter_new_password.dart';
 import 'package:payansh/screens/login_screen.dart';
+import 'package:payansh/screens/password_updated.dart';
 import 'package:payansh/screens/reset_password.dart';
 import 'package:payansh/services/api_service.dart';
 
@@ -13,17 +16,17 @@ class ForgotPasswordController extends GetxController {
   var otpTimer = 180.obs;
 
   /// **Start OTP Timer**
-  void startOtpTimer() {
-    otpTimer.value = 180;
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (otpTimer.value > 0) {
-        otpTimer.value--;
-      } else {
-        timer.cancel();
-        Get.snackbar("Error", "OTP Expired! Request a new OTP.");
-      }
-    });
-  }
+  // void startOtpTimer() {
+  //   otpTimer.value = 180;
+  //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     if (otpTimer.value > 0) {
+  //       otpTimer.value--;
+  //     } else {
+  //       timer.cancel();
+  //       Get.snackbar("Error", "OTP Expired! Request a new OTP.");
+  //     }
+  //   });
+  // }
 
   /// **Step 1: Send Reset OTP**
   Future<void> sendResetOTP(String emailInput) async {
@@ -33,11 +36,12 @@ class ForgotPasswordController extends GetxController {
 
     if (response["success"]) {
       email.value = emailInput;
-      startOtpTimer(); // ✅ Start OTP countdown
+      // startOtpTimer(); // ✅ Start OTP countdown 
        Get.to(() => ResetPasswordScreen(email: email.value)); // Navigate to OTP screen
     } else {
       Get.snackbar("Error", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red);
     }
   }
 
@@ -53,7 +57,7 @@ class ForgotPasswordController extends GetxController {
           () => EnterNewPasswordScreen()); // Navigate to password reset screen
     } else {
       Get.snackbar("Error", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.red);
     }
   }
 
@@ -65,10 +69,10 @@ class ForgotPasswordController extends GetxController {
     isLoading.value = false;
 
     if (response["success"]) {
-      Get.offAll(() => LoginScreen()); // ✅ Redirect to Login on success
+      Get.offAll(() => PasswordUpdated()); // ✅ Redirect to Login on success
     } else {
       Get.snackbar("Error", response["message"],
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.red);
     }
   }
 }

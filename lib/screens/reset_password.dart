@@ -83,7 +83,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 63),
+        padding:  EdgeInsets.symmetric(horizontal: Dimensions.dynamicWidth(context, 0.14)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -92,7 +92,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             const Text(
-                "We’ll send the OTP as an E-Mail to your registered e-mail Id",
+                "We’ll send the OTP your registered\ne-mail Id",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14, color: Colors.grey)),
             const SizedBox(height: 30),
