@@ -244,7 +244,7 @@ class LoginScreen extends StatelessWidget {
                     height: Dimensions.dynamicHeight(
                         context, 0.06), // Adjust as needed
                     child: GoogleBtn(),
-                  ),
+                    ),
 
                   // Spacer(), // Pushes Sign Up Section to the bottom
 
@@ -256,21 +256,11 @@ class LoginScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        GestureDetector(
-                          onTap: () async {
-                            final user =
-                                await GoogleSignInService.signInWithGoogle();
-                            if (user != null) {
-                              print("Login successful: $user");
-                            } else {
-                              print("Login failed or cancelled.");
-                            }
-                          },
-                          child: Text(
+                         Text(
                             "Don't have an account? ",
                             style: TTextTheme.lightTextTheme.labelLarge,
                           ),
-                        ),
+                        
                         TextButton(
                           onPressed: () {
                             Get.to(() => const Register());
