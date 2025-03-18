@@ -11,7 +11,7 @@ class GradientText extends StatelessWidget {
     return ShaderMask(
       shaderCallback: (bounds) {
         return const LinearGradient(
-          colors: [Color(0xFF4686C5), Color(0xFF22415F)],
+          colors: [ Color(0xFF22415F),Color(0xFF4686C5)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height));
