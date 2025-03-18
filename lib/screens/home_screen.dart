@@ -289,15 +289,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
-        height: 80,
+        height: Dimensions.dynamicHeight(context, 0.08),
         child: AnimatedBottomNavigationBar(
           icons: iconList,
           activeIndex: _bottomNavIndex,
           gapLocation: GapLocation.center,
           notchSmoothness: NotchSmoothness.defaultEdge,
-          leftCornerRadius: 18,
-          rightCornerRadius: 18,
-          backgroundColor: Colors.blueGrey.shade900,
+          leftCornerRadius: 10,
+          rightCornerRadius: 10,
+          backgroundColor: Color(0xff0B2239),
           activeColor: Colors.blueAccent,
           inactiveColor: Colors.grey,
           iconSize: 30,
@@ -520,7 +520,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       },
                     ],
                   ),
-                  // const SizedBox(height: 20),
                   Row(
                     children: [
                       SvgPicture.asset("assets/icon/travel.svg"),
@@ -530,6 +529,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               fontSize: 19, fontWeight: FontWeight.w500)),
                     ],
                   ),
+                                    const SizedBox(height: 20),
+
                   const RechargeGrid(
                     iconData: [
                       {
