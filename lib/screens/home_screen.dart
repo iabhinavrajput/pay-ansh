@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:marquee/marquee.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
@@ -221,7 +222,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-    final SliderController sliderController = Get.put(SliderController());
+  final SliderController sliderController = Get.put(SliderController());
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _bottomNavIndex = 0;
@@ -229,9 +230,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late Future<Map<String, dynamic>?> _userProfileFuture;
 
   final iconList = <IconData>[
-    Icons.home_outlined,
+    HugeIcons.strokeRoundedHome09,
     Icons.history_outlined,
   ];
+
+  final List<String> iconLabels = ["Home", "History"];
 
   late AnimationController _fabAnimationController;
   late Animation<double> fabAnimation;
@@ -277,30 +280,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       extendBody: true,
       body: _getBody(),
       floatingActionButton: const BottomNavWithDrawer(),
-
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // FAB action
-
-      //   },
-      //   shape: const CircleBorder(),
-      //   backgroundColor: Colors.blue,
-      //   child: const Icon(Icons.add, color: Colors.white),
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
-        height: Dimensions.dynamicHeight(context, 0.08),
-        child: AnimatedBottomNavigationBar(
-          icons: iconList,
+        // margin: EdgeInsets.only(left: 10),
+        height: Dimensions.dynamicWidth(
+            context, 0.22), // Increased height to accommodate labels
+        child: AnimatedBottomNavigationBar.builder(
+          itemCount: iconList.length,
+          tabBuilder: (index, isActive) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // SizedBox(height: Dimensions.dynamicHeight(context, 0.009),),
+                ShaderMask(
+                  shaderCallback: (Rect bounds) {
+                    return LinearGradient(
+                      colors: isActive
+                          ? [AppColors.gradientEnd, AppColors.gradientStart]
+                          : [Colors.grey, Colors.grey],
+                      begin: Alignment.bottomRight,
+                      end: Alignment.topLeft,
+                    ).createShader(bounds);
+                  },
+                  child: Icon(
+                    iconList[index],
+                    size: Dimensions.dynamicWidth(context, 0.06),
+                    color: Colors.white, // Apply ShaderMask on white color
+                  ),
+                ),
+                if (isActive) // Show label only for the active icon
+                  Padding(
+                      padding: EdgeInsets.only(
+                          top: Dimensions.dynamicHeight(context, 0.00)),
+                      child: GradientText(
+                        iconLabels[index],
+                        style: TextStyle(
+                          fontSize: Dimensions.dynamicWidth(context, 0.034),
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      )),
+              ],
+            );
+          },
           activeIndex: _bottomNavIndex,
           gapLocation: GapLocation.center,
           notchSmoothness: NotchSmoothness.defaultEdge,
           leftCornerRadius: 10,
           rightCornerRadius: 10,
           backgroundColor: Color(0xff0B2239),
-          activeColor: Colors.blueAccent,
-          inactiveColor: Colors.grey,
-          iconSize: 30,
           onTap: (index) => setState(() => _bottomNavIndex = index),
         ),
       ),
@@ -402,13 +431,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   //   ),
                   // ),
 
-                   CarouselSlider(
+                  CarouselSlider(
                     options: CarouselOptions(
                       // height: Dimensions.dynamicHeight(context, 0.25),
                       autoPlay: true,
                       autoPlayInterval: const Duration(seconds: 2),
                       enlargeCenterPage: true,
-                          viewportFraction: 1.0, // Ensure it takes the full width
+                      viewportFraction: 1.0, // Ensure it takes the full width
 
                       onPageChanged: (index, reason) {
                         sliderController.updateIndex(index);
@@ -529,7 +558,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               fontSize: 19, fontWeight: FontWeight.w500)),
                     ],
                   ),
-                                    const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   const RechargeGrid(
                     iconData: [
@@ -555,21 +584,5 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildSectionHeader(String title, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(icon, color: Colors.amber),
-              const SizedBox(width: 10),
-              GradientText(title, style: const TextStyle(fontSize: 19)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+
 }
