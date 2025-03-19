@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/screens/kyc/kyc_1.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/routes/routes.dart';
@@ -69,7 +70,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
       child: Container(
         width: 340,
         padding: const EdgeInsets.fromLTRB(30, 25, 30, 24),
-         decoration: const BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: AppColors.drawerColourUser,
         ),
         child: Column(
@@ -109,7 +110,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                   width: 60,
                   height: 60,
                   decoration: const BoxDecoration(
-                        gradient: AppColors.userLetterBg,
+                    gradient: AppColors.userLetterBg,
                   ),
                   // color:  AppColors.userLetterBg,
                   alignment: Alignment.center,
@@ -133,7 +134,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('+91 ', style: TextStyle(color: Colors.grey)),
-                Text(userData['phone'], style: const TextStyle(color: Colors.grey)),
+                Text(userData['phone'],
+                    style: const TextStyle(color: Colors.grey)),
               ],
             ),
             const SizedBox(height: 10),
@@ -168,7 +170,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
         children: [
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.0),
-            child: Text("Account Management", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            child: Text("Account Management",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 10),
           SidebarMenuItem(
@@ -176,7 +179,9 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             title: "KYC Status",
             subtitle: "● KYC Incomplete",
             subtitleColor: Colors.red,
-            onTap: () {},
+            onTap: () {
+              Get.to(KycOne());
+            },
           ),
           SidebarMenuItem(
             icon: SvgPicture.asset('assets/drawer_navigation/setting.svg'),
@@ -231,7 +236,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
   }
 
   // 📌 Helper function: Shimmer Box
-  Widget _shimmerBox({required double width, required double height, double radius = 4}) {
+  Widget _shimmerBox(
+      {required double width, required double height, double radius = 4}) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,
