@@ -574,6 +574,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       },
                     ],
                   ),
+                  const SizedBox(height: 20),
+
+                  GradientText("Flight & Hotel Booking Offers",
+                      style:
+                          TextStyle(fontSize: 19, fontWeight: FontWeight.w500)),
+                  // const SizedBox(height: Dime),
+
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      // height: Dimensions.dynamicHeight(context, 0.25),
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 2),
+                      enlargeCenterPage: true,
+                      viewportFraction: 1.0, // Ensure it takes the full width
+
+                      onPageChanged: (index, reason) {
+                        sliderController.updateIndex(index);
+                      },
+                    ),
+                    items: sliderController.flightOffer.map((imagePath) {
+                      return Image.asset(imagePath);
+                    }).toList(),
+                  ),
                   const SizedBox(height: 100),
                 ],
               ),
@@ -583,6 +606,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ],
     );
   }
-
-
 }

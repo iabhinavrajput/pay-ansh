@@ -16,6 +16,14 @@ class SliderController extends GetxController {
     'assets/banner/slider4.png',
   ];
 
+  final List<String> flightOffer = [
+    'assets/flight_Offer/flightOffer1.png',
+    'assets/flight_Offer/flightOffer2.png',
+    'assets/flight_Offer/flightOffer3.png',
+  ];
+  
+
+
   void updateIndex(int index) {
     currentIndex.value = index;
   }
