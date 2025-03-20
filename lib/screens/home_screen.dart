@@ -364,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 height: 50,
                 child: Padding(
                   padding:
-                      const EdgeInsets.only(left: 16.0, right: 16, top: 30),
+                      const EdgeInsets.only(left: 16.0, right: 16, top: 50),
                   child: Row(
                     children: [
                       GestureDetector(
