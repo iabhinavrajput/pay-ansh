@@ -53,10 +53,10 @@ class _MobileNumberFieldState extends State<MobileNumberField> {
         labelText: "Mobile Number*",
         labelStyle: TextStyle(
           color: _isFocused ? Colors.blue : Colors.grey.shade600,
-          fontSize: 14,
+          fontSize: 18,
           fontWeight: FontWeight.w500,
         ),
-        floatingLabelBehavior: FloatingLabelBehavior.always, // Ensures label stays on the border
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         prefixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
