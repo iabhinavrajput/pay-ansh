@@ -8,11 +8,8 @@ import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/controllers/remember_me.dart';
 import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/screens/forgot_password.dart';
-<<<<<<< HEAD
 import 'package:payansh/screens/login_phone.dart';
-=======
 import 'package:payansh/screens/home_screen.dart';
->>>>>>> f/sandbox
 import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/services/google_sign_in_service.dart';
