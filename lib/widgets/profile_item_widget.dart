@@ -77,7 +77,7 @@ class ProfileItemWidget extends StatelessWidget {
                     ],
                   )
                 : Container(
-                  width: Dimensions.dynamicWidth(context, 0.3),
+                  width: Dimensions.dynamicWidth(context, 0.25),
                     padding:
                         const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                     decoration: BoxDecoration(
@@ -95,7 +95,7 @@ class ProfileItemWidget extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        Icon(Icons.warning, color: Colors.red, size: 16),
+                        Icon(Icons.warning, color: Colors.red, size: Dimensions.dynamicWidth(context, 0.03)),
                       ],
                     ),
                   ),
