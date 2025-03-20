@@ -18,6 +18,7 @@ import 'package:payansh/widgets/gradient_text.dart';
 import 'package:payansh/widgets/recharge_grid.dart';
 import 'package:payansh/screens/drawer_navigation.dart';
 import 'package:payansh/screens/offers.dart';
+import 'package:shimmer/shimmer.dart';
 
 // class HomeScreen extends StatefulWidget {
 //   const HomeScreen({super.key});
@@ -376,26 +377,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FutureBuilder<Map<String, dynamic>?>(
-              future: _userProfileFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError || !snapshot.hasData) {
-                  return const Center(child: Text("Failed to load profile"));
-                }
+                              future: _userProfileFuture,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return  Center(
+                                    child: Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else if (snapshot.hasError ||
+                                    !snapshot.hasData) {
+                                  return const Center(
+                                      child: Text("Failed to load profile"));
+                                }
 
-                final userData = snapshot.data!;
-                return
-                          Text(
-                            userData['name'],
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          );
-              }
-                          ),
-
+                                final userData = snapshot.data!;
+                                return Text(
+                                  userData['name'],
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                );
+                              }),
                           const Text(
                             "Welcome to Payansh!",
                             style:
@@ -406,7 +419,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          Get.to( Notifications());
+                          Get.to(Notifications());
                         },
                         child: const Icon(Icons.notifications,
                             color: Colors.white),

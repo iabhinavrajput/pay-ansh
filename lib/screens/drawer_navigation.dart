@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/screens/kyc/kyc_1.dart';
 import 'package:shimmer/shimmer.dart';
@@ -17,6 +18,7 @@ class DrawerNavigation extends StatefulWidget {
 
 class _DrawerNavigationState extends State<DrawerNavigation> {
   late final Future<Map<String, dynamic>?> _userProfileFuture;
+  String _appVersion = "Loading...";
 
   @override
   void initState() {
@@ -25,6 +27,21 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
       print("User Profile Response: $response");
       return response;
     });
+
+    _getAppVersion();
+  }
+
+  Future<void> _getAppVersion() async {
+    try {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      if (mounted) {
+        setState(() {
+          _appVersion = "Version ${packageInfo.version}";
+        });
+      }
+    } catch (e) {
+      print("Error getting app version: $e");
+    }
   }
 
   @override
@@ -52,9 +69,9 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             const SizedBox(height: 20),
             _buildMenuItems(),
             const SizedBox(height: 20),
-            const Center(
+            Center(
               child: Text(
-                "Version 3.2",
+                _appVersion.isEmpty ? "Fetching Version..." : _appVersion,
                 style: TextStyle(color: Colors.grey, fontSize: 14),
               ),
             ),
@@ -143,7 +160,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               onPressed: () {
                 Get.toNamed(AppRoutes.profileScreen);
               },
-              icon: const Icon(Icons.person, size: 18),
+              icon: const Icon(Icons.person, size: 18,color: AppColors.drawerTextColor,),
               label: const Text("View Profile"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
