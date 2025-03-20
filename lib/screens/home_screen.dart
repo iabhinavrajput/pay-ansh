@@ -10,6 +10,7 @@ import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/device_info.dart';
+import 'package:payansh/screens/notifications.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/widgets/app_bar.dart';
 import 'package:payansh/widgets/bottom_drawer.dart';
@@ -389,7 +390,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ],
                       ),
                       const Spacer(),
-                      const Icon(Icons.notifications, color: Colors.white),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to( Notifications());
+                        },
+                        child: const Icon(Icons.notifications,
+                            color: Colors.white),
+                      )
                     ],
                   ),
                 ),

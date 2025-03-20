@@ -67,6 +67,13 @@ class TTextTheme {
         fontFamily: 'DMSans'),
   );
 
+  static const TextStyle greysmall=  TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.normal,
+    color: Colors.grey,
+    fontFamily: 'DMSans',
+  );
+
   static const TextStyle heading = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
