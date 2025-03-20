@@ -245,7 +245,7 @@ class LoginScreen extends StatelessWidget {
                     height: Dimensions.dynamicHeight(
                         context, 0.06), // Adjust as needed
                     child: GoogleBtn(),
-                    ),
+                  ),
 
                   // Spacer(), // Pushes Sign Up Section to the bottom
 
@@ -257,31 +257,38 @@ class LoginScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ValueListenableBuilder<bool>(
-  valueListenable: GoogleSignInService.isLoading,
-  builder: (context, isLoading, child) {
-    return GestureDetector(
-      onTap: isLoading
-          ? null // Disable tap when signing in
-          : () async {
-              final user = await GoogleSignInService.signInWithGoogle();
-              if (user['success']) {
-                Get.to(() => const HomeScreen());
-                print("Login successful: $user");
-              } else {
-                print("Login failed: ${user['message']}");
-              }
-            },
-      child: isLoading
-          ? CircularProgressIndicator() // Show loader when signing in
-          : Text(
-              "Don't have an account? ",
-              style: TTextTheme.lightTextTheme.labelLarge,
-            ),
-    );
-  },
-),
-
+                        // ValueListenableBuilder<bool>(
+                        //   valueListenable: GoogleSignInService.isLoading,
+                        //   builder: (context, isLoading, child) {
+                        //     return GestureDetector(
+                        //       onTap: isLoading
+                        //           ? null // Disable tap when signing in
+                        //           : () async {
+                        //               final user = await GoogleSignInService
+                        //                   .signInWithGoogle();
+                        //               if (user['success']) {
+                        //                 Get.to(() => const HomeScreen());
+                        //                 print("Login successful: $user");
+                        //               } else {
+                        //                 print(
+                        //                     "Login failed: ${user['message']}");
+                        //               }
+                        //             },
+                        //       child: isLoading
+                        //           ? CircularProgressIndicator() // Show loader when signing in
+                        //           : Text(
+                        //               "Don't have an account? ",
+                        //               style:
+                        //                   TTextTheme.lightTextTheme.labelLarge,
+                        //             ),
+                        //     );
+                        //   },
+                        // ),
+                        Text(
+                                      "Don't have an account? ",
+                                      style:
+                                          TTextTheme.lightTextTheme.labelLarge,
+                                    ),
                         TextButton(
                           onPressed: () {
                             Get.to(() => const Register());

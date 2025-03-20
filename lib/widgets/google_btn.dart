@@ -2,9 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/services/google_sign_in_service.dart';
+import 'package:payansh/theme/custom_themes/text_theme.dart';
 
 class GoogleBtn extends StatelessWidget {
   const GoogleBtn({super.key});
@@ -16,10 +20,11 @@ class GoogleBtn extends StatelessWidget {
             ? null // Disable tap action on iOS
             : () async {
                 final user = await GoogleSignInService.signInWithGoogle();
-                if (user != null) {
+                if (user['success']) {
+                  Get.to(() => const HomeScreen());
                   print("Login successful: $user");
                 } else {
-                  print("Login failed or cancelled.");
+                  print("Login failed: ${user['message']}");
                 }
               },
         child: Container(
