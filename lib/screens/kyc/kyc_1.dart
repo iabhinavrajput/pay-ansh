@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:payansh/components/custom_app_bar_kyc.dart';
 import 'package:payansh/constants/app_colors.dart';
 

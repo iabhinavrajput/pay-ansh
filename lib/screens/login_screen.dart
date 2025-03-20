@@ -5,6 +5,7 @@ import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/screens/forgot_password.dart';
+import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/services/google_sign_in_service.dart';
@@ -173,7 +174,8 @@ class LoginScreen extends StatelessWidget {
                             final user =
                                 await GoogleSignInService.signInWithGoogle();
                             if (user != null) {
-                              print("$user");
+                              Get.to(() => const HomeScreen());
+                              // print("$user");
                               print("Login successful: $user");
                             } else {
                               print("Login failed or cancelled.");
