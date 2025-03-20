@@ -8,7 +8,11 @@ import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/controllers/remember_me.dart';
 import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/screens/forgot_password.dart';
+<<<<<<< HEAD
 import 'package:payansh/screens/login_phone.dart';
+=======
+import 'package:payansh/screens/home_screen.dart';
+>>>>>>> f/sandbox
 import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/screens/register.dart';
 import 'package:payansh/services/google_sign_in_service.dart';
@@ -256,11 +260,31 @@ class LoginScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                         Text(
-                            "Don't have an account? ",
-                            style: TTextTheme.lightTextTheme.labelLarge,
-                          ),
-                        
+                        ValueListenableBuilder<bool>(
+  valueListenable: GoogleSignInService.isLoading,
+  builder: (context, isLoading, child) {
+    return GestureDetector(
+      onTap: isLoading
+          ? null // Disable tap when signing in
+          : () async {
+              final user = await GoogleSignInService.signInWithGoogle();
+              if (user['success']) {
+                Get.to(() => const HomeScreen());
+                print("Login successful: $user");
+              } else {
+                print("Login failed: ${user['message']}");
+              }
+            },
+      child: isLoading
+          ? CircularProgressIndicator() // Show loader when signing in
+          : Text(
+              "Don't have an account? ",
+              style: TTextTheme.lightTextTheme.labelLarge,
+            ),
+    );
+  },
+),
+
                         TextButton(
                           onPressed: () {
                             Get.to(() => const Register());

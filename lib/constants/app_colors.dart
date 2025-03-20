@@ -11,17 +11,30 @@ class AppColors {
   static const Color verifiedColor = Colors.green;
   static const Color unverifiedColor = Colors.red;
   static const Color drawerTextColor = Color(0xFF346CA4);
-  
+  static const Color pendingColor = Color(0xFFF09E58);
+  static const Color helpColor = Color(0x334686c5);
+  static const Color kycContainerColor = Color(0xffFCECDE);
+
+  static const LinearGradient appBarGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF4686C5), // #4686C5
+      Color(0xFF41C6EE), // #41C6EE
+    ],
+  );
+
   static const LinearGradient userLetterBg = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Color(0xFF4686C5), // #4686C5
-        Color(0xFF41C6EE), // #41C6EE
-      ],
-      stops: [0.1876, 0.9483],
-      transform: GradientRotation(133 * (3.1415927 / 180)), // Convert degrees to radians
-    );
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF4686C5), // #4686C5
+      Color(0xFF41C6EE), // #41C6EE
+    ],
+    stops: [0.1876, 0.9483],
+    transform:
+        GradientRotation(133 * (3.1415927 / 180)), // Convert degrees to radians
+  );
 
   // Gradient for SidebarMenuItem icon background
   static const LinearGradient iconGradient = LinearGradient(
@@ -39,5 +52,4 @@ class AppColors {
       Color.fromRGBO(65, 194, 236, 0.20),
     ],
   );
-  
 }
