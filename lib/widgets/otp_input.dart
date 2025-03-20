@@ -67,10 +67,10 @@ class OtpInput extends StatelessWidget {
         const SizedBox(height: 20),
 
         // Resend OTP Timer
-        Obx(() => Text(
-              "OTP expires in: ${otpTimer.value}s",
-              style: const TextStyle(color: Colors.red),
-            )),
+        // Obx(() => Text(
+        //       "OTP expires in: ${otpTimer.value}s",
+        //       style: const TextStyle(color: Colors.red),
+        //     )),
 
         const SizedBox(height: 20),
 

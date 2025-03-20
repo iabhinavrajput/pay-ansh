@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/constants/dimensions.dart';
 
 class BottomNavWithDrawer extends StatefulWidget {
   const BottomNavWithDrawer({Key? key}) : super(key: key);
@@ -94,14 +96,31 @@ class _BottomNavWithDrawerState extends State<BottomNavWithDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: _toggleBottomDrawer,
-      backgroundColor: _isDrawerOpen ? Colors.red : Colors.blue,
-      shape: CircleBorder(),
-      child: Icon(
-        _isDrawerOpen ? Icons.close : Icons.add,
-        color: Colors.white,
+    return Container(
+      width: Dimensions.dynamicWidth(context, 0.11), // Adjust width
+      height: Dimensions.dynamicWidth(context, 0.11),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: [AppColors.gradientStart, AppColors.gradientEnd,], // Gradient Colors
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
+      child: FloatingActionButton(
+        onPressed: _toggleBottomDrawer,
+        backgroundColor: Colors.transparent, 
+              elevation: 0, // Remove shadow to enhance color vibrancy
+// Set to transparent        shape: CircleBorder(),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 30, // Increase size slightly for better bold effect
+          weight: 900, // This makes the icon appear bolder
+        ),
+      ),
+      
+      
     );
   }
 }

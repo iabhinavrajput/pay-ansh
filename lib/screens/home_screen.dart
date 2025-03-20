@@ -1,12 +1,16 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:marquee/marquee.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/device_info.dart';
+import 'package:payansh/screens/notifications.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/widgets/app_bar.dart';
 import 'package:payansh/widgets/bottom_drawer.dart';
@@ -180,8 +184,8 @@ class NoticeWidget extends StatelessWidget {
     return Container(
       height: Dimensions.dynamicHeight(context, 0.05),
       decoration: BoxDecoration(
-        border:
-            const Border(bottom: BorderSide(color: AppColors.gradientEnd, width: 1)),
+        border: const Border(
+            bottom: BorderSide(color: AppColors.gradientEnd, width: 1)),
         borderRadius: BorderRadius.circular(10),
         gradient: LinearGradient(
             colors: [AppColors.gradientStart.withOpacity(0.35), Colors.white]),
@@ -219,15 +223,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  final SliderController sliderController = Get.put(SliderController());
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _bottomNavIndex = 0;
 
   late Future<Map<String, dynamic>?> _userProfileFuture;
 
   final iconList = <IconData>[
-    Icons.home_outlined,
+    HugeIcons.strokeRoundedHome09,
     Icons.history_outlined,
   ];
+
+  final List<String> iconLabels = ["Home", "History"];
 
   late AnimationController _fabAnimationController;
   late Animation<double> fabAnimation;
@@ -273,30 +281,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       extendBody: true,
       body: _getBody(),
       floatingActionButton: const BottomNavWithDrawer(),
-
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // FAB action
-
-      //   },
-      //   shape: const CircleBorder(),
-      //   backgroundColor: Colors.blue,
-      //   child: const Icon(Icons.add, color: Colors.white),
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
-        height: 80,
-        child: AnimatedBottomNavigationBar(
-          icons: iconList,
+        // margin: EdgeInsets.only(left: 10),
+        height: Dimensions.dynamicWidth(
+            context, 0.22), // Increased height to accommodate labels
+        child: AnimatedBottomNavigationBar.builder(
+          itemCount: iconList.length,
+          tabBuilder: (index, isActive) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // SizedBox(height: Dimensions.dynamicHeight(context, 0.009),),
+                ShaderMask(
+                  shaderCallback: (Rect bounds) {
+                    return LinearGradient(
+                      colors: isActive
+                          ? [AppColors.gradientEnd, AppColors.gradientStart]
+                          : [Colors.grey, Colors.grey],
+                      begin: Alignment.bottomRight,
+                      end: Alignment.topLeft,
+                    ).createShader(bounds);
+                  },
+                  child: Icon(
+                    iconList[index],
+                    size: Dimensions.dynamicWidth(context, 0.06),
+                    color: Colors.white, // Apply ShaderMask on white color
+                  ),
+                ),
+                if (isActive) // Show label only for the active icon
+                  Padding(
+                      padding: EdgeInsets.only(
+                          top: Dimensions.dynamicHeight(context, 0.00)),
+                      child: GradientText(
+                        iconLabels[index],
+                        style: TextStyle(
+                          fontSize: Dimensions.dynamicWidth(context, 0.034),
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      )),
+              ],
+            );
+          },
           activeIndex: _bottomNavIndex,
           gapLocation: GapLocation.center,
           notchSmoothness: NotchSmoothness.defaultEdge,
-          leftCornerRadius: 18,
-          rightCornerRadius: 18,
-          backgroundColor: Colors.blueGrey.shade900,
-          activeColor: Colors.blueAccent,
-          inactiveColor: Colors.grey,
-          iconSize: 30,
+          leftCornerRadius: 10,
+          rightCornerRadius: 10,
+          backgroundColor: Color(0xff0B2239),
           onTap: (index) => setState(() => _bottomNavIndex = index),
         ),
       ),
@@ -370,7 +404,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ],
                       ),
                       const Spacer(),
-                      const Icon(Icons.notifications, color: Colors.white),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to( Notifications());
+                        },
+                        child: const Icon(Icons.notifications,
+                            color: Colors.white),
+                      )
                     ],
                   ),
                 ),
@@ -387,28 +427,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const NoticeWidget(),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 180,
-                    child: PageView(
-                      children: [
-                        Image.asset("assets/banner/slider1.png",
-                            fit: BoxFit.fill),
-                        Image.asset("assets/banner/slider3.png",
-                            fit: BoxFit.fill),
-                        Image.asset("assets/banner/slider2.png",
-                            fit: BoxFit.fill),
-                        Image.asset("assets/banner/slider4.png",
-                            fit: BoxFit.fill),
-                      ],
+                  SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
+                  // SizedBox(
+                  //   height: 180,
+                  //   child: PageView(
+                  //     children: [
+                  //       FittedBox(
+                  //         fit: BoxFit.contain,
+                  //         child: Image.asset("assets/banner/slider1.png"),
+                  //       ),
+                  //       FittedBox(
+                  //         fit: BoxFit.contain,
+                  //         child: Image.asset("assets/banner/slider3.png"),
+                  //       ),
+                  //       FittedBox(
+                  //         fit: BoxFit.contain,
+                  //         child: Image.asset("assets/banner/slider2.png"),
+                  //       ),
+                  //       FittedBox(
+                  //         fit: BoxFit.contain,
+                  //         child: Image.asset("assets/banner/slider4.png"),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      // height: Dimensions.dynamicHeight(context, 0.25),
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 2),
+                      enlargeCenterPage: true,
+                      viewportFraction: 1.0, // Ensure it takes the full width
+
+                      onPageChanged: (index, reason) {
+                        sliderController.updateIndex(index);
+                      },
                     ),
+                    items: sliderController.bannerImages.map((imagePath) {
+                      return Image.asset(imagePath);
+                    }).toList(),
                   ),
-                  const SizedBox(height: 10),
-                  SvgPicture.asset(
-                    "assets/banner/Link-Bank-Banner.svg",
-                    width: MediaQuery.of(context).size.width,
-                    height: 170,
-                    fit: BoxFit.fill,
+                  // const SizedBox(height: 10),
+                  FittedBox(
+                    fit: BoxFit.contain,
+                    child: SvgPicture.asset(
+                      "assets/banner/Link-Bank-Banner.svg",
+                      width: MediaQuery.of(context).size.width,
+                      // height: 170,
+                      // fit: BoxFit.fill,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -419,32 +487,61 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           SvgPicture.asset("assets/icon/RechargeVector.svg"),
                           const SizedBox(width: 10),
                           const GradientText('Recharge & Bill Pays',
-                              style: TextStyle(fontSize: 19)),
+                              style: TextStyle(
+                                  fontSize: 19, fontWeight: FontWeight.w500)),
                         ],
                       ),
-                      ElevatedButton(
-                        onPressed: () {
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     Get.toNamed(AppRoutes.home);
+                      //   },
+                      //   style: ElevatedButton.styleFrom(
+                      //     minimumSize: Size(
+                      //         Dimensions.dynamicWidth(context, 0.05),
+                      //         Dimensions.dynamicHeight(context, 0.03)),
+                      //     shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(3)),
+                      //     backgroundColor: AppColors.gradientStart,
+                      //   ),
+                      //   child: Text("View All",
+                      //       style: TextStyle(color: Colors.white, fontSize: 6)),
+                      //   // SizedBox(
+                      //   //   width: 10,
+                      //   // ),
+                      //   // Icon(
+                      //   //   Icons.arrow_forward,
+                      //   //   color: Colors.white,
+                      //   // ),
+                      // ),
+                      GestureDetector(
+                        onTap: () {
                           Get.toNamed(AppRoutes.home);
                         },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: AppColors.gradientStart,
-                        ),
-                        child: const Row(
-                          children: [
-                            Text("View All",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 12)),
-                            SizedBox(
-                              width: 10,
+                        child: Container(
+                            width: Dimensions.dynamicWidth(context, 0.2),
+                            height: Dimensions.dynamicHeight(context, 0.035),
+                            decoration: BoxDecoration(
+                              color: AppColors.gradientStart,
+                              borderRadius: BorderRadius.circular(3),
                             ),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "View All",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                  size: Dimensions.dynamicWidth(context, 0.03),
+                                ),
+                              ],
+                            )),
                       ),
                     ],
                   ),
@@ -452,13 +549,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   const RechargeGrid(
                     iconData: [
                       {
-                        'image': 'assets/dashboard/bill.png',
-                        'label': 'Bill\nPayment',
+                        'image': 'assets/dashboard/mobile-recharge.png',
+                        'label': 'Mobile\nRecharge',
                         'screen': DeviceInfoScreen()
                       },
                       {
-                        'image': 'assets/dashboard/mobile-recharge.png',
-                        'label': 'Mobile\nRecharge',
+                        'image': 'assets/dashboard/dth.png',
+                        'label': 'DTH\nRecharge',
+                        'screen': DeviceInfoScreen()
+                      },
+                      {
+                        'image': 'assets/dashboard/router.png',
+                        'label': 'Broadband\nRecharge',
                         'screen': DeviceInfoScreen()
                       },
                       {
@@ -466,28 +568,55 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         'label': 'Electricity\nBill',
                         'screen': DeviceInfoScreen()
                       },
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SvgPicture.asset("assets/icon/travel.svg"),
+                      const SizedBox(width: 10),
+                      const GradientText('Travelling',
+                          style: TextStyle(
+                              fontSize: 19, fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  const RechargeGrid(
+                    iconData: [
                       {
-                        'image': 'assets/dashboard/water-bill.png',
-                        'label': 'Water\nBill',
+                        'image': 'assets/dashboard/flight1.png',
+                        'label': 'Flight Booking',
+                        'screen': DeviceInfoScreen()
+                      },
+                      {
+                        'image': 'assets/dashboard/hotel.png',
+                        'label': 'Hotel Booking',
                         'screen': DeviceInfoScreen()
                       },
                     ],
                   ),
                   const SizedBox(height: 20),
-                  _buildSectionHeader("Travelling", Icons.travel_explore),
-                  const RechargeGrid(
-                    iconData: [
-                      {
-                        'image': 'assets/dashboard/bill.png',
-                        'label': 'Bill\nPayment',
-                        'screen': DeviceInfoScreen()
+
+                  GradientText("Flight & Hotel Booking Offers",
+                      style:
+                          TextStyle(fontSize: 19, fontWeight: FontWeight.w500)),
+                  // const SizedBox(height: Dime),
+
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      // height: Dimensions.dynamicHeight(context, 0.25),
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 2),
+                      enlargeCenterPage: true,
+                      viewportFraction: 1.0, // Ensure it takes the full width
+
+                      onPageChanged: (index, reason) {
+                        sliderController.updateIndex(index);
                       },
-                      {
-                        'image': 'assets/dashboard/mobile-recharge.png',
-                        'label': 'Mobile\nRecharge',
-                        'screen': DeviceInfoScreen()
-                      },
-                    ],
+                    ),
+                    items: sliderController.flightOffer.map((imagePath) {
+                      return Image.asset(imagePath);
+                    }).toList(),
                   ),
                   const SizedBox(height: 100),
                 ],
@@ -498,24 +627,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ],
     );
   }
-
-  Widget _buildSectionHeader(String title, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(icon, color: Colors.amber),
-              const SizedBox(width: 10),
-              GradientText(title, style: const TextStyle(fontSize: 19)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  
 }

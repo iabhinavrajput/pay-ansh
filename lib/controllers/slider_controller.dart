@@ -9,6 +9,21 @@ class SliderController extends GetxController {
     'assets/login_slider/BBPS-thumbnail.png',
   ];
 
+  final List<String> bannerImages = [
+    'assets/banner/slider1.png',
+    'assets/banner/slider3.png',
+    'assets/banner/slider2.png',
+    'assets/banner/slider4.png',
+  ];
+
+  final List<String> flightOffer = [
+    'assets/flight_Offer/flightOffer1.png',
+    'assets/flight_Offer/flightOffer2.png',
+    'assets/flight_Offer/flightOffer3.png',
+  ];
+  
+
+
   void updateIndex(int index) {
     currentIndex.value = index;
   }
