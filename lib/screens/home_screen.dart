@@ -368,46 +368,54 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: Row(
                     children: [
                       GestureDetector(
-  onTap: () {
-    _scaffoldKey.currentState?.openDrawer();
-  },
-  child: FutureBuilder<Map<String, dynamic>?>(
-    future: _userProfileFuture,
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return const CircleAvatar(
-          radius: 24,
-          backgroundColor: Colors.white,
-          child: Icon(Icons.person, color: Colors.grey),
-        );
-      } else if (snapshot.hasError || !snapshot.hasData) {
-        return const CircleAvatar(
-          radius: 24,
-          backgroundColor: Colors.white,
-          child: Icon(Icons.person, color: Colors.grey),
-        );
-      }
+                        onTap: () {
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
+                        child: FutureBuilder<Map<String, dynamic>?>(
+                          future: _userProfileFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircleAvatar(
+                                radius: 24,
+                                backgroundColor: Colors.white,
+                                child: Icon(Icons.person, color: Colors.grey),
+                              );
+                            } else if (snapshot.hasError || !snapshot.hasData) {
+                              return const CircleAvatar(
+                                radius: 24,
+                                backgroundColor: Colors.white,
+                                child: Icon(Icons.person, color: Colors.grey),
+                              );
+                            }
 
-      final String? profileImageUrl = snapshot.data!['profile_image'];
-      final String name = snapshot.data!['name'] ?? "U"; // Default to 'U' if name is null
+                            final String? profileImageUrl =
+                                snapshot.data!['profile_image'];
+                            final String name = snapshot.data!['name'] ??
+                                "U"; // Default to 'U' if name is null
 
-      return CircleAvatar(
-        radius: 24,
-        backgroundColor: Colors.white,
-        backgroundImage: profileImageUrl != null && profileImageUrl.isNotEmpty
-            ? NetworkImage(profileImageUrl) // Load the profile image
-            : null, // No background image if profile image is null
-        child: profileImageUrl == null || profileImageUrl.isEmpty
-            ? Text(
-                name[0].toUpperCase(), // Show the first letter of the name
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              )
-            : null, // If image exists, don't show text
-      );
-    },
-  ),
-),
-
+                            return CircleAvatar(
+                              radius: 24,
+                              backgroundColor: Colors.white,
+                              backgroundImage: profileImageUrl != null &&
+                                      profileImageUrl.isNotEmpty
+                                  ? NetworkImage(
+                                      profileImageUrl) // Load the profile image
+                                  : null, // No background image if profile image is null
+                              child: profileImageUrl == null ||
+                                      profileImageUrl.isEmpty
+                                  ? Text(
+                                      name[0]
+                                          .toUpperCase(), // Show the first letter of the name
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : null, // If image exists, don't show text
+                            );
+                          },
+                        ),
+                      ),
                       const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
