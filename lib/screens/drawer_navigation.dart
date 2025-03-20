@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:payansh/controllers/auth_controller.dart';
@@ -16,6 +17,7 @@ class DrawerNavigation extends StatefulWidget {
 
 class _DrawerNavigationState extends State<DrawerNavigation> {
   late final Future<Map<String, dynamic>?> _userProfileFuture;
+  String _appVersion = "Loading...";
 
   @override
   void initState() {
@@ -24,6 +26,21 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
       print("User Profile Response: $response");
       return response;
     });
+
+    _getAppVersion();
+  }
+
+  Future<void> _getAppVersion() async {
+    try {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      if (mounted) {
+        setState(() {
+          _appVersion = "Version ${packageInfo.version}";
+        });
+      }
+    } catch (e) {
+      print("Error getting app version: $e");
+    }
   }
 
   @override
@@ -51,9 +68,9 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             const SizedBox(height: 20),
             _buildMenuItems(),
             const SizedBox(height: 20),
-            const Center(
+            Center(
               child: Text(
-                "Version 3.2",
+                _appVersion.isEmpty ? "Fetching Version..." : _appVersion,
                 style: TextStyle(color: Colors.grey, fontSize: 14),
               ),
             ),
@@ -69,7 +86,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
       child: Container(
         width: 340,
         padding: const EdgeInsets.fromLTRB(30, 25, 30, 24),
-         decoration: const BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: AppColors.drawerColourUser,
         ),
         child: Column(
@@ -109,7 +126,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                   width: 60,
                   height: 60,
                   decoration: const BoxDecoration(
-                        gradient: AppColors.userLetterBg,
+                    gradient: AppColors.userLetterBg,
                   ),
                   // color:  AppColors.userLetterBg,
                   alignment: Alignment.center,
@@ -133,7 +150,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('+91 ', style: TextStyle(color: Colors.grey)),
-                Text(userData['phone'], style: const TextStyle(color: Colors.grey)),
+                Text(userData['phone'],
+                    style: const TextStyle(color: Colors.grey)),
               ],
             ),
             const SizedBox(height: 10),
@@ -141,7 +159,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               onPressed: () {
                 Get.toNamed(AppRoutes.profileScreen);
               },
-              icon: const Icon(Icons.person, size: 18),
+              icon: const Icon(Icons.person, size: 18,color: AppColors.drawerTextColor,),
               label: const Text("View Profile"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -168,7 +186,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
         children: [
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.0),
-            child: Text("Account Management", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            child: Text("Account Management",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 10),
           SidebarMenuItem(
@@ -231,7 +250,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
   }
 
   // 📌 Helper function: Shimmer Box
-  Widget _shimmerBox({required double width, required double height, double radius = 4}) {
+  Widget _shimmerBox(
+      {required double width, required double height, double radius = 4}) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,

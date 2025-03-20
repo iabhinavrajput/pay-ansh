@@ -47,9 +47,9 @@ class TTextTheme {
         fontFamily: 'DMSans'),
     bodySmall: const TextStyle().copyWith(
         fontSize: 14.0,
-        fontWeight: FontWeight.w500,
-        color: Colors.black.withOpacity(0.5),
-        fontFamily: 'DMSans'),
+        fontWeight: FontWeight.normal,
+        color: Color(0xff22415F),
+        ),
     labelLarge: const TextStyle().copyWith(
         fontSize: 20.0,
         fontWeight: FontWeight.normal,
@@ -71,7 +71,12 @@ class TTextTheme {
     fontSize: 15,
     fontWeight: FontWeight.normal,
     color: Colors.grey,
-    fontFamily: 'DMSans',
+  );
+
+   static const TextStyle vsmallText=  TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.normal,
+    color: Colors.grey,
   );
 
   static const TextStyle heading = TextStyle(
