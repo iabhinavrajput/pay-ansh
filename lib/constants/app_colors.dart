@@ -12,7 +12,7 @@ class AppColors {
   static const Color unverifiedColor = Colors.red;
   static const Color drawerTextColor = Color(0xFF346CA4);
   static const Color pendingColor = Color(0xFFF09E58);
-  static const Color helpColor = Color(0xFFDAE7F3);
+  static const Color helpColor = Color(0x334686c5);
   static const Color kycContainerColor = Color(0xffFCECDE);
 
   static const LinearGradient appBarGradient = LinearGradient(

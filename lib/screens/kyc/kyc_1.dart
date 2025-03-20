@@ -13,7 +13,7 @@ class KycOne extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: const CustomAppBarKYC(
         title: "Complete KYC",
-        description: "Complete your KYC to avail the Payansh services",
+        description: "Complete your KYC to avail the\nPayansh services",
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
