@@ -42,7 +42,7 @@ class IconContainer extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Text(label, style: const TextStyle(fontSize: 14), textAlign: TextAlign.center,),
+        Text(label, style: const TextStyle(fontSize: 11,color: AppColors.greytextColors), textAlign: TextAlign.center,),
       ],
     );
   }

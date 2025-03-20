@@ -102,6 +102,8 @@ flutter:
     - assets/icon/password_updated.png
     - assets/profile/
     - assets/kyc/
+    - assets/dashboard/flight1.png
+    - assets/flight_Offer/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
