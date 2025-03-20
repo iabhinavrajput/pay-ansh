@@ -239,15 +239,29 @@ class ApiService {
   /// **Sign-Up OTP Verification API**
   static Future<Map<String, dynamic>> verifySignupOTP(
       int userId, String otp) async {
+              final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
+
+        
     try {
+      
       final response = await http.post(
         Uri.parse("${ApiEndpoints.baseUrl}/verify-email/$userId"),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"otp": otp}),
+        body: jsonEncode({"otp": otp,'deviceInfo': deviceInfo,}),
       );
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+         final data = jsonDecode(response.body);
+        String accessToken = data["data"]["tokens"]["accessToken"];
+        String refreshToken = data["data"]["tokens"]["refreshToken"];
+
+        // Store tokens
+        await LocalStorage.saveUserToken(accessToken);
+        await LocalStorage.saveRefreshToken(refreshToken);
+
+        // Assign global auth token
+        AppConstants.authToken = accessToken;
+
         if (data["status"] == "success") {
           return {"success": true, "message": data["message"]};
         } else {
