@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:payansh/constants/api_endpoints.dart';
@@ -17,34 +18,35 @@ class GoogleSignInService {
   );
 
   static bool _isSigningIn = false;
+  static final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
 
   static Future<Map<String, dynamic>> signInWithGoogle() async {
     if (_isSigningIn) {
       return {'success': false, 'message': 'Sign-in already in progress'};
     }
 
-    _isSigningIn = true; 
+    _isSigningIn = true;
+    isLoading.value = true; // Start loading
 
     try {
       final GoogleSignInAccount? account = await _googleSignIn.signIn();
       if (account == null) {
         _isSigningIn = false;
+        isLoading.value = false;
         return {'success': false, 'message': 'Sign-in cancelled by user'};
       }
 
       final String? serverAuthCode = account.serverAuthCode;
-      print('GoogleSignInAccount: $serverAuthCode');
-
       if (serverAuthCode == null) {
         _isSigningIn = false;
+        isLoading.value = false;
         return {'success': false, 'message': 'No Server Auth Code retrieved'};
       }
 
-      // 🔹 Get device information
+      // Get device information
       final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
-      print("Device Info: $deviceInfo");
 
-      // 🔹 Send Auth Code to backend
+      // Send Auth Code to backend
       final response = await http.post(
         Uri.parse(ApiEndpoints.googleAuth),
         headers: {'Content-Type': 'application/json'},
@@ -54,38 +56,35 @@ class GoogleSignInService {
         }),
       );
 
-      _isSigningIn = false; // ✅ Reset flag after request completion
-        print("response code ${response.statusCode}");
+      _isSigningIn = false;
+      isLoading.value = false; // Stop loading
+
       if (response.statusCode == 200) {
-
-          final data =  jsonDecode(response.body);
+        final data = jsonDecode(response.body);
         String accessToken = data["data"]["tokens"]["accessToken"];
-          String refreshToken = data["data"]["tokens"]["refreshToken"];
+        String refreshToken = data["data"]["tokens"]["refreshToken"];
 
-          // Store tokens
-          await LocalStorage.saveUserToken(accessToken);
-          await LocalStorage.saveRefreshToken(refreshToken);
+        // Store tokens
+        await LocalStorage.saveUserToken(accessToken);
+        await LocalStorage.saveRefreshToken(refreshToken);
 
-          // Assign global auth token
-          AppConstants.authToken = accessToken;
-        
+        // Assign global auth token
+        AppConstants.authToken = accessToken;
+
         return {'success': true, "message": data["message"]};
       } else {
-        print("response.body: ${response.body}");
         return {'success': false, 'message': 'Backend error: ${response.body}'};
       }
     } catch (error) {
       _isSigningIn = false;
-      print('Google Sign-In failed: $error');
+      isLoading.value = false;
       return {'success': false, 'message': 'Sign-In failed: $error'};
     }
   }
 
-  /// Sign out from Google
   static Future<void> signOut() async {
     try {
       await _googleSignIn.signOut();
-      print('User signed out successfully');
     } catch (error) {
       print('Error signing out: $error');
     }

@@ -169,23 +169,31 @@ class LoginScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        GestureDetector(
-                          onTap: () async {
-                            final user =
-                                await GoogleSignInService.signInWithGoogle();
-                            if (user != null) {
-                              Get.to(() => const HomeScreen());
-                              // print("$user");
-                              print("Login successful: $user");
-                            } else {
-                              print("Login failed or cancelled.");
-                            }
-                          },
-                          child: Text(
-                            "Don't have an account? ",
-                            style: TTextTheme.lightTextTheme.labelLarge,
-                          ),
-                        ),
+                        ValueListenableBuilder<bool>(
+  valueListenable: GoogleSignInService.isLoading,
+  builder: (context, isLoading, child) {
+    return GestureDetector(
+      onTap: isLoading
+          ? null // Disable tap when signing in
+          : () async {
+              final user = await GoogleSignInService.signInWithGoogle();
+              if (user['success']) {
+                Get.to(() => const HomeScreen());
+                print("Login successful: $user");
+              } else {
+                print("Login failed: ${user['message']}");
+              }
+            },
+      child: isLoading
+          ? CircularProgressIndicator() // Show loader when signing in
+          : Text(
+              "Don't have an account? ",
+              style: TTextTheme.lightTextTheme.labelLarge,
+            ),
+    );
+  },
+),
+
                         TextButton(
                           onPressed: () {
                             Get.to(() => const Register());
