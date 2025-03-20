@@ -150,18 +150,24 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-    if (userData['phone'] != null && userData['phone'].toString().isNotEmpty) ...[
-      const Text('+91 ', style: TextStyle(color: Colors.grey)),
-      Text(userData['phone'], style: const TextStyle(color: Colors.grey)),
-    ]
-  ],
+                if (userData['phone'] != null &&
+                    userData['phone'].toString().isNotEmpty) ...[
+                  const Text('+91 ', style: TextStyle(color: Colors.grey)),
+                  Text(userData['phone'],
+                      style: const TextStyle(color: Colors.grey)),
+                ]
+              ],
             ),
             const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () {
                 Get.toNamed(AppRoutes.profileScreen);
               },
-              icon: const Icon(Icons.person, size: 18,color: AppColors.drawerTextColor,),
+              icon: const Icon(
+                Icons.person,
+                size: 18,
+                color: AppColors.drawerTextColor,
+              ),
               label: const Text("View Profile"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,

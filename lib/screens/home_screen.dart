@@ -177,6 +177,9 @@ import 'package:shimmer/shimmer.dart';
 // }
 
 // // ✅ Notice Widget
+// class NoticeWidget extends StatelessWidget {
+
+
 class NoticeWidget extends StatelessWidget {
   const NoticeWidget({super.key});
 
@@ -192,19 +195,22 @@ class NoticeWidget extends StatelessWidget {
             colors: [AppColors.gradientStart.withOpacity(0.35), Colors.white]),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: SizedBox(
-              height: 20,
-              child: Marquee(
-                text:
-                    "Complete your KYC to avail bill payment and other services",
-                style: const TextStyle(fontSize: 14),
-                scrollAxis: Axis.horizontal,
-                blankSpace: 20.0,
-                velocity: 30.0,
-                pauseAfterRound: const Duration(seconds: 1),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10), // Added Padding
+              child: SizedBox(
+                height: 20,
+                child: Marquee(
+                  text:
+                      "Complete your KYC to avail bill payment and other services",
+                  style: const TextStyle(fontSize: 14),
+                  scrollAxis: Axis.horizontal,
+                  blankSpace: 20.0,
+                  velocity: 30.0,
+                  pauseAfterRound: const Duration(seconds: 1),
+                ),
               ),
             ),
           ),
@@ -215,6 +221,7 @@ class NoticeWidget extends StatelessWidget {
     );
   }
 }
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
