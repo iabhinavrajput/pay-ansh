@@ -14,6 +14,9 @@ class AppColors {
   static const Color pendingColor = Color(0xFFF09E58);
   static const Color helpColor = Color(0x334686c5);
   static const Color kycContainerColor = Color(0xffFCECDE);
+  static const Color kycTextColor = Color(0xFF5A5A5B);
+  static const Color kycBorderDot = Color(0xAD4686C5);
+  static const Color kycBorderDotShadow = Color(0x1F4686C5);
 
   static const LinearGradient appBarGradient = LinearGradient(
     begin: Alignment.topLeft,

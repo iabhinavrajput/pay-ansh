@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/components/custom_app_bar_kyc.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/screens/kyc/kyc_2.dart';
 
 class KycOne extends StatelessWidget {
   const KycOne({Key? key}) : super(key: key);
@@ -137,7 +140,7 @@ class KycOne extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    // TODO: Implement proceed action
+                    Get.to (() => KycTwo());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors

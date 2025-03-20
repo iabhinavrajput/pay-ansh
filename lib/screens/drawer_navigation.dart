@@ -150,10 +150,11 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('+91 ', style: TextStyle(color: Colors.grey)),
-                Text(userData['phone'],
-                    style: const TextStyle(color: Colors.grey)),
-              ],
+    if (userData['phone'] != null && userData['phone'].toString().isNotEmpty) ...[
+      const Text('+91 ', style: TextStyle(color: Colors.grey)),
+      Text(userData['phone'], style: const TextStyle(color: Colors.grey)),
+    ]
+  ],
             ),
             const SizedBox(height: 10),
             ElevatedButton.icon(
