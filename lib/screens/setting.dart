@@ -50,7 +50,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            NotificationSettings(),
+            _buildSettingsOption(
+              context: context,
+              icon: Icons.notifications,
+              title: "Notifications Settings",
+              subtitle: "Manage your notifications",
+              content:
+                  """Here you can enable or disable notifications for the app. 
+        You can also set preferences for different types of notifications, such as push notifications, email alerts, and SMS updates.""",
+            ),
             _buildSettingsOption(
               context: context, // Pass context here
 
@@ -105,7 +113,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return InkWell(
       onTap: () {
-        Get.to(() => Info(title: title, content: content));
+        if (title == "Notifications Settings") {
+          Get.to(() => const NotificationSettings());
+        } else {
+          Get.to(() => Info(title: title, content: content));
+        }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),

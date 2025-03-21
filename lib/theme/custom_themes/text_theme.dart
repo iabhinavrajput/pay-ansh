@@ -34,12 +34,12 @@ class TTextTheme {
         fontSize: 16.0,
         fontWeight: FontWeight.w400,
         color: Colors.black,
-        fontFamily: 'DMSans'),
+        ),
     bodyLarge: const TextStyle().copyWith(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
-        fontFamily: 'DMSans'),
+        fontSize: 16.0,
+        fontWeight: FontWeight.w200,
+        color:  Color(0xFF5A5A5B),
+       ),
     bodyMedium: const TextStyle().copyWith(
         fontSize: 14.0,
         fontWeight: FontWeight.normal,
