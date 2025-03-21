@@ -44,7 +44,7 @@ class TTextTheme {
         fontSize: 14.0,
         fontWeight: FontWeight.normal,
         color: const Color(0xFF5A5A5B),
-        fontFamily: 'DMSans'),
+     ),
     bodySmall: const TextStyle().copyWith(
         fontSize: 14.0,
         fontWeight: FontWeight.normal,

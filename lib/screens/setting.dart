@@ -66,7 +66,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: "Privacy Policy",
               subtitle: "View privacy policy",
               content:
-                  """Lorem ipsum dolor sit amet consectetur. Tincidunt vel congue in urna. """,
+                  """Lorem ipsum dolor sit amet consectetur. Tincidunt vel congue in urna. 
+                  
+Lorem ipsum dolor sit amet consectetur. Tincidunt vel congue in urna.
+
+In pellentesque nunc semper vel sapien facilisi commodo. Felis dui ut at pretium mi quisque. Volutpat elementum scelerisque in volutpat nec cras integer.In pellentesque nunc semper vel sapien facilisi commodo. Felis dui ut at pretium mi quisque. Volutpat elementum scelerisque in volutpat nec cras integer. """,
             ),
             _buildSettingsOption(
               context: context, // Pass context here
@@ -75,8 +79,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: "Terms & Conditions",
               subtitle: "View Terms & Conditions",
               content:
-                  """By using this app, you agree to our terms and conditions. These include guidelines on user behavior, 
-        account security, prohibited activities, and limitations of liability. Please read carefully before using the app.""",
+                  """Lorem ipsum dolor sit amet consectetur. Tincidunt vel congue in urna. 
+                  
+Lorem ipsum dolor sit amet consectetur. Tincidunt vel congue in urna.
+
+In pellentesque nunc semper vel sapien facilisi commodo. Felis dui ut at pretium mi quisque. Volutpat elementum scelerisque in volutpat nec cras integer.In pellentesque nunc semper vel sapien facilisi commodo. Felis dui ut at pretium mi quisque. Volutpat elementum scelerisque in volutpat nec cras integer. """,
             ),
             _buildSettingsOption(
               context: context,
@@ -84,9 +91,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: "Content Policy",
               subtitle: "View Content Policy",
               content:
-                  """Our content policy ensures a safe and respectful community for all users. 
-        It covers acceptable content, prohibited activities, and moderation guidelines. 
-        Violations may result in account suspension.""",
+                  """Lorem ipsum dolor sit amet consectetur. Tincidunt vel congue in urna. 
+                  
+Lorem ipsum dolor sit amet consectetur. Tincidunt vel congue in urna.
+
+In pellentesque nunc semper vel sapien facilisi commodo. Felis dui ut at pretium mi quisque. Volutpat elementum scelerisque in volutpat nec cras integer.In pellentesque nunc semper vel sapien facilisi commodo. Felis dui ut at pretium mi quisque. Volutpat elementum scelerisque in volutpat nec cras integer. """,
             ),
             Padding(
               padding: EdgeInsets.only(top: 16.0),
