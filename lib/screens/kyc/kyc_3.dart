@@ -12,7 +12,7 @@ class KycThree extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: const CustomAppBarKYC(
         title: "KYC by Aadhaar",
-        description: "Please note that your Aadhaar number needs to be verified during KYC verification",
+        description: "Please note that your Aadhaar number needs\nto be verified during KYC verification",
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),

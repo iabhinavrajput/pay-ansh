@@ -11,8 +11,8 @@ class KycFour extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBarKYC(
-        title: "KYC by Pan",
-        description: "Please note that your PAN number needs to be verified during KYC verification",
+        title: "Upload Documents",
+        description: "Please note that your PAN number\nneeds to be verified during KYC verification",
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
