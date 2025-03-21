@@ -8,4 +8,5 @@ class AppConstants {
   // Runtime token values
   static String? authToken;
   static String? refreshToken;
+  static String version = 'version';
 }

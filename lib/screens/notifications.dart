@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/notification_widget.dart';
 import 'package:payansh/widgets/title_appbar.dart';
@@ -10,7 +11,7 @@ class Notifications extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TitleAppBar(height: 60, title: "Notifications"),
+      appBar: TitleAppBar(height: Dimensions.dynamicHeight(context, 0.15), title: "Notifications"),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 25),
         child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/widgets/app_bar.dart';
 import 'package:payansh/widgets/title_appbar.dart';
 
@@ -22,7 +23,7 @@ class _OffersState extends State<Offers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TitleAppBar(height: 60, title: "Offers & Cashback"),
+      appBar: TitleAppBar(height: Dimensions.dynamicHeight(context, 0.15), title: "Offers & Cashback"),
       body: ListView.builder(
         padding: const EdgeInsets.only(top: 16,left: 16,right: 16, bottom: 150),
         itemCount: offerImages.length,

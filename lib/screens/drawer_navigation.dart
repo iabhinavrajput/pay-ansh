@@ -160,7 +160,11 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               onPressed: () {
                 Get.toNamed(AppRoutes.profileScreen);
               },
-              icon: const Icon(Icons.person, size: 18,color: AppColors.drawerTextColor,),
+              icon: const Icon(
+                Icons.person,
+                size: 18,
+                color: AppColors.drawerTextColor,
+              ),
               label: const Text("View Profile"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -220,7 +224,9 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             icon: SvgPicture.asset('assets/drawer_navigation/symbol.svg'),
             title: "Have a Complaint?",
             subtitle: "Raise a complaint",
-            onTap: () {},
+            onTap: () {
+              Get.toNamed(AppRoutes.complaint);
+            },
           ),
           SidebarMenuItem(
             icon: SvgPicture.asset('assets/drawer_navigation/person.svg'),
