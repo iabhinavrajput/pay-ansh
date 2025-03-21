@@ -30,7 +30,8 @@ class CustomAppBarKYC extends StatelessWidget implements PreferredSizeWidget {
           // mainAxisAlignment: MainAxisAlignment.start, // Align items in center
           children: [
             Row(
-                      crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to the top
+              crossAxisAlignment:
+                  CrossAxisAlignment.start, // Aligns text to the top
 
               // mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -42,11 +43,12 @@ class CustomAppBarKYC extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.pop(context); // Go back when pressed
                   },
                 ),
-                          SizedBox(width: 8), // Adds spacing between icon & text
+                SizedBox(width: 8), // Adds spacing between icon & text
 
                 Column(
-                              crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to left
-                              mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start, // Aligns text to left
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       title,
@@ -59,19 +61,25 @@ class CustomAppBarKYC extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     ),
                     Text(
-                  description,
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.25,
-                    color: Colors.white70,
-                    height: 1.67, // Line height (20px / 12px)
-                  ),
-                ),
+                      description,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.25,
+                        color: Colors.white70,
+                        height: 1.67, // Line height (20px / 12px)
+                      ),
+                      textAlign:
+                          TextAlign.justify, // Ensures proper word wrapping
+                      softWrap:
+                          true, // Allows text to wrap instead of overflowing
+                      overflow:
+                          TextOverflow.visible,
+                          maxLines: 2, // Prevents text from clipping
+                    )
                   ],
                 ),
                 // const SizedBox(height: 4),
-                
               ],
             ),
 

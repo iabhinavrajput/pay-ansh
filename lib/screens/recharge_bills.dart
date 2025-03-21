@@ -51,24 +51,69 @@ class RechargeBillPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GradientText('Recharge', style: TextStyle(fontSize: 22)),
+              GradientText('Recharge', style: TextStyle(fontSize: 16)),
               SizedBox(height: 20),
               RechargeGrid(iconData: [
-                {'image': 'assets/dashboard/bill.png', 'label': 'Bill\nPayment', 'screen': const DeviceInfoScreen()},
-                {'image': 'assets/dashboard/mobile-recharge.png', 'label': 'Mobile\nRecharge', 'screen': const DeviceInfoScreen()},
-                {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity\nBill', 'screen': const DeviceInfoScreen()},
-                {'image': 'assets/dashboard/water-bill.png', 'label': 'Water\nBill', 'screen': const DeviceInfoScreen()},
-                {'image': 'assets/dashboard/gas-cylinder.png', 'label': 'Gas\nPayment', 'screen': const DeviceInfoScreen()}
+                {
+                  'image': 'assets/dashboard/mobile-recharge.png',
+                  'label': 'Mobile\nRecharge',
+                  // 'screen': DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/dth.png',
+                  'label': 'DTH\nRecharge',
+                  // 'screen': DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/router.png',
+                  'label': 'Broadband',
+                  // 'screen': DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/fast-tag.png',
+                  'label': 'Fastag\nRecharge',
+                  // 'screen': DeviceInfoScreen()
+                },
               ]),
               SizedBox(height: 20),
-              GradientText('Recharge', style: TextStyle(fontSize: 22)),
+              GradientText('Utility bills', style: TextStyle(fontSize: 22)),
               SizedBox(height: 20),
               RechargeGrid(iconData: [
-                {'image': 'assets/dashboard/bill.png', 'label': 'Bill\nPayment', 'screen': const DeviceInfoScreen()},
-                {'image': 'assets/dashboard/mobile-recharge.png', 'label': 'Mobile\nRecharge', 'screen': const DeviceInfoScreen()},
-                {'image': 'assets/dashboard/electricity-bill.png', 'label': 'Electricity\nBill', 'screen': const DeviceInfoScreen()},
-                {'image': 'assets/dashboard/water-bill.png', 'label': 'Water\nBill', 'screen': const DeviceInfoScreen()},
-                {'image': 'assets/dashboard/gas-cylinder.png', 'label': 'Gas\nPayment', 'screen': const DeviceInfoScreen()}
+                {
+                  'image': 'assets/dashboard/bill.png',
+                  'label': 'Mobile\nPayment',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/landline.png',
+                  'label': 'Mobile\nRecharge',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/electricity-bill.png',
+                  'label': 'Electricity\nBill',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/water-bill.png',
+                  'label': 'Water\nBill',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/gas-cylinder.png',
+                  'label': 'Gas\nBooking',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/education.png',
+                  'label': 'Fee',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/piped-gas-bill.png',
+                  'label': 'Piped\nGas',
+                  'screen': const DeviceInfoScreen()
+                }
               ])
             ],
           ),

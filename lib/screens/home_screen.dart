@@ -240,10 +240,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   final iconList = <IconData>[
     HugeIcons.strokeRoundedHome09,
-    Icons.history_outlined,
+    HugeIcons.strokeRoundedDiscountTag02,
   ];
 
-  final List<String> iconLabels = ["Home", "History"];
+  final List<String> iconLabels = ["Home", "Offers"];
 
   late AnimationController _fabAnimationController;
   late Animation<double> fabAnimation;
@@ -322,21 +322,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Padding(
                       padding: EdgeInsets.only(
                           top: Dimensions.dynamicHeight(context, 0.00)),
-                      child: 
-                      // GradientText(
-                      //   iconLabels[index],
-                      //   style: TextStyle(
-                      //     fontSize: Dimensions.dynamicWidth(context, 0.034),
-                      //     fontWeight: FontWeight.w500,
-                      //     color: Colors.white,
-                      //   ),
-                      // )
-                      Text(iconLabels[index],style: TextStyle(
+                      child:
+                          // GradientText(
+                          //   iconLabels[index],
+                          //   style: TextStyle(
+                          //     fontSize: Dimensions.dynamicWidth(context, 0.034),
+                          //     fontWeight: FontWeight.w500,
+                          //     color: Colors.white,
+                          //   ),
+                          // )
+                          Text(
+                        iconLabels[index],
+                        style: TextStyle(
                           fontSize: Dimensions.dynamicWidth(context, 0.034),
                           fontWeight: FontWeight.w500,
                           color: AppColors.gradientEnd,
-                        ),)
-                      ),
+                        ),
+                      )),
               ],
             );
           },
@@ -625,8 +627,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         // 'screen': DeviceInfoScreen()
                       },
                       {
-                        'image': 'assets/dashboard/router.png',
-                        'label': 'Broadband\nRecharge',
+                        'image': 'assets/dashboard/credit-cards.png',
+                        'label': 'Credit\nCards',
                         // 'screen': DeviceInfoScreen()
                       },
                       {

@@ -22,6 +22,7 @@ class SignupController extends GetxController {
           "phoneNumber": phone,
         },
       );
+      print("Status code: ${response.statusCode}");
 
       if (response.statusCode == 201) {
         print("Signup Response: ${response.data}");
@@ -42,7 +43,8 @@ class SignupController extends GetxController {
       _handleDioException(e);
     } catch (e) {
       print("Unexpected Error: $e");
-      showSnackbar(title: "Error", message: "Something went wrong!", isSuccess: false);
+      showSnackbar(
+          title: "Error", message: "Something went wrong!", isSuccess: false);
     } finally {
       isLoading.value = false;
     }
@@ -52,9 +54,13 @@ class SignupController extends GetxController {
   void _handleErrorResponse(response) {
     final responseData = response.data;
     if (responseData is Map && responseData.containsKey('message')) {
-      showSnackbar(title: "Error", message: responseData['message'], isSuccess: false);
+      showSnackbar(
+          title: "Error", message: responseData['message'], isSuccess: false);
     } else {
-      showSnackbar(title: "Error", message: "Unexpected error occurred!", isSuccess: false);
+      showSnackbar(
+          title: "Error",
+          message: "Unexpected error occurred!",
+          isSuccess: false);
     }
   }
 
@@ -63,14 +69,21 @@ class SignupController extends GetxController {
     if (e.response != null) {
       // Server responded with an error
       _handleErrorResponse(e.response!);
-    } else if (e.type == DioExceptionType.connectionTimeout || 
-               e.type == DioExceptionType.receiveTimeout || 
-               e.type == DioExceptionType.sendTimeout) {
-      showSnackbar(title: "Network Error", message: "Connection timed out!", isSuccess: false);
+    } else if (e.type == DioExceptionType.connectionTimeout ||
+        e.type == DioExceptionType.receiveTimeout ||
+        e.type == DioExceptionType.sendTimeout) {
+      showSnackbar(
+          title: "Network Error",
+          message: "Connection timed out!",
+          isSuccess: false);
     } else if (e.type == DioExceptionType.connectionError) {
-      showSnackbar(title: "Network Error", message: "No internet connection!", isSuccess: false);
+      showSnackbar(
+          title: "Network Error",
+          message: "No internet connection!",
+          isSuccess: false);
     } else {
-      showSnackbar(title: "Error", message: "Something went wrong!", isSuccess: false);
+      showSnackbar(
+          title: "Error", message: "Something went wrong!", isSuccess: false);
     }
   }
 
@@ -79,8 +92,8 @@ class SignupController extends GetxController {
   //   if (e.response != null) {
   //     // Server responded with an error
   //     _handleErrorResponse(e.response!);
-  //   } else if (e.type == DioExceptionType.connectionTimeout || 
-  //              e.type == DioExceptionType.receiveTimeout || 
+  //   } else if (e.type == DioExceptionType.connectionTimeout ||
+  //              e.type == DioExceptionType.receiveTimeout ||
   //              e.type == DioExceptionType.sendTimeout) {
   //     showSnackbar(title: "Network Error", message: "Connection timed out!", isSuccess: false);
   //   } else if (e.type == DioExceptionType.connectionError) {

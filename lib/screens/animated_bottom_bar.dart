@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       extendBody: true,
       body: Center(
         child: Text(
-          _bottomNavIndex == 0 ? "Home Screen" : "History Screen",
+          _bottomNavIndex == 0 ? "Home Screen" : "Offers",
           style: TextStyle(fontSize: 24),
         ),
       ),

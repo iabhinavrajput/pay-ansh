@@ -204,7 +204,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             subtitle: "● KYC Incomplete",
             subtitleColor: Colors.red,
             onTap: () {
-              Get.to(KycOne());
+              // Get.to(KycOne());
             },
           ),
           SidebarMenuItem(
