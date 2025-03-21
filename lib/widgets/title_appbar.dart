@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/constants/dimensions.dart';
 
 class TitleAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
@@ -16,37 +17,59 @@ class TitleAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(height),
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.gradientStart, AppColors.gradientEnd],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black26, blurRadius: 4, offset: Offset(0, 2)),
-          ],
-        ),
-        child: AppBar(
-          backgroundColor:
-              Colors.transparent, // Make AppBar transparent to show gradient
-          title: Text(
-            title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+      child: Stack(
+        children: [
+          Container(
+            height: height,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.gradientStart, AppColors.gradientEnd],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 4, offset: Offset(0, 2)),
+              ],
             ),
           ),
-          leading: Navigator.canPop(context)
-              ? IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Get.back(),
-                )
-              : null,
-          elevation: 0, // Remove AppBar shadow, as we already have a boxShadow
-        ),
+          Positioned(
+            bottom: 15, // Adjust to position text near the bottom
+            left: 16,
+            right: 16,
+            child: Row(
+              children: [
+                Navigator.canPop(context)
+                ? IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Get.back(),
+                  )
+                : const SizedBox
+                    .shrink(),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style:  TextStyle(
+                    fontSize: Dimensions.dynamicWidth(context, 0.045),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Positioned(
+          //   bottom: 25,
+          //   left: 0,
+          //   child: Navigator.canPop(context)
+          //       ? IconButton(
+          //           icon: const Icon(Icons.arrow_back, color: Colors.white),
+          //           onPressed: () => Get.back(),
+          //         )
+          //       : const SizedBox
+          //           .shrink(), // Fix: Use SizedBox.shrink() instead of null
+          // ),
+        ],
       ),
     );
   }
