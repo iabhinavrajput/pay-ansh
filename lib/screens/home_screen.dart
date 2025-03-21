@@ -472,7 +472,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          Get.to(Notifications());
+                          // Get.to(Notifications());
                         },
                         child: const Icon(Icons.notifications,
                             color: Colors.white),
