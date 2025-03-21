@@ -11,6 +11,7 @@ import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/device_info.dart';
 import 'package:payansh/screens/notifications.dart';
+import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/widgets/app_bar.dart';
 import 'package:payansh/widgets/bottom_drawer.dart';
@@ -580,7 +581,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       // ),
                       GestureDetector(
                         onTap: () {
-                          Get.toNamed(AppRoutes.home);
+                          Get.to(RechargeBillPage());
                         },
                         child: Container(
                             width: Dimensions.dynamicWidth(context, 0.2),
