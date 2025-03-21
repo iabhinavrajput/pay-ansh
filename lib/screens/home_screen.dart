@@ -177,6 +177,8 @@ import 'package:shimmer/shimmer.dart';
 // }
 
 // // ✅ Notice Widget
+// class NoticeWidget extends StatelessWidget {
+
 class NoticeWidget extends StatelessWidget {
   const NoticeWidget({super.key});
 
@@ -192,13 +194,14 @@ class NoticeWidget extends StatelessWidget {
             colors: [AppColors.gradientStart.withOpacity(0.35), Colors.white]),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: SizedBox(
-              height: 20,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10), // Added Padding
+              child: SizedBox(
+                height: 20,
                 child: Marquee(
                   text:
                       "Complete your KYC to avail bill payment and other services",
@@ -368,17 +371,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 height: 50,
                 child: Padding(
                   padding:
-                      const EdgeInsets.only(left: 16.0, right: 16, top: 30),
+                      const EdgeInsets.only(left: 16.0, right: 16, top: 50),
                   child: Row(
                     children: [
                       GestureDetector(
                         onTap: () {
                           _scaffoldKey.currentState?.openDrawer();
                         },
-                        child: const CircleAvatar(
-                          radius: 24,
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.person),
+                        child: FutureBuilder<Map<String, dynamic>?>(
+                          future: _userProfileFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircleAvatar(
+                                radius: 24,
+                                backgroundColor: Colors.white,
+                                child: Icon(Icons.person, color: Colors.grey),
+                              );
+                            } else if (snapshot.hasError || !snapshot.hasData) {
+                              return const CircleAvatar(
+                                radius: 24,
+                                backgroundColor: Colors.white,
+                                child: Icon(Icons.person, color: Colors.grey),
+                              );
+                            }
+
+                            final String? profileImageUrl =
+                                snapshot.data!['profile_image'];
+                            final String name = snapshot.data!['name'] ??
+                                "U"; // Default to 'U' if name is null
+
+                            return CircleAvatar(
+                              radius: 24,
+                              backgroundColor: Colors.white,
+                              backgroundImage: profileImageUrl != null &&
+                                      profileImageUrl.isNotEmpty
+                                  ? NetworkImage(
+                                      profileImageUrl) // Load the profile image
+                                  : null, // No background image if profile image is null
+                              child: profileImageUrl == null ||
+                                      profileImageUrl.isEmpty
+                                  ? Text(
+                                      name[0]
+                                          .toUpperCase(), // Show the first letter of the name
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : null, // If image exists, don't show text
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -391,7 +433,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return  Center(
+                                  return Center(
                                     child: Shimmer.fromColors(
                                       baseColor: Colors.grey[300]!,
                                       highlightColor: Colors.grey[100]!,

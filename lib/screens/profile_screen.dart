@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
-import 'package:payansh/constants/style_constants.dart';
 import 'package:payansh/services/auth_service.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/app_bar.dart';
 import 'package:payansh/widgets/profile_item_widget.dart';
 import 'package:payansh/services/api_service.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -25,15 +25,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _profileFuture = ApiService.getUserProfile();
   }
 
+  Widget _buildShimmerEffect() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Column(
+        children: [
+          SizedBox(height: Dimensions.dynamicHeight(context, 0.14)),
+          CircleAvatar(radius: 40, backgroundColor: Colors.white),
+          SizedBox(height: 10),
+          Container(height: 20, width: 120, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10))),
+          SizedBox(height: 5),
+          Container(height: 15, width: 180, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10))),
+          SizedBox(height: 20),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: Dimensions.dynamicHeight(context, 0.02),
+            ),
+            child: Column(
+              children: List.generate(3, (index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Container(
+                    height: 55,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: FutureBuilder<Map<String, dynamic>?>(
+      body: FutureBuilder<Map<String, dynamic>?> (
         future: _profileFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return _buildShimmerEffect();
           } else if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}"));
           } else if (!snapshot.hasData || snapshot.data == null) {
@@ -120,21 +158,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                             ),
                           ),
-                          Positioned(
-                            bottom: -Dimensions.dynamicWidth(context, 0.005),
-                            right: -Dimensions.dynamicWidth(context, 0.005),
-                            child: Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: AppColors.drawerTextColor,
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.white, width: 2),
-                              ),
-                              child: const Icon(Icons.edit,
-                                  color: Colors.white, size: 18),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -143,10 +166,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(height: Dimensions.dynamicHeight(context, 0.08)),
               Text(userName, style: TTextTheme.lightTextTheme.titleSmall),
-              // const SizedBox(height: 5),
               Text(userPhone, style: TTextTheme.lightTextTheme.bodyMedium),
               const SizedBox(height: 20),
-
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: Dimensions.dynamicHeight(context, 0.02),
@@ -164,8 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       label: "Contact Number",
                       value: userPhone,
                       onEdit: () {},
-                        verified: isphonelverified, // Pass 0 (Unverified) or 1 (Verified)
-
+                      verified: isphonelverified,
                     ),
                     ProfileItemWidget(
                       icon: Icons.email,
@@ -174,7 +194,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onEdit: () {},
                       verified: ismailverified,
                     ),
-                    // ],
                   ],
                 ),
               )

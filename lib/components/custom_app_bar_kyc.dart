@@ -18,7 +18,7 @@ class CustomAppBarKYC extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 152,
+      height: 160,
       child: Container(
         decoration: const BoxDecoration(
           gradient: AppColors.appBarGradient,
@@ -85,5 +85,5 @@ class CustomAppBarKYC extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(152);
+  Size get preferredSize => const Size.fromHeight(160);
 }
