@@ -31,25 +31,25 @@ class TTextTheme {
         color: Colors.black,
         fontFamily: 'DMSans'),
     titleSmall: const TextStyle().copyWith(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w400,
-        color: Colors.black,
-        ),
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+    ),
     bodyLarge: const TextStyle().copyWith(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w200,
-        color:  Color(0xFF5A5A5B),
-       ),
+      fontSize: 16.0,
+      fontWeight: FontWeight.w200,
+      color: Color(0xFF5A5A5B),
+    ),
     bodyMedium: const TextStyle().copyWith(
-        fontSize: 14.0,
-        fontWeight: FontWeight.normal,
-        color: const Color(0xFF5A5A5B),
-     ),
+      fontSize: 14.0,
+      fontWeight: FontWeight.normal,
+      color: const Color(0xFF5A5A5B),
+    ),
     bodySmall: const TextStyle().copyWith(
-        fontSize: 14.0,
-        fontWeight: FontWeight.normal,
-        color: Color(0xff22415F),
-        ),
+      fontSize: 14.0,
+      fontWeight: FontWeight.normal,
+      color: Color(0xff22415F),
+    ),
     labelLarge: const TextStyle().copyWith(
         fontSize: 20.0,
         fontWeight: FontWeight.normal,
@@ -67,17 +67,23 @@ class TTextTheme {
         fontFamily: 'DMSans'),
   );
 
-  static const TextStyle greysmall=  TextStyle(
+  static const TextStyle greysmall = TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.normal,
     color: Colors.grey,
   );
 
-   static const TextStyle vsmallText=  TextStyle(
-    fontSize: 10,
-    fontWeight: FontWeight.normal,
-    color: Colors.grey,
-  );
+  static const TextStyle vsmallText = TextStyle(
+      fontSize: 10,
+      fontWeight: FontWeight.normal,
+      color: Colors.grey,
+      fontFamily: 'Poppins');
+
+  static const TextStyle greymediumText = TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.normal,
+      color: Color(0xffB8B8BC),
+      fontFamily: 'Poppins');
 
   static const TextStyle heading = TextStyle(
     fontSize: 24,

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:payansh/screens/complaint/registraion/complaint_registration.dart';
 import 'package:payansh/screens/drawer_navigation.dart';
 import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/login_screen.dart';
@@ -16,6 +17,8 @@ class AppRoutes {
   static const String profileScreen = '/profile_screen';
   static const String appSetting = '/app_setting';
   static const String cashback = '/cashback';
+    static const String complaint = '/complaint/registration/complaint_registration';
+
 
   static List<GetPage> routes = [
     GetPage(name: login, page: () => LoginScreen()),
@@ -28,5 +31,6 @@ class AppRoutes {
     GetPage(name: profileScreen, page: () => const ProfileScreen()),
     GetPage(name: appSetting, page: () => const SettingsScreen()),
     GetPage(name: cashback, page: () => const Offers()),
+    GetPage(name: complaint, page: () => const ComplaintRegistration())
   ];
 }
