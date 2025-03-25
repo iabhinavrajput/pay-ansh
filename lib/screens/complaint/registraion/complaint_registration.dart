@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
+import 'package:payansh/widgets/bottom_sheet.dart';
 import 'package:payansh/widgets/custom_dropdown.dart';
 import 'package:payansh/widgets/gradient_button.dart';
 import 'package:payansh/widgets/title_appbar.dart';
@@ -235,7 +236,18 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
               ),
               GradientButton(
                 text: "Submit",
-                onPressed: isFormValid ? () {} : null,
+                onPressed: isFormValid
+                    ? () {
+                        ConfirmationBottomSheet.show(
+                          context,
+                          title: "Complaint Registered Successfully",
+                          description:
+                              "Your complaint has been registered successfully.",
+                          message:
+                              "Your complaint Id is CD12344 assign to Payansh. To track your registered complaint you can use the complaint Id",
+                        );
+                      }
+                    : null,
                 isEnabled: isFormValid,
               )
             ])));
