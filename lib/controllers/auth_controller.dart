@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:payansh/constants/api_endpoints.dart';
 import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/screens/login_screen.dart';
-import 'package:payansh/screens/otp_delete.dart';
+import 'package:payansh/screens/delete_user_otp.dart';
 import 'package:payansh/services/api_service.dart';
 import '../utils/local_storage.dart';
 import '../constants/app_constants.dart';
@@ -99,7 +99,7 @@ class AuthController extends GetxController {
           message: data['message'],
           isSuccess: true, // Green snackbar
         );
-        Get.to(() => OtpVerificationScreen());
+        Get.to(() => DeleteUserProfileOtp());
       }
     } else {
       final data = jsonDecode(response.body);
