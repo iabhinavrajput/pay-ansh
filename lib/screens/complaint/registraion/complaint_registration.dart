@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/custom_dropdown.dart';
+import 'package:payansh/widgets/gradient_button.dart';
 import 'package:payansh/widgets/title_appbar.dart';
 
 class ComplaintRegistration extends StatefulWidget {
@@ -12,29 +15,229 @@ class ComplaintRegistration extends StatefulWidget {
 }
 
 class _ComplaintRegistrationState extends State<ComplaintRegistration> {
+  bool isFilled = false;
+  bool isFilledDescription = false;
+  bool isFormValid = false;
+
+  final TextEditingController _transactionController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+
+  bool isComplaintTypeSelected = false;
+  bool isComplaintReasonSelected = false;
+
+  String? selectedComplaintType;
+  String? selectedComplaintReason;
+
+  @override
+  void initState() {
+    super.initState();
+    _transactionController.addListener(() {
+      setState(() {
+        isFilled = _transactionController.text.isNotEmpty;
+      });
+    });
+
+    _descriptionController.addListener(() {
+      setState(() {
+        isFilledDescription = _descriptionController.text.isNotEmpty;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _transactionController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  void validateForm() {
+    setState(() {
+      isFilled = _transactionController.text.isNotEmpty;
+      isFilledDescription = _descriptionController.text.isNotEmpty;
+      isFormValid = isFilled &&
+          isFilledDescription &&
+          isComplaintTypeSelected &&
+          isComplaintReasonSelected;
+    });
+  }
+
+  void onSelectComplaintType(String value) {
+    setState(() {
+      selectedComplaintType = value;
+      isComplaintTypeSelected = true;
+      validateForm();
+    });
+  }
+
+  void onSelectComplaintReason(String value) {
+    setState(() {
+      selectedComplaintReason = value;
+      isComplaintReasonSelected = true;
+      validateForm();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: TitleAppBar(
-        height: Dimensions.dynamicHeight(context, 0.15),
-        title: "Complaint Registration",
-      ),
-      body:Padding(
-        padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.05)),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            "Complaint Type",
-            style: TTextTheme.lightTextTheme.bodyLarge,
-          ),
-          SizedBox(
-            height: Dimensions.dynamicHeight(context, 0.01),
-          ),
-          CustomDropdown(
-          title: "Select Complaint Type",
-          options: ["Transaction Base", "Mobile Recharge", "Postpaid Bill Payments",'Gas Bill Payments','Loan Repayments','Other complaint type'],
+        backgroundColor: Colors.white,
+        appBar: TitleAppBar(
+          height: Dimensions.dynamicHeight(context, 0.15),
+          title: "Complaint Registration",
         ),
-        ]))
-    );
+        body: Padding(
+            padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.05)),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.01),
+              ),
+              Text(
+                "Complaint Type",
+                style: TTextTheme.lightTextTheme.bodyLarge,
+              ),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.001),
+              ),
+              CustomDropdown(
+                title: "Select Complaint Type",
+                options: [
+                  "Transaction Base",
+                  "Mobile Recharge",
+                  "Postpaid Bill Payments",
+                  'Gas Bill Payments',
+                  'Loan Repayments',
+                  'Other complaint type'
+                ],
+                onSelect: onSelectComplaintType,
+              ),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.02),
+              ),
+              Text(
+                "Transaction Reference ID",
+                style: TTextTheme.lightTextTheme.bodyLarge,
+              ),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.001),
+              ),
+              Container(
+                height: Dimensions.dynamicHeight(context, 0.06),
+                decoration: BoxDecoration(
+                  gradient: isFilled
+                      ? LinearGradient(
+                          colors: [
+                            AppColors.gradientStart,
+                            AppColors.gradientEnd
+                          ],
+                        )
+                      : LinearGradient(
+                          colors: [Colors.transparent, Colors.transparent],
+                        ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: EdgeInsets.all(1), // Border padding effect
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: isFilled ? Colors.white : Color(0x33D9D9DA),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: TextFormField(
+                    controller: _transactionController,
+                    decoration: InputDecoration(
+                      hintText: "Enter Transaction Reference ID",
+                      hintStyle: TTextTheme.greymediumText,
+                      border: InputBorder.none,
+                      counterText: "",
+                    ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z]*$')),
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.02),
+              ),
+              Text(
+                "Description",
+                style: TTextTheme.lightTextTheme.bodyLarge,
+              ),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.001),
+              ),
+              Container(
+                height: Dimensions.dynamicHeight(context, 0.1),
+                padding: EdgeInsets.all(1), // Border padding effect
+                decoration: BoxDecoration(
+                  gradient: isFilledDescription
+                      ? LinearGradient(
+                          colors: [
+                            AppColors.gradientStart,
+                            AppColors.gradientEnd
+                          ],
+                        )
+                      : LinearGradient(
+                          colors: [Colors.transparent, Colors.transparent],
+                        ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color:
+                        isFilledDescription ? Colors.white : Color(0x33D9D9DA),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: TextFormField(
+                    controller: _descriptionController,
+                    decoration: InputDecoration(
+                      hintText: "Write Description",
+                      hintStyle: TTextTheme.greymediumText,
+                      border: InputBorder.none, // Removes the default border
+                      counterText: "", // Hides the default counter
+                    ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^[a-zA-Z]*$')), // Allows only alphabets
+                      // Limits input to 10 characters
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.02),
+              ),
+              Text(
+                "Complaint Reason",
+                style: TTextTheme.lightTextTheme.bodyLarge,
+              ),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.001),
+              ),
+              CustomDropdown(
+                title: "Select Complaint Reason",
+                options: [
+                  "Transaction Successful, account not updated",
+                  "Amount deducted,biller account credited but transaction ID not received",
+                  "Amount deducted multiple times",
+                  "Double payment updated",
+                  "Erroneously paid in wrong account",
+                  "Others, provide details in description"
+                ],
+                onSelect: onSelectComplaintReason,
+              ),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.05),
+              ),
+              GradientButton(
+                text: "Submit",
+                onPressed: isFormValid ? () {} : null,
+                isEnabled: isFormValid,
+              )
+            ])));
   }
 }
