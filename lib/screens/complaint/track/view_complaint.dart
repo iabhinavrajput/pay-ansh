@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/title_appbar.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -12,7 +13,7 @@ class ViewComplaint extends StatefulWidget {
 
 class _ViewComplaintState extends State<ViewComplaint> {
   final List<Map<String, String>> complaintStatuses = [
-    {"status": "Complaint Registered", "dateTime": "2025-03-25 10:00 AM"},
+    {"status": "Complaint Registered Successfully", "dateTime": "12th January,2025 10:00 am"},
     {"status": "In Progress", "dateTime": "2025-03-26 02:30 PM"},
     {"status": "Resolved", "dateTime": "2025-03-27 05:00 PM"},
   ];
@@ -26,51 +27,58 @@ class _ViewComplaintState extends State<ViewComplaint> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: complaintStatuses.length,
-          itemBuilder: (context, index) {
-            final status = complaintStatuses[index];
-            return TimelineTile(
-              alignment: TimelineAlign.start,
-              isFirst: index == 0,
-              isLast: index == complaintStatuses.length - 1,
-              indicatorStyle: IndicatorStyle(
-                width: 30,
-                color: index == complaintStatuses.length - 1
-                    ? Colors.green
-                    : Colors.blue,
-                indicatorXY: 0.5,
-                padding: EdgeInsets.all(6),
-              ),
-              beforeLineStyle: LineStyle(
-                color: Colors.blue,
-                thickness: 3,
-              ),
-              endChild: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Column(
+        child: Column(
+          children: complaintStatuses.asMap().entries.map((entry) {
+            final index = entry.key;
+            final status = entry.value;
+
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Timeline Indicator (Dot)
+                Column(
+                  children: [
+
+                    Container(
+                      margin: EdgeInsets.all(6),
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: index == complaintStatuses.length - 1
+                            ? Colors.green
+                            : Color(0xffF26727),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    if (index != complaintStatuses.length - 1)
+                      Container(
+                        width: 2,
+                        height: 40,
+                        color: Color(0x40F26727),
+                      ),
+                  ],
+                ),
+                const SizedBox(width: 10), // Space between dot and text
+
+                // Status & DateTime
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       status["status"]!,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TTextTheme.lightTextTheme.bodyMedium
                     ),
                     SizedBox(height: 5),
                     Text(
                       status["dateTime"]!,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
+                      style:TextStyle(color: Color(0xffCC5A5A5B),fontSize: Dimensions.dynamicWidth(context, 0.027))
                     ),
+                    SizedBox(height: Dimensions.dynamicHeight(context, 0.02)), // Spacing between rows
                   ],
                 ),
-              ),
+              ],
             );
-          },
+          }).toList(),
         ),
       ),
     );
