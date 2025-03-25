@@ -32,6 +32,9 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
   String? selectedComplaintType;
   String? selectedComplaintReason;
 
+  final TextEditingController _controller = TextEditingController();
+  final int maxWords = 50; // Set max words dynamically if needed
+
   @override
   void initState() {
     super.initState();
@@ -80,6 +83,19 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
       isComplaintReasonSelected = true;
       validateForm();
     });
+  }
+
+  void _onTextChanged(String value) {
+    List<String> words = value.trim().split(RegExp(r'\s+'));
+    if (words.length > maxWords) {
+      // Limit text if word count exceeds maxWords
+      String newText = words.sublist(0, maxWords).join(" ");
+      _controller.value = TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
+      );
+    }
+    setState(() {}); // Refresh UI if needed
   }
 
   @override
@@ -198,6 +214,10 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
                     controller: _descriptionController,
+                    expands: true, // Allows text to fill the container
+                    maxLines: null, // Makes it multiline
+                    keyboardType: TextInputType.multiline,
+                    onChanged: _onTextChanged, // Calls function to limit words
                     decoration: InputDecoration(
                       hintText: "Write Description",
                       hintStyle: TTextTheme.greymediumText,
@@ -249,8 +269,8 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
                           message:
                               "Your complaint Id is CD12344 assign to Payansh. To track your registered complaint you can use the complaint Id",
                           action: () {
-                            Get.to(() =>
-                                ComplaintScreen()); // Example navigation
+                            Get.to(
+                                () => ComplaintScreen()); // Example navigation
                           },
                         );
                       }
