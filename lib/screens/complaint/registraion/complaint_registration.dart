@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/screens/complaint/complaint_screen.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/bottom_sheet.dart';
 import 'package:payansh/widgets/custom_dropdown.dart';
@@ -245,6 +248,10 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
                               "Your complaint has been registered successfully.",
                           message:
                               "Your complaint Id is CD12344 assign to Payansh. To track your registered complaint you can use the complaint Id",
+                          action: () {
+                            Get.to(() =>
+                                ComplaintScreen()); // Example navigation
+                          },
                         );
                       }
                     : null,

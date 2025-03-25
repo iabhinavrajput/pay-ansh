@@ -60,6 +60,8 @@ dependencies:
   hugeicons: ^0.0.10
   package_info_plus: ^8.3.0
   flutter_switch: ^0.3.2
+  timeline_tile: ^2.0.0
+  
 
 dev_dependencies:
   flutter_test:

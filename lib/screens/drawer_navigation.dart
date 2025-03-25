@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/screens/complaint/complaint_screen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/routes/routes.dart';
@@ -222,7 +223,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             title: "Have a Complaint?",
             subtitle: "Raise a complaint",
             onTap: () {
-              Get.toNamed(AppRoutes.complaint);
+              Get.to(ComplaintScreen());
             },
           ),
           SidebarMenuItem(

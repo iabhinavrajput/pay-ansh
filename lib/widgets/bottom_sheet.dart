@@ -9,6 +9,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
   final String? title;
   final String? message;
   final String buttonText;
+  final VoidCallback? action; // Optional action
 
   const ConfirmationBottomSheet({
     Key? key,
@@ -16,6 +17,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
     this.title,
     this.message,
     this.buttonText = "OK",
+    this.action, // Optional action
   }) : super(key: key);
 
   static void show(
@@ -24,6 +26,8 @@ class ConfirmationBottomSheet extends StatelessWidget {
     String? title,
     String? message,
     String buttonText = "OK",
+        VoidCallback? action, // Optional action
+
   }) {
     showModalBottomSheet(
       context: context,
@@ -36,6 +40,8 @@ class ConfirmationBottomSheet extends StatelessWidget {
           description: description,
           message: message,
           buttonText: buttonText,
+                    action: action, // Passing action
+
         );
       },
     );
@@ -83,6 +89,12 @@ class ConfirmationBottomSheet extends StatelessWidget {
           ],
           SizedBox(height: Dimensions.dynamicHeight(context, 0.03)),
           GestureDetector(
+             onTap: () {
+              Navigator.pop(context); // Close the bottom sheet
+              if (action != null) {
+                action!(); // Execute optional action if provided
+              }
+            },
             child: Container(
               decoration: BoxDecoration(
                   color: Color(0x335A5A5B),
@@ -91,7 +103,11 @@ class ConfirmationBottomSheet extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     horizontal: Dimensions.dynamicWidth(context, 0.05),
                     vertical: Dimensions.dynamicWidth(context, 0.03)),
-                child: Text("Ok, Got it!",style:TextStyle(color: Color(0xff5A5A5B),fontWeight: FontWeight.bold),),
+                child: Text(
+                  "Ok, Got it!",
+                  style: TextStyle(
+                      color: Color(0xff5A5A5B), fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
