@@ -15,9 +15,9 @@ import '../utils/snackbar_util.dart'; // Import custom snackbar
 class AuthController extends GetxController {
   var isLoading = false.obs;
   var isPasswordVisible = false.obs; // Password visibility toggle
-  
-  static final FlutterSecureStorage storage = FlutterSecureStorage(); 
-  
+
+  static final FlutterSecureStorage storage = FlutterSecureStorage();
+
   static Future<String?> getAccessToken() async {
     return await storage.read(key: 'accessToken');
   }
@@ -29,8 +29,6 @@ class AuthController extends GetxController {
       'Authorization': 'Bearer $token',
     };
   }
-
-
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
@@ -88,43 +86,62 @@ class AuthController extends GetxController {
     }
   }
 
-    static Future<void> deleteAccountInitiate(BuildContext context) async {
+  static Future<void> deleteAccountInitiate(BuildContext context) async {
     final headers = await getHeaders();
-    final response = await http.post(Uri.parse(ApiEndpoints.deleteAccountInitiate), headers: headers);
-    
+    final response = await http
+        .post(Uri.parse(ApiEndpoints.deleteAccountInitiate), headers: headers);
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       if (data['status'] == 'success') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'])));
-        Navigator.push(context, MaterialPageRoute(builder: (context) => OtpVerificationScreen()));
+        showSnackbar(
+          title: data['status'],
+          message: data['message'],
+          isSuccess: true, // Green snackbar
+        );
+        Get.to(() => OtpVerificationScreen());
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to initiate account deletion')));
+      final data = jsonDecode(response.body);
+      showSnackbar(
+        title: data['status'],
+        message: data['message'],
+        isSuccess: false,
+      );
     }
   }
-  
-   Future<void> verifyDeleteAccountOtp(String otp) async {
-  isLoading.value = true;
-  final headers = await getHeaders();
 
-  final response = await http.post(
-    Uri.parse(ApiEndpoints.deleteAccountConfirm),
-    headers: headers,
-    body: jsonEncode({'otp': otp}),
-  );
+  Future<void> verifyDeleteAccountOtp(String otp) async {
+    isLoading.value = true;
+    final headers = await getHeaders();
 
-  isLoading.value = false;
-  
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    if (data['status'] == 'success') {
-      Get.snackbar('Success', 'Account deleted successfully', backgroundColor: Colors.green, colorText: Colors.white);
-      await LocalStorage.clearUserToken();
-      Get.offAllNamed('/login'); // Navigate to login screen
+    final response = await http.post(
+      Uri.parse(ApiEndpoints.deleteAccountConfirm),
+      headers: headers,
+      body: jsonEncode({'otp': otp}),
+    );
+
+    isLoading.value = false;
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['status'] == 'success') {
+        showSnackbar(
+          title: data['status'],
+          message: data['message'],
+          isSuccess: true,
+        );
+        await LocalStorage.clearUserToken();
+        Get.offAllNamed('/login');
+      }
+    } else {
+      final data = jsonDecode(response.body);
+
+      showSnackbar(
+        title: data['status'],
+        message: data['message'],
+        isSuccess: false, 
+      );
     }
-  } else {
-    Get.snackbar('Error', 'Invalid OTP, please try again', backgroundColor: Colors.red, colorText: Colors.white);
   }
-}
-
 }
