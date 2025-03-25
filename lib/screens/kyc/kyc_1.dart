@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/components/custom_app_bar_kyc.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/screens/kyc/kyc_2.dart';
+import 'package:payansh/screens/kyc/kyc_form.dart';
 
 class KycOne extends StatelessWidget {
   const KycOne({Key? key}) : super(key: key);
@@ -140,7 +141,7 @@ class KycOne extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to (() => KycTwo());
+                    Get.to (() => KycFormScreen());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors

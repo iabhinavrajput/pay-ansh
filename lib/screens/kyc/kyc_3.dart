@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:get/get.dart';
 import 'package:payansh/components/custom_app_bar_kyc.dart';
-import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/screens/kyc/kyc_form.dart';
+import 'package:payansh/screens/kyc/workflow_pan.dart';
 
 class KycThree extends StatelessWidget {
   const KycThree({Key? key}) : super(key: key);
@@ -42,7 +44,12 @@ class KycThree extends StatelessWidget {
             const SizedBox(height: 20),
             const Center(child: Text("or" , style: TextStyle(color: Colors.grey))),
             const SizedBox(height: 20),
-            const Text(
+
+            GestureDetector(
+              onTap: () {
+                Get.to(() => WorkflowScreen());
+              },
+              child : const Text(
               "Upload Your Aadhaar Card*",
               style: TextStyle(
                 fontSize: 16,
@@ -50,8 +57,17 @@ class KycThree extends StatelessWidget {
               ),
               // InputDecoration(border: OutlineInputBorder(), labelText: 'Password'),
             ),
+            ),
+
+            
             const SizedBox(height: 10),
-            _buildUploadBox("Upload Aadhaar Card (Front)"),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => KycFormScreen());
+              },
+              child : _buildUploadBox("Upload Aadhaar Card (Front)"),
+            ),
+            
             const SizedBox(height: 15),
             _buildUploadBox("Upload Aadhaar Card (Back)"),
           ],

@@ -60,6 +60,7 @@ dependencies:
   hugeicons: ^0.0.10
   package_info_plus: ^8.3.0
   dotted_border: ^2.1.0
+  kyc_workflow: ^1.0.19
 
 dev_dependencies:
   flutter_test:

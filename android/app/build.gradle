@@ -6,62 +6,90 @@ plugins {
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
-
-
 }
 
-def keystoreProperties = new Properties()
-   def keystorePropertiesFile = rootProject.file('key.properties')
-   if (keystorePropertiesFile.exists()) {
-       keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-   }
+    def keystoreProperties = new Properties()
+    def keystorePropertiesFile = rootProject.file('key.properties')
+    if (keystorePropertiesFile.exists()) {
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    }
 
 android {
-    namespace = "com.payansh.payansh"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+        namespace = "com.payansh.payansh"
+        compileSdk = flutter.compileSdkVersion
+        ndkVersion = flutter.ndkVersion
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
-    }
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_1_8
+        }
 
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.payansh.payansh"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 23
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
-        multiDexEnabled true
-    }
-    signingConfigs {
-       release {
-           keyAlias keystoreProperties['keyAlias']
-           keyPassword keystoreProperties['keyPassword']
-           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-           storePassword keystoreProperties['storePassword']
-       }
-   }
-   
 
-buildTypes {
+
+        defaultConfig {
+            // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+            applicationId = "com.payansh.payansh"
+            // You can update the following values to match your application needs.
+            // For more information, see: https://flutter.dev/to/review-gradle-config.
+            minSdk = 24
+            targetSdk = flutter.targetSdkVersion
+            versionCode = flutter.versionCode
+            versionName = flutter.versionName
+            multiDexEnabled true
+        }
+        signingConfigs {
         release {
-           signingConfig signingConfigs.release
-       }
-}
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    
+
+        buildTypes {
+                release {
+                signingConfig signingConfigs.release
+            }
+        }
+
+        buildFeatures {
+            viewBinding true
+            dataBinding true
+        }
+
+        dependencies {
+            
+            implementation 'com.google.android.gms:play-services-auth:20.7.0'
+            implementation 'com.github.digio-tech:gateway:v4.0.13'
+            implementation 'com.github.digio-tech:gateway_kyc:v4.0.20'
+            
+            implementation 'androidx.core:core:1.9.0'
+            implementation 'androidx.appcompat:appcompat:1.5.1'
+            implementation 'com.google.android.material:material:1.7.0'
+            implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+            
+            implementation "androidx.camera:camera-camera2:1.2.2"
+            implementation "androidx.camera:camera-lifecycle:1.2.2"
+            implementation "androidx.camera:camera-view:1.2.2"
+            implementation "androidx.camera:camera-core:1.2.2"
+                
+            
+            implementation 'androidx.navigation:navigation-fragment:2.5.3'
+            implementation 'androidx.navigation:navigation-ui:2.5.3'
+            
+            implementation 'androidx.preference:preference:1.2.0'
+            implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.1.0'
+                
+            implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+            implementation 'com.google.android.gms:play-services-location:21.0.1'
+        }
 }
 
-dependencies {
-    implementation 'com.google.android.gms:play-services-auth:20.7.0'
-}
-
-flutter {
-    source = "../.."
-}
+    flutter {
+        source = "../.."
+    }
