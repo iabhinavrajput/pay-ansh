@@ -236,7 +236,9 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             icon: SvgPicture.asset('assets/drawer_navigation/person.svg'),
             title: "Delete Account",
             subtitle: "Delete account from Payance",
-            onTap: () {},
+            onTap: () async {
+                await AuthController.deleteAccountInitiate(context);
+            },
           ),
           SidebarMenuItem(
             icon: SvgPicture.asset('assets/drawer_navigation/logout.svg'),

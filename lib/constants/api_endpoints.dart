@@ -14,4 +14,7 @@ class ApiEndpoints {
       '$baseUrl2/profile/upload-profile-picture';
 
   static const String googleAuth = '$baseUrl/google/verify';
+
+   static const String deleteAccountInitiate = '$baseUrl2/users/delete-account/initiate';
+  static const String deleteAccountConfirm = '$baseUrl2/users/delete-account/confirm';
 }
