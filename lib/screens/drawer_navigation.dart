@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/screens/kyc/kyc_1.dart';
 import 'package:payansh/screens/complaint/complaint_screen.dart';
+import 'package:payansh/screens/trial/kyc1.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/routes/routes.dart';
@@ -205,7 +206,11 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             subtitle: "● KYC Incomplete",
             subtitleColor: Colors.red,
             onTap: () {
-              Get.to(KycOne());
+              // Get.to(KycOne());
+
+
+              Get.to(KycFormScreen());
+
             },
           ),
           SidebarMenuItem(

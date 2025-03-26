@@ -62,6 +62,7 @@ dependencies:
   flutter_switch: ^0.3.2
   dotted_border: ^2.1.0
   timeline_tile: ^2.0.0
+  kyc_workflow: ^1.0.19
   
 
 dev_dependencies:
