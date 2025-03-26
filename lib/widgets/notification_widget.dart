@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/theme/custom_themes/text_theme.dart';
 
 class NotificationWidget extends StatelessWidget {
   final String text, description;
@@ -20,8 +21,8 @@ class NotificationWidget extends StatelessWidget {
       width: Dimensions.dynamicWidth(context, 1),
       decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.grey,
-          ),
+              color: Color(0xA65A5A5B),
+              width: Dimensions.dynamicWidth(context, 0.001)),
           borderRadius: BorderRadius.circular(5)),
       child: Padding(
         padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.03)),
@@ -35,18 +36,29 @@ class NotificationWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  children: [Text(text), Container
-                  (height: 500,
-                  width: 500,
-                    child: SvgPicture.asset(imagePath))],
+                  children: [
+                    Text(text,style: TextStyle(fontSize: Dimensions.dynamicWidth(context, 0.035),),),
+                    SizedBox(width: Dimensions.dynamicHeight(context, 0.01)),
+                    Image.asset(
+                      imagePath,
+                      width: Dimensions.dynamicHeight(context, 0.015),
+                    )
+                  ],
                 ),
-                Text(
-                  description,
-                  textWidthBasis: TextWidthBasis
-                      .longestLine, // Calculates width based on longest line
-                  // Limits text to 2 lines
-                  // Allows automatic line breaking
-                )
+                SizedBox(
+                  width: Dimensions.dynamicWidth(
+                      context, 0.7), // Limit width to avoid overflow
+                  child: Text(
+                    description,
+                    style: TextStyle(
+                      color: Color(0xB35A5A5B),
+                      fontSize: Dimensions.dynamicWidth(context, 0.03),
+                    ),
+                    softWrap: true, // Allows wrapping
+                    overflow:
+                        TextOverflow.visible, // Ensures full text is shown
+                  ),
+                ),
               ],
             ),
           ],
