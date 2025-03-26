@@ -15,8 +15,8 @@ class EnterNewPasswordScreen extends StatefulWidget {
   State<EnterNewPasswordScreen> createState() => _EnterNewPasswordScreenState();
 }
 
-class _EnterNewPasswordScreenState extends State<EnterNewPasswordScreen> with TickerProviderStateMixin{
-
+class _EnterNewPasswordScreenState extends State<EnterNewPasswordScreen>
+    with TickerProviderStateMixin {
   final ForgotPasswordController forgotPasswordController = Get.find();
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController =
@@ -123,26 +123,34 @@ class _EnterNewPasswordScreenState extends State<EnterNewPasswordScreen> with Ti
             const SizedBox(height: 30),
 
             // Continue Button
-            Obx(() => forgotPasswordController.isLoading.value
-                ? const ButtonLoader()
+            // Continue Button
+            Obx(() {
+              bool isEnabled =
+                  isNewPasswordValid.value && isConfirmPasswordValid.value;
 
-                : GradientButton(
-                    text: "Continue",
-                    onPressed: () {
-                      if (newPasswordController.text ==
-                          confirmPasswordController.text) {
-                        forgotPasswordController.resetPassword(
-                          newPasswordController.text,
-                          confirmPasswordController.text,
-                        );
-                      } else {
-                        Get.snackbar("Error", "Passwords do not match!",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.red,
-                            colorText: Colors.white);
-                      }
-                    },
-                  )),
+              return forgotPasswordController.isLoading.value
+                  ? const ButtonLoader()
+                  : GradientButton(
+                      text: "Continue",
+                      isEnabled: isEnabled,
+                      onPressed: isEnabled
+                          ? () {
+                              if (newPasswordController.text ==
+                                  confirmPasswordController.text) {
+                                forgotPasswordController.resetPassword(
+                                  newPasswordController.text,
+                                  confirmPasswordController.text,
+                                );
+                              } else {
+                                Get.snackbar("Error", "Passwords do not match!",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white);
+                              }
+                            }
+                          : null,
+                    );
+            }),
           ],
         ),
       ),
