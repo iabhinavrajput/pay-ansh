@@ -87,7 +87,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
                   "Mobile Recharge",
                   "Postpaid Bill Payments",
                   'Gas Bill Payments',
-                  'Loan Repayments',
+                  'Loan PayOff',
                   'Other complaint type'
                 ],
                 onSelect: onSelectComplaintType,

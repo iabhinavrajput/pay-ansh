@@ -131,7 +131,7 @@ class RechargeBillPage extends StatelessWidget {
                 },
                 {
                   'image': 'assets/dashboard/loan.png',
-                  'label': 'Loan\nRepayment',
+                  'label': 'Loan\nPayOff',
                   'screen': const DeviceInfoScreen()
                 },
                 {
