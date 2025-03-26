@@ -209,7 +209,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               // Get.to(KycOne());
 
 
-              Get.to(KycFormScreen());
+              Get.to(KycOne());
 
             },
           ),

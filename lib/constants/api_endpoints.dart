@@ -4,7 +4,6 @@ class ApiEndpoints {
 
   static const String login = "$baseUrl/login";
   static const String refreshtoken = "$baseUrl/refresh-token";
-
   static const String forgotPassword = "$baseUrl/forgot-password";
   static const String resetPassword = "$baseUrl/reset-password";
   static const String verifyOTP = "$baseUrl/verify-reset-otp";
@@ -14,7 +13,6 @@ class ApiEndpoints {
       '$baseUrl2/profile/upload-profile-picture';
 
   static const String googleAuth = '$baseUrl/google/verify';
-
-   static const String deleteAccountInitiate = '$baseUrl2/users/delete-account/initiate';
+  static const String deleteAccountInitiate = '$baseUrl2/users/delete-account/initiate';
   static const String deleteAccountConfirm = '$baseUrl2/users/delete-account/confirm';
 }
