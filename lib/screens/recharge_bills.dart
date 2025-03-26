@@ -86,7 +86,7 @@ class RechargeBillPage extends StatelessWidget {
                 },
                 {
                   'image': 'assets/dashboard/landline.png',
-                  'label': 'Mobile\nRecharge',
+                  'label': 'Landline\nBill',
                   'screen': const DeviceInfoScreen()
                 },
                 {
