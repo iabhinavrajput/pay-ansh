@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
+import 'package:payansh/widgets/button_loader.dart';
 import '../controllers/forgot_password.dart';
 import '../widgets/gradient_button.dart';
 
-class EnterNewPasswordScreen extends StatelessWidget {
+class EnterNewPasswordScreen extends StatefulWidget {
+  const EnterNewPasswordScreen({super.key});
+
+  @override
+  State<EnterNewPasswordScreen> createState() => _EnterNewPasswordScreenState();
+}
+
+class _EnterNewPasswordScreenState extends State<EnterNewPasswordScreen> with TickerProviderStateMixin{
+
   final ForgotPasswordController forgotPasswordController = Get.find();
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController =
@@ -18,8 +28,6 @@ class EnterNewPasswordScreen extends StatelessWidget {
   final RxBool isConfirmPasswordValid = false.obs;
   final RxString newPasswordError = ''.obs;
   final RxString confirmPasswordError = ''.obs;
-
-  EnterNewPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +124,8 @@ class EnterNewPasswordScreen extends StatelessWidget {
 
             // Continue Button
             Obx(() => forgotPasswordController.isLoading.value
-                ? const CircularProgressIndicator()
+                ? const ButtonLoader()
+
                 : GradientButton(
                     text: "Continue",
                     onPressed: () {
