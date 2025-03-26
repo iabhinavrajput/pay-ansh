@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/controllers/complain_controller.dart';
 import 'package:payansh/screens/complaint/complaint_screen.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/bottom_sheet.dart';
@@ -34,6 +35,8 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
 
   final TextEditingController _controller = TextEditingController();
   final int maxWords = 50; // Set max words dynamically if needed
+    final ComplaintController complaintController = Get.put(ComplaintController());
+
 
   @override
   void initState() {
@@ -120,18 +123,48 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.001),
               ),
-              CustomDropdown(
-                title: "Select Complaint Type",
-                options: [
-                  "Transaction Base",
-                  "Mobile Recharge",
-                  "Postpaid Bill Payments",
-                  'Gas Bill Payments',
-                  'Loan Repayments',
-                  'Other complaint type'
-                ],
-                onSelect: onSelectComplaintType,
-              ),
+              Column(
+          children: [
+            Obx(() {
+  if (complaintController.isLoading.value) {
+    return Container(
+      height: 50,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Fetching data...", style: TextStyle(color: Colors.grey[600])),
+          // SizedBox(
+          //   width: 20,
+          //   height: 20,
+          //   child: CircularProgressIndicator(strokeWidth: 2),
+          // ),
+        ],
+      ),
+    );
+  }
+
+  if (complaintController.complaintTypes.isEmpty) {
+    return Container(
+      height: 50,
+      alignment: Alignment.center,
+      child: Text("No complaint types available", style: TextStyle(color: Colors.red)),
+    );
+  }
+
+  return CustomDropdown(
+    title: "Select Complaint Type",
+    options: complaintController.complaintTypes,
+    onSelect: onSelectComplaintType,
+  );
+}),
+
+          ],
+        ),
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.02),
               ),
@@ -242,18 +275,48 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.001),
               ),
-              CustomDropdown(
-                title: "Select Complaint Reason",
-                options: [
-                  "Transaction Successful, account not updated",
-                  "Amount deducted,biller account credited but transaction ID not received",
-                  "Amount deducted multiple times",
-                  "Double payment updated",
-                  "Erroneously paid in wrong account",
-                  "Others, provide details in description"
-                ],
-                onSelect: onSelectComplaintReason,
-              ),
+              Column(
+          children: [
+            Obx(() {
+  if (complaintController.isLoading.value) {
+    return Container(
+      height: 50,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Fetching data...", style: TextStyle(color: Colors.grey[600])),
+          // SizedBox(
+          //   width: 20,
+          //   height: 20,
+          //   child: CircularProgressIndicator(strokeWidth: 2),
+          // ),
+        ],
+      ),
+    );
+  }
+
+  if (complaintController.complaintReasons.isEmpty) {
+    return Container(
+      height: 50,
+      alignment: Alignment.center,
+      child: Text("No complaint reasons available", style: TextStyle(color: Colors.red)),
+    );
+  }
+
+  return CustomDropdown(
+    title: "Select Complaint Reason",
+    options: complaintController.complaintReasons,
+    onSelect: onSelectComplaintReason,
+  );
+}),
+
+          ],
+        ),
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.05),
               ),

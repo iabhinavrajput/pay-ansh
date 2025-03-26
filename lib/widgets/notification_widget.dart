@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 
 class NotificationWidget extends StatelessWidget {
   final String text, description;
-  final Icon icon;
-  const NotificationWidget(
-      {super.key,
-      required this.text,
-      required this.description,
-      required this.icon});
+  final String imagePath; // ✅ Changed from IconData to String for image path
+  const NotificationWidget({
+    super.key,
+    required this.text,
+    required this.description,
+    required this.imagePath, // ✅ Accept an image path instead of an icon
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,12 @@ class NotificationWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(text),
+                Row(
+                  children: [Text(text), Container
+                  (height: 500,
+                  width: 500,
+                    child: SvgPicture.asset(imagePath))],
+                ),
                 Text(
                   description,
                   textWidthBasis: TextWidthBasis

@@ -20,7 +20,7 @@ class Notifications extends StatelessWidget {
             SizedBox(height: 20,),
             Text("19 March, 2025",style: TTextTheme.greysmall,),
                         SizedBox(height: 20,),
-                        NotificationWidget(text: "Complete Your KYC", description: "Complete your KYC to use all benefits and services of PAYANCE.", icon: Icon(Icons.abc))
+                        NotificationWidget(text: "Complete Your KYC", description: "Complete your KYC ", imagePath:'assets/logo/Bharat_Connect.svg')
             ],
         ),
       ),

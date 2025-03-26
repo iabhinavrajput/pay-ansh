@@ -12,4 +12,6 @@ class ApiEndpoints {
   static const String profileUpdate = '$baseUrl2/profile/user/profile-update';
   static const String uploadProfilePicture =
       '$baseUrl2/profile/upload-profile-picture';
+
+  static const String complaintTypesReason = '$baseUrl2/complaints/typesandreasons';
 }
