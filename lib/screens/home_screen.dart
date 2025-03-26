@@ -318,21 +318,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Padding(
                       padding: EdgeInsets.only(
                           top: Dimensions.dynamicHeight(context, 0.00)),
-                      child: 
-                      // GradientText(
-                      //   iconLabels[index],
-                      //   style: TextStyle(
-                      //     fontSize: Dimensions.dynamicWidth(context, 0.034),
-                      //     fontWeight: FontWeight.w500,
-                      //     color: Colors.white,
-                      //   ),
-                      // )
-                      Text(iconLabels[index],style: TextStyle(
+                      child:
+                          // GradientText(
+                          //   iconLabels[index],
+                          //   style: TextStyle(
+                          //     fontSize: Dimensions.dynamicWidth(context, 0.034),
+                          //     fontWeight: FontWeight.w500,
+                          //     color: Colors.white,
+                          //   ),
+                          // )
+                          Text(
+                        iconLabels[index],
+                        style: TextStyle(
                           fontSize: Dimensions.dynamicWidth(context, 0.034),
                           fontWeight: FontWeight.w500,
                           color: AppColors.gradientEnd,
-                        ),)
-                      ),
+                        ),
+                      )),
               ],
             );
           },
@@ -391,7 +393,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return  Center(
+                                  return Center(
                                     child: Shimmer.fromColors(
                                       baseColor: Colors.grey[300]!,
                                       highlightColor: Colors.grey[100]!,
@@ -538,7 +540,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       // ),
                       GestureDetector(
                         onTap: () {
-                          Get.toNamed(AppRoutes.home);
+                          Get.toNamed(AppRoutes.recharge);
                         },
                         child: Container(
                             width: Dimensions.dynamicWidth(context, 0.2),
@@ -582,9 +584,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         'screen': DeviceInfoScreen()
                       },
                       {
-                        'image': 'assets/dashboard/router.png',
-                        'label': 'Broadband\nRecharge',
-                        'screen': DeviceInfoScreen()
+                        'image': 'assets/dashboard/water-bill.png',
+                        'label': 'Water\nBill',
+                        'screen': const DeviceInfoScreen()
                       },
                       {
                         'image': 'assets/dashboard/electricity-bill.png',
