@@ -25,8 +25,9 @@ class NotificationWidget extends StatelessWidget {
               width: Dimensions.dynamicWidth(context, 0.001)),
           borderRadius: BorderRadius.circular(5)),
       child: Padding(
-        padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.03)),
+        padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.02)),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             bell(),
             SizedBox(
@@ -59,6 +60,9 @@ class NotificationWidget extends StatelessWidget {
                         TextOverflow.visible, // Ensures full text is shown
                   ),
                 ),
+                SizedBox(
+              height: Dimensions.dynamicHeight(context, 0.009),
+            ),
               ],
             ),
           ],

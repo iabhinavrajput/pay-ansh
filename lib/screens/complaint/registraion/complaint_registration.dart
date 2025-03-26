@@ -109,7 +109,10 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
           height: Dimensions.dynamicHeight(context, 0.15),
           title: "Complaint Registration",
         ),
-        body: Padding(
+        body:SafeArea(
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(), // Smooth scrolling effect
+        child: Padding(
             padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.05)),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -342,6 +345,6 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
                     : null,
                 isEnabled: isFormValid,
               )
-            ])));
+            ])))));
   }
 }
