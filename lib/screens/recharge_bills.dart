@@ -46,14 +46,14 @@ class RechargeBillPage extends StatelessWidget {
           ],
         ),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GradientText('Recharge', style: TextStyle(fontSize: 16)),
-              SizedBox(height: 20),
+              SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
               RechargeGrid(iconData: [
                 {
                   'image': 'assets/dashboard/mobile-recharge.png',
@@ -76,13 +76,15 @@ class RechargeBillPage extends StatelessWidget {
                   // 'screen': DeviceInfoScreen()
                 },
               ]),
-              SizedBox(height: 20),
-              GradientText('Utility bills', style: TextStyle(fontSize: 22)),
-              SizedBox(height: 20),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.01),
+              ),
+              GradientText('Utility bills', style: TextStyle(fontSize: 16)),
+              SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
               RechargeGrid(iconData: [
                 {
                   'image': 'assets/dashboard/bill.png',
-                  'label': 'Mobile\nPayment',
+                  'label': 'Postpaid\nMobile',
                   'screen': const DeviceInfoScreen()
                 },
                 {
@@ -115,6 +117,56 @@ class RechargeBillPage extends StatelessWidget {
                   'label': 'Piped\nGas',
                   'screen': const DeviceInfoScreen()
                 }
+              ]),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.01),
+              ),
+              GradientText('Finance & Tax', style: TextStyle(fontSize: 16)),
+              SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
+              RechargeGrid(iconData: [
+                {
+                  'image': 'assets/dashboard/insurance-1.png',
+                  'label': 'Lic /\nInsurance',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/loan.png',
+                  'label': 'Loan\nRepayment',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/credit-cards.png',
+                  'label': 'Credit\nCards',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/tax.png',
+                  'label': 'Muncipal\nTax',
+                  'screen': const DeviceInfoScreen()
+                },
+              ]),
+              SizedBox(
+                height: Dimensions.dynamicHeight(context, 0.01),
+              ),
+              GradientText('More', style: TextStyle(fontSize: 16)),
+              SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
+              RechargeGrid(iconData: [
+                {
+                  'image': 'assets/dashboard/Subscription.png',
+                  'label': 'Sub\nscription',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/housing.png',
+                  'label': 'Housing\nSociety',
+                  'screen': const DeviceInfoScreen()
+                },
+                {
+                  'image': 'assets/dashboard/Rent-pay.png',
+                  'label': 'Rent\nPay',
+                  'screen': const DeviceInfoScreen()
+                },
+
               ])
             ],
           ),
