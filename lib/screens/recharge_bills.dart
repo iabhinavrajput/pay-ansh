@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/screens/device_info.dart';
@@ -36,10 +37,10 @@ class RechargeBillPage extends StatelessWidget {
             ),
             Positioned(
               right: 16,
-              bottom: 15,
-              child: Image.asset(
-                'assets/dashboard/bill.png',
-                height: 40,
+              bottom: 20,
+              child: SvgPicture.asset(
+                'assets/logo/Bharat_Connect.svg',
+                height: Dimensions.dynamicHeight(context, 0.03),
               ),
             ),
           ],
@@ -66,7 +67,7 @@ class RechargeBillPage extends StatelessWidget {
                 },
                 {
                   'image': 'assets/dashboard/router.png',
-                  'label': 'Broadband',
+                  'label': 'Broad\nband',
                   // 'screen': DeviceInfoScreen()
                 },
                 {
