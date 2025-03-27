@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -229,7 +231,6 @@ class _LoginScreenState extends State<LoginScreen>
                   // Login Button
                   Obx(() => authController.isLoading.value
                       ? const ButtonLoader()
-
                       : GradientButton(
                           text: "Login",
                           onPressed:
@@ -258,11 +259,20 @@ class _LoginScreenState extends State<LoginScreen>
                     },
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
-                  SizedBox(
-                    height: Dimensions.dynamicHeight(
-                        context, 0.06), // Adjust as needed
-                    child: GoogleBtn(),
-                  ),
+                  // SizedBox(
+                  //   height: Dimensions.dynamicHeight(context, 0.06),
+                  //   child: Platform.isAndroid
+                  //       ? GoogleBtn()
+                  //       : SizedBox.shrink(), // Show only on Android
+                  // ),
+
+                  Platform.isAndroid
+                      ? SizedBox(
+                          height: Dimensions.dynamicHeight(context, 0.06),
+                          child: GoogleBtn(),
+                        )
+                      : SizedBox
+                          .shrink(), // Return an empty widget instead of null
 
                   // Spacer(), // Pushes Sign Up Section to the bottom
 
@@ -302,10 +312,9 @@ class _LoginScreenState extends State<LoginScreen>
                         //   },
                         // ),
                         Text(
-                                      "Don't have an account? ",
-                                      style:
-                                          TTextTheme.lightTextTheme.labelLarge,
-                                    ),
+                          "Don't have an account? ",
+                          style: TTextTheme.lightTextTheme.labelLarge,
+                        ),
                         TextButton(
                           onPressed: () {
                             Get.to(() => const Register());
