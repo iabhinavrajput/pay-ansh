@@ -109,7 +109,7 @@ class RechargeBillPage extends StatelessWidget {
                 },
                 {
                   'image': 'assets/dashboard/education.png',
-                  'label': 'Fee',
+                  'label': 'Course\nFee',
                   'screen': const DeviceInfoScreen()
                 },
                 {

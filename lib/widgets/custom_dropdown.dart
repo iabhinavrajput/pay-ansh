@@ -79,7 +79,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                     selectedValue == null
                         ? widget.title
                         : _truncateText(selectedValue!,
-                            35), // Show selected option or title
+                            34), // Show selected option or title
                     style: selectedValue == null
                         ? TTextTheme.greymediumText
                         : TTextTheme.lightTextTheme.bodySmall,
