@@ -186,7 +186,7 @@ class ApiService {
         Uri.parse(ApiEndpoints.forgotPassword),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email}),
-      );
+      ).timeout(const Duration(seconds: 10)); // Timeout added
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -198,9 +198,17 @@ class ApiService {
         final data = jsonDecode(response.body);
         return {"success": false, "message": data["message"]};
       }
-    } catch (e) {
-      return {"success": false, "message": e.toString()};
-    }
+      } on SocketException {
+        return {"success": false, "message": "You are offline. Please check your internet connection."};
+      } on TimeoutException {
+        return {"success": false, "message": "The server is taking too long to respond. Please try again in a moment."};
+      } on HttpException {
+        return {"success": false, "message": "We’re having trouble connecting to our servers. Please try again later."};
+      } on FormatException {
+        return {"success": false, "message": "Oops! Something went wrong. Please try again."};
+      } catch (e) {
+        return {"success": false, "message": "An unexpected error occurred. Please try again later."};
+      }
   }
 
   /// **Step 2: Verify OTP API**
