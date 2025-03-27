@@ -31,6 +31,13 @@ class _CustomDropdownState extends State<CustomDropdown> {
     controller.setItems(widget.options);
   }
 
+  String _truncateText(String text, int maxLength) {
+    if (text.length > maxLength) {
+      return '${text.substring(0, maxLength)}...';
+    }
+    return text;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -43,21 +50,25 @@ class _CustomDropdownState extends State<CustomDropdown> {
           Container(
             height: Dimensions.dynamicHeight(context, 0.06),
             decoration: BoxDecoration(
-              gradient:  selectedValue == null ?
-                LinearGradient(
-                colors: [Colors.transparent, Colors.transparent], // Gradient colors
-              ):
-               LinearGradient(
-                colors: [AppColors.gradientStart, AppColors.gradientEnd], // Gradient colors
-              ),
-            
+              gradient: selectedValue == null
+                  ? LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        Colors.transparent
+                      ], // Gradient colors
+                    )
+                  : LinearGradient(
+                      colors: [
+                        AppColors.gradientStart,
+                        AppColors.gradientEnd
+                      ], // Gradient colors
+                    ),
               borderRadius: BorderRadius.circular(8),
             ),
             padding: EdgeInsets.all(1), // Padding for border effect
             child: Container(
               decoration: BoxDecoration(
-                color:
-                    selectedValue == null ? Color(0x33D9D9DA) : Colors.white,
+                color: selectedValue == null ? Color(0x33D9D9DA) : Colors.white,
                 borderRadius: BorderRadius.circular(8),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -65,8 +76,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    selectedValue ??
-                        widget.title, // Show selected option or title
+                    selectedValue == null
+                        ? widget.title
+                        : _truncateText(selectedValue!,
+                            35), // Show selected option or title
                     style: selectedValue == null
                         ? TTextTheme.greymediumText
                         : TTextTheme.lightTextTheme.bodySmall,

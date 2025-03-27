@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
@@ -16,10 +17,19 @@ import 'package:payansh/services/google_sign_in_service.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
+import 'package:payansh/widgets/button_loader.dart';
 import 'package:payansh/widgets/google_btn.dart';
 import '../widgets/gradient_button.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
   final RememberMeController rememberMeController =
       Get.put(RememberMeController());
 
@@ -32,18 +42,24 @@ class LoginScreen extends StatelessWidget {
   final RxBool isPasswordValid = false.obs;
   final RxBool isPasswordVisible = false.obs;
 
-  LoginScreen({super.key}) {
+  @override
+  void initState() {
+    super.initState();
+
     // Prefill stored credentials
     emailController.text = rememberMeController.savedEmail;
     passwordController.text = rememberMeController.savedPassword;
 
     // Validate the prefilled values
-    if (emailController.text.isNotEmpty) {
-      isEmailValid.value = true;
-    }
-    if (passwordController.text.isNotEmpty) {
-      isPasswordValid.value = true;
-    }
+    isEmailValid.value = emailController.text.isNotEmpty;
+    isPasswordValid.value = passwordController.text.isNotEmpty;
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -212,7 +228,8 @@ class LoginScreen extends StatelessWidget {
 
                   // Login Button
                   Obx(() => authController.isLoading.value
-                      ? const CircularProgressIndicator()
+                      ? const ButtonLoader()
+
                       : GradientButton(
                           text: "Login",
                           onPressed:

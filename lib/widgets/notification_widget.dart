@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/theme/custom_themes/text_theme.dart';
 
 class NotificationWidget extends StatelessWidget {
   final String text, description;
-  final Icon icon;
-  const NotificationWidget(
-      {super.key,
-      required this.text,
-      required this.description,
-      required this.icon});
+  final String imagePath; // ✅ Changed from IconData to String for image path
+  const NotificationWidget({
+    super.key,
+    required this.text,
+    required this.description,
+    required this.imagePath, // ✅ Accept an image path instead of an icon
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +21,13 @@ class NotificationWidget extends StatelessWidget {
       width: Dimensions.dynamicWidth(context, 1),
       decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.grey,
-          ),
+              color: Color(0xA65A5A5B),
+              width: Dimensions.dynamicWidth(context, 0.001)),
           borderRadius: BorderRadius.circular(5)),
       child: Padding(
-        padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.03)),
+        padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.02)),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             bell(),
             SizedBox(
@@ -32,14 +36,33 @@ class NotificationWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(text),
-                Text(
-                  description,
-                  textWidthBasis: TextWidthBasis
-                      .longestLine, // Calculates width based on longest line
-                  // Limits text to 2 lines
-                  // Allows automatic line breaking
-                )
+                Row(
+                  children: [
+                    Text(text,style: TextStyle(fontSize: Dimensions.dynamicWidth(context, 0.035),),),
+                    SizedBox(width: Dimensions.dynamicHeight(context, 0.01)),
+                    Image.asset(
+                      imagePath,
+                      width: Dimensions.dynamicHeight(context, 0.015),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: Dimensions.dynamicWidth(
+                      context, 0.7), // Limit width to avoid overflow
+                  child: Text(
+                    description,
+                    style: TextStyle(
+                      color: Color(0xB35A5A5B),
+                      fontSize: Dimensions.dynamicWidth(context, 0.03),
+                    ),
+                    softWrap: true, // Allows wrapping
+                    overflow:
+                        TextOverflow.visible, // Ensures full text is shown
+                  ),
+                ),
+                SizedBox(
+              height: Dimensions.dynamicHeight(context, 0.009),
+            ),
               ],
             ),
           ],

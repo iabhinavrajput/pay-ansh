@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/controllers/complain_controller.dart';
 import 'package:payansh/screens/complaint/complaint_screen.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/bottom_sheet.dart';
@@ -31,6 +32,11 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
 
   String? selectedComplaintType;
   String? selectedComplaintReason;
+
+  final TextEditingController _controller = TextEditingController();
+  final int maxWords = 50; // Set max words dynamically if needed
+  final ComplaintController complaintController =
+      Get.put(ComplaintController());
 
   @override
   void initState() {
@@ -82,6 +88,19 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
     });
   }
 
+  void _onTextChanged(String value) {
+    List<String> words = value.trim().split(RegExp(r'\s+'));
+    if (words.length > maxWords) {
+      // Limit text if word count exceeds maxWords
+      String newText = words.sublist(0, maxWords).join(" ");
+      _controller.value = TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
+      );
+    }
+    setState(() {}); // Refresh UI if needed
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +109,10 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
           height: Dimensions.dynamicHeight(context, 0.15),
           title: "Complaint Registration",
         ),
-        body: Padding(
+        body:SafeArea(
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(), // Smooth scrolling effect
+        child: Padding(
             padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.05)),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -104,17 +126,48 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.001),
               ),
-              CustomDropdown(
-                title: "Select Complaint Type",
-                options: [
-                  "Transaction Base",
-                  "Mobile Recharge",
-                  "Postpaid Bill Payments",
-                  'Gas Bill Payments',
-                  'Loan Repayments',
-                  'Other complaint type'
+              Column(
+                children: [
+                  Obx(() {
+                    if (complaintController.isLoading.value) {
+                      return Container(
+                        height: 50,
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Color(0x33D9D9DA),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Fetching data...",
+                                style: TTextTheme.greymediumText),
+                            // SizedBox(
+                            //   width: 20,
+                            //   height: 20,
+                            //   child: CircularProgressIndicator(strokeWidth: 2),
+                            // ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    if (complaintController.complaintTypes.isEmpty) {
+                      return Container(
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Text("No complaint types available",
+                            style: TextStyle(color: Colors.red)),
+                      );
+                    }
+
+                    return CustomDropdown(
+                      title: "Select Complaint Type",
+                      options: complaintController.complaintTypes,
+                      onSelect: onSelectComplaintType,
+                    );
+                  }),
                 ],
-                onSelect: onSelectComplaintType,
               ),
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.02),
@@ -198,6 +251,10 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
                     controller: _descriptionController,
+                    expands: true, // Allows text to fill the container
+                    maxLines: null, // Makes it multiline
+                    keyboardType: TextInputType.multiline,
+                    onChanged: _onTextChanged, // Calls function to limit words
                     decoration: InputDecoration(
                       hintText: "Write Description",
                       hintStyle: TTextTheme.greymediumText,
@@ -222,17 +279,48 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.001),
               ),
-              CustomDropdown(
-                title: "Select Complaint Reason",
-                options: [
-                  "Transaction Successful, account not updated",
-                  "Amount deducted,biller account credited but transaction ID not received",
-                  "Amount deducted multiple times",
-                  "Double payment updated",
-                  "Erroneously paid in wrong account",
-                  "Others, provide details in description"
+              Column(
+                children: [
+                  Obx(() {
+                    if (complaintController.isLoading.value) {
+                      return Container(
+                        height: 50,
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Color(0x33D9D9DA),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Fetching data...",
+                                style:  TTextTheme.greymediumText),
+                            // SizedBox(
+                            //   width: 20,
+                            //   height: 20,
+                            //   child: CircularProgressIndicator(strokeWidth: 2),
+                            // ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    if (complaintController.complaintReasons.isEmpty) {
+                      return Container(
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Text("No complaint reasons available",
+                            style: TextStyle(color: Colors.red)),
+                      );
+                    }
+
+                    return CustomDropdown(
+                      title: "Select Complaint Reason",
+                      options: complaintController.complaintReasons,
+                      onSelect: onSelectComplaintReason,
+                    );
+                  }),
                 ],
-                onSelect: onSelectComplaintReason,
               ),
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.05),
@@ -249,14 +337,14 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
                           message:
                               "Your complaint Id is CD12344 assign to Payansh. To track your registered complaint you can use the complaint Id",
                           action: () {
-                            Get.to(() =>
-                                ComplaintScreen()); // Example navigation
+                            Get.to(
+                                () => ComplaintScreen()); // Example navigation
                           },
                         );
                       }
                     : null,
                 isEnabled: isFormValid,
               )
-            ])));
+            ])))));
   }
 }

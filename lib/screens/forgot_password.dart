@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
+import 'package:payansh/widgets/button_loader.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import 'package:payansh/widgets/gradient_button.dart';
 import '../controllers/forgot_password.dart';
@@ -51,7 +52,7 @@ class ForgotPasswordScreen extends StatelessWidget {
 
             // Send OTP Button
             Obx(() => forgotPasswordController.isLoading.value
-                ? const CircularProgressIndicator()
+                ? const ButtonLoader()
                 : GradientButton(
                     text: "Send OTP",
                     onPressed: isEmailValid.value ? () { forgotPasswordController

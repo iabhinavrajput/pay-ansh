@@ -6,6 +6,7 @@ import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/utils/snackbar_util.dart';
 import 'package:payansh/widgets/CustomEmailTextField.dart';
 import 'package:payansh/widgets/CustomPasswordTextField.dart';
+import 'package:payansh/widgets/button_loader.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import 'package:payansh/widgets/gradient_button.dart';
 import 'package:payansh/widgets/mobile_field.dart';
@@ -216,7 +217,7 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 20),
               Obx(() => signupController.isLoading.value
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(child: ButtonLoader())
                   : Obx(() => GradientButton(
                         text: "Create Account",
                         onPressed: isFormValid.value ? _registerUser : null,

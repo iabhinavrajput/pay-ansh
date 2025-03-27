@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/widgets/button_loader.dart';
 import 'package:payansh/widgets/gradient_button.dart';
 
 class OtpInput extends StatelessWidget {
@@ -76,7 +77,7 @@ class OtpInput extends StatelessWidget {
 
         // Verify Button
         Obx(() => isLoading.value
-            ? const CircularProgressIndicator()
+            ? const ButtonLoader()
             : GradientButton(
                 text: "Verify OTP",
                 onPressed: () {

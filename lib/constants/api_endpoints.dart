@@ -17,4 +17,5 @@ class ApiEndpoints {
 
    static const String deleteAccountInitiate = '$baseUrl2/users/delete-account/initiate';
   static const String deleteAccountConfirm = '$baseUrl2/users/delete-account/confirm';
+  static const String complaintTypesReason = '$baseUrl2/complaints/typesandreasons';
 }

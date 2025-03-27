@@ -109,6 +109,8 @@ flutter:
     - assets/kyc/
     - assets/dashboard/flight1.png
     - assets/flight_Offer/
+    - assets/logo/
+    - assets/notification/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

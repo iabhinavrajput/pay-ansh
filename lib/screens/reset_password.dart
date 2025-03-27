@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/widgets/button_loader.dart';
 import 'package:payansh/widgets/gradient_text.dart';
 import '../controllers/forgot_password.dart';
 import '../widgets/gradient_button.dart';
@@ -208,7 +209,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                         // Verify Button
                         Obx(() => forgotPasswordController.isLoading.value
-                            ? const CircularProgressIndicator()
+                            ? const ButtonLoader()
                             : GradientButton(
                                 text: "Verify OTP",
                                 onPressed: () {
@@ -224,7 +225,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       children: [
                         const SizedBox(height: 40),
                         Obx(() => forgotPasswordController.isLoading.value
-                            ? const CircularProgressIndicator()
+                            ? const ButtonLoader()
                             : GradientButton(
                                 text: "Verify OTP",
                                 onPressed: () {

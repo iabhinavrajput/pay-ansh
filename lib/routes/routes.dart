@@ -17,17 +17,18 @@ class AppRoutes {
   static const String profileScreen = '/profile_screen';
   static const String appSetting = '/app_setting';
   static const String cashback = '/cashback';
-    static const String complaint = '/complaint/registration/complaint_registration';
-
+  static const String complaint =
+      '/complaint/registration/complaint_registration';
+  static const String recharge = '/recharge_bills';
 
   static List<GetPage> routes = [
     GetPage(name: login, page: () => LoginScreen()),
     GetPage(
         name: otp,
         page: () => OtpVerification(userId: 123)), // Pass userId dynamically
-    // GetPage(name: home, page: () =>  RechargeBillPage()),
-    GetPage(name: home, page: () =>  const HomeScreen()),
-    GetPage(name: drawerNavigation, page :() =>   DrawerNavigation()),
+    GetPage(name: recharge, page: () => RechargeBillPage()),
+    GetPage(name: home, page: () => const HomeScreen()),
+    GetPage(name: drawerNavigation, page: () => DrawerNavigation()),
     GetPage(name: profileScreen, page: () => const ProfileScreen()),
     GetPage(name: appSetting, page: () => const SettingsScreen()),
     GetPage(name: cashback, page: () => const Offers()),
