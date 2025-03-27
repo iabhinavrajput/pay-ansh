@@ -58,7 +58,7 @@ class ProfileItemWidget extends StatelessWidget {
           valueWidget ??
               Text(
                 value ?? "",
-                style: TTextTheme.lightTextTheme.bodySmall,
+                style: TTextTheme.blueText,
               ),
           if (verified != null)
             verified == 1
@@ -68,7 +68,7 @@ class ProfileItemWidget extends StatelessWidget {
                         "Verified",
                         style: TextStyle(
                           color: Colors.green,
-                          fontSize: Dimensions.dynamicWidth(context, 0.03),
+                          fontSize: 10,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -90,7 +90,7 @@ class ProfileItemWidget extends StatelessWidget {
                           "Unverified",
                           style: TextStyle(
                             color: Colors.red,
-                            fontSize: Dimensions.dynamicWidth(context, 0.03),
+                            fontSize: 10,
                             fontWeight: FontWeight.w500,
                           ),
                         ),

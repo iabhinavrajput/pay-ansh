@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/services/auth_service.dart';
@@ -34,9 +36,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(height: Dimensions.dynamicHeight(context, 0.14)),
           CircleAvatar(radius: 40, backgroundColor: Colors.white),
           SizedBox(height: 10),
-          Container(height: 20, width: 120, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10))),
+          Container(
+              height: 20,
+              width: 120,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10))),
           SizedBox(height: 5),
-          Container(height: 15, width: 180, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10))),
+          Container(
+              height: 15,
+              width: 180,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10))),
           SizedBox(height: 20),
           Padding(
             padding: EdgeInsets.symmetric(
@@ -67,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: FutureBuilder<Map<String, dynamic>?> (
+      body: FutureBuilder<Map<String, dynamic>?>(
         future: _profileFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -110,9 +122,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: IconButton(
                       icon: const Icon(Icons.logout, color: Colors.white),
                       onPressed: () {
-                        AuthService.logout(context);
+                        Get.defaultDialog(
+                          title: "Logout",
+                          middleText: "Do you want to logout?",
+                          textConfirm: "Yes",
+                          textCancel: "No",
+                          confirmTextColor: Colors.white,
+                          buttonColor: Colors.blue,
+                          onConfirm: () async {
+                            Get.back();
+                            await AuthService.logout(context);
+                          },
+                        );
                       },
-                    ),
+                    ), 
                   ),
                   Positioned(
                     top: Dimensions.dynamicHeight(context, 0.07),

@@ -113,6 +113,12 @@ class TTextTheme {
     fontFamily: 'DMSans',
   );
 
+  static const TextStyle blueText = TextStyle(
+      fontSize: 12.0,
+      fontWeight: FontWeight.normal,
+      color: Color(0xff22415F),
+    );
+
   static TextTheme darkTextTheme = TextTheme(
     headlineLarge: const TextStyle().copyWith(
         fontSize: 32.0,
