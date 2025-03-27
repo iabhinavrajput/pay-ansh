@@ -21,7 +21,7 @@ class SignupController extends GetxController {
           "password": password,
           "phoneNumber": phone,
         },
-      );
+      ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 201) {
         print("Signup Response: ${response.data}");
@@ -43,7 +43,8 @@ class SignupController extends GetxController {
     } catch (e) {
       print("Unexpected Error: $e");
       showSnackbar(title: "Error", message: "Something went wrong!", isSuccess: false);
-    } finally {
+    } 
+    finally {
       isLoading.value = false;
     }
   }
