@@ -119,6 +119,7 @@ class TTextTheme {
       color: Color(0xff22415F),
     );
 
+
   static TextTheme darkTextTheme = TextTheme(
     headlineLarge: const TextStyle().copyWith(
         fontSize: 32.0,

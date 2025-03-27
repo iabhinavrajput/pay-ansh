@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/services/auth_service.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/app_bar.dart';
+import 'package:payansh/widgets/edit.dart';
 import 'package:payansh/widgets/profile_item_widget.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:shimmer/shimmer.dart';
@@ -135,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         );
                       },
-                    ), 
+                    ),
                   ),
                   Positioned(
                     top: Dimensions.dynamicHeight(context, 0.07),
@@ -201,20 +203,92 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.person,
                       label: "Name",
                       value: userName,
-                      onEdit: () {},
+                      onEdit: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled:
+                              true, // Ensures bottom sheet adjusts when keyboard opens
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(20)),
+                          ),
+                          builder: (context) {
+                            return EditBottomSheet(
+                              title: "Your Name",
+                              oldValue: userName,
+                              onSubmit: (newValue) {
+                                print("New Name: $newValue");
+                                // Add any icon here
+
+                                // Call API or update state here
+                              },
+                              icon: HugeIcons
+                                  .strokeRoundedUser02, // Add any icon here
+                            );
+                          },
+                        );
+                      },
                     ),
                     ProfileItemWidget(
                       icon: Icons.phone,
                       label: "Contact Number",
                       value: userPhone,
-                      onEdit: () {},
+                      onEdit: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled:
+                              true, // Ensures bottom sheet adjusts when keyboard opens
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(20)),
+                          ),
+                          builder: (context) {
+                            return EditBottomSheet(
+                              title: "Contact Number",
+                              oldValue: userPhone,
+                              onSubmit: (newValue) {
+                                print("New Name: $newValue");
+                                // Add any icon here
+
+                                // Call API or update state here
+                              },
+                              icon: HugeIcons
+                                  .strokeRoundedUser02, // Add any icon here
+                            );
+                          },
+                        );
+                      },
                       verified: isphonelverified,
                     ),
                     ProfileItemWidget(
                       icon: Icons.email,
                       label: "Email ID",
                       value: userEmail,
-                      onEdit: () {},
+                      onEdit: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled:
+                              true, // Ensures bottom sheet adjusts when keyboard opens
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(20)),
+                          ),
+                          builder: (context) {
+                            return EditBottomSheet(
+                              title: "Edit Name",
+                              oldValue: userEmail,
+                              onSubmit: (newValue) {
+                                print("New Name: $newValue");
+                                // Add any icon here
+
+                                // Call API or update state here
+                              },
+                              icon: HugeIcons
+                                  .strokeRoundedUser02, // Add any icon here
+                            );
+                          },
+                        );
+                      },
                       verified: ismailverified,
                     ),
                   ],
