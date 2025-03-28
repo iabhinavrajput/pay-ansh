@@ -22,35 +22,35 @@ class KycOne extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            SizedBox(height: 20,),
-            Container(
-              width: 120,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: AppColors.helpColor,
-                borderRadius: BorderRadius.circular(6),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.1),
-                //   ),
-                // ],
-              ),
-              child: Row(
-                children: [
-                  SvgPicture.asset('assets/kyc/help.svg'),
-                  const SizedBox(width: 10),
-                  const Text(
-                    "Help",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 40,),
+            const SizedBox(height: 20,),
+            // Container(
+            //   width: 120,
+            //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            //   decoration: BoxDecoration(
+            //     color: AppColors.helpColor,
+            //     borderRadius: BorderRadius.circular(6),
+            //     // boxShadow: [
+            //     //   BoxShadow(
+            //     //     color: Colors.black.withOpacity(0.1),
+            //     //   ),
+            //     // ],
+            //   ),
+            //   child: Row(
+            //     children: [
+            //       SvgPicture.asset('assets/kyc/help.svg'),
+            //       const SizedBox(width: 10),
+            //       const Text(
+            //         "Help",
+            //         style: TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w400,
+            //           color: Colors.black,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // const SizedBox(height: 40,),
             Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
