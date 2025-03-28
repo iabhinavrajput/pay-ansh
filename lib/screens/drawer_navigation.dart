@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -188,93 +189,107 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
     );
   }
 
-  void _showDeleteConfirmationDialog() {
-    Get.dialog(
-      Dialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Dustbin Icon
-              Container(
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Color(0x33FE7171), // Red background
-                  shape: BoxShape.circle, // Circular shape
-                ),
-                child: Icon(
-                  Icons.delete,
-                  color: Color(0xffFE7171), // White icon for contrast
-                  size: 40,
-                ),
+ void _showDeleteConfirmationDialog() {
+  Get.dialog(
+    Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Dustbin Icon
+            Container(
+              padding: const EdgeInsets.all(15),
+              decoration: const BoxDecoration(
+                color: Color(0x33FE7171), // Red background
+                shape: BoxShape.circle, // Circular shape
               ),
+              child: const Icon(
+                Icons.delete,
+                color: Color(0xffFE7171), // White icon for contrast
+                size: 40,
+              ),
+            ),
 
-              const SizedBox(height: 10),
-              // Description
-              Text(
-                "Are you sure want to delete your account from PAYANSH",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Color(0xff5A5A5B)),
-              ),
-              const SizedBox(height: 20),
-              // Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      Get.back(); // Close the popup
-                      await AuthController.deleteAccountInitiate(Get.context!);
-                    },
-                    child: Container(
-                      width: Dimensions.dynamicWidth(context, 0.2),
-                      height: Dimensions.dynamicHeight(context, 0.035),
-                      decoration: BoxDecoration(
+            const SizedBox(height: 10),
+            // Description
+            const Text(
+              "Are you sure want to delete your account from PAYANSH?",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: Color(0xff5A5A5B)),
+            ),
+            const SizedBox(height: 20),
+
+            // Buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    Get.back(); // Close the dialog
+
+                    // Show loading dialog
+                    Get.dialog(
+                       const Center(child: SpinKitSquareCircle(
                         color: AppColors.gradientStart,
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Yes",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
+                        size: 40
+                      )),
+                      barrierDismissible: false,
+                    );
+
+                    try {
+                      await AuthController.deleteAccountInitiate(Get.context!);
+                    } catch (e) {
+                      Get.back(); // Close loader on error
+                      print("Error deleting account: $e");
+                    }
+                  },
+                  child: Container(
+                    width: Dimensions.dynamicWidth(Get.context!, 0.2),
+                    height: Dimensions.dynamicHeight(Get.context!, 0.035),
+                    decoration: BoxDecoration(
+                      color: AppColors.gradientStart,
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      "Yes",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      Get.back(); // Close the popup
-                    },
-                    child: Container(
-                      width: Dimensions.dynamicWidth(context, 0.2),
-                      height: Dimensions.dynamicHeight(context, 0.035),
-                      decoration: BoxDecoration(
-                        color: Color(0x5CD9D9DA),
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "No",
-                        style: TextStyle(
-                            color: Color(0xff5A5A5B),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
+                ),
+                GestureDetector(
+                  onTap: () => Get.back(), // Close the dialog
+                  child: Container(
+                    width: Dimensions.dynamicWidth(Get.context!, 0.2),
+                    height: Dimensions.dynamicHeight(Get.context!, 0.035),
+                    decoration: BoxDecoration(
+                      color: const Color(0x5CD9D9DA),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      "No",
+                      style: TextStyle(
+                          color: Color(0xff5A5A5B),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
-                ],
-              )
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   // 📌 Sidebar Menu Items
   Widget _buildMenuItems() {
