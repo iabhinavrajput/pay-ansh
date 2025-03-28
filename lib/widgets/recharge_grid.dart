@@ -22,14 +22,13 @@ class RechargeGrid extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: SizedBox(
-              width: maxRowWidth, // Ensure all rows have the same width
+              width: maxRowWidth,
               child: Row(
                 mainAxisAlignment:
                     _getMainAxisAlignment(min(4, iconData.length - i)),
                 children: [
                   for (int j = i; j < i + 4 && j < iconData.length; j++)
                     Expanded(
-                      // Ensure equal spacing
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: Dimensions.dynamicHeight(context, 0.015),
@@ -38,21 +37,14 @@ class RechargeGrid extends StatelessWidget {
                           imagePath: iconData[j]['image']!,
                           label: iconData[j]['label']!,
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => iconData[j]['screen'],
-                              ),
-                            );
+                            _showComingSoonPopup(context);
                           },
                         ),
                       ),
                     ),
-                  if (iconData.length - i < 4) // Fill empty space for alignment
+                  if (iconData.length - i < 4)
                     for (int k = 0; k < (4 - (iconData.length - i)); k++)
-                      Expanded(
-                          child:
-                              SizedBox()), // Empty space to balance alignment
+                      Expanded(child: SizedBox()),
                 ],
               ),
             ),
@@ -61,21 +53,32 @@ class RechargeGrid extends StatelessWidget {
     );
   }
 
-  /// Ensures alignment of rows based on number of items
-  MainAxisAlignment _getMainAxisAlignment(int itemsInRow) {
-    if (itemsInRow == 2) {
-      return MainAxisAlignment.start; // 2 items should be left-aligned
-    }
-    return MainAxisAlignment.center; // 3 or 4 items should be centered
+  void _showComingSoonPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Coming Soon"),
+        content: Text("This feature will be available soon!"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    );
   }
 
-  /// Calculates the maximum width for a row with 4 items
+  MainAxisAlignment _getMainAxisAlignment(int itemsInRow) {
+    if (itemsInRow == 2) {
+      return MainAxisAlignment.start;
+    }
+    return MainAxisAlignment.center;
+  }
+
   double _calculateMaxRowWidth(BuildContext context) {
-    double iconWidth = Dimensions.dynamicHeight(
-        context, 0.12); // Approximate width of IconContainer
-    double spacing = Dimensions.dynamicHeight(context, 0.015) *
-        2 *
-        3; // Padding between icons
-    return (iconWidth * 4) + spacing; // Full width of a 4-item row
+    double iconWidth = Dimensions.dynamicHeight(context, 0.12);
+    double spacing = Dimensions.dynamicHeight(context, 0.015) * 2 * 3;
+    return (iconWidth * 4) + spacing;
   }
 }
