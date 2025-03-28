@@ -12,7 +12,7 @@ class KycThree extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: const CustomAppBarKYC(
         title: "Upload Documents",
-        description: "Please note that your Aadhaar number\nto be verified during KYC verification",
+        description: "Upload your KYC documents to avail the\nPayansh services",
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),

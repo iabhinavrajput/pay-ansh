@@ -619,22 +619,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       {
                         'image': 'assets/dashboard/mobile-recharge.png',
                         'label': 'Mobile\nRecharge',
-                        'screen': DeviceInfoScreen()
+                        // 'screen': DeviceInfoScreen()
                       },
                       {
                         'image': 'assets/dashboard/dth.png',
                         'label': 'DTH\nRecharge',
-                        'screen': DeviceInfoScreen()
+                        // 'screen': DeviceInfoScreen()
                       },
                       {
                         'image': 'assets/dashboard/water-bill.png',
                         'label': 'Water\nBill',
-                        'screen': const DeviceInfoScreen()
+                        // 'screen': const DeviceInfoScreen()
                       },
                       {
                         'image': 'assets/dashboard/electricity-bill.png',
                         'label': 'Electricity\nBill',
-                        'screen': DeviceInfoScreen()
+                        // 'screen': DeviceInfoScreen()
                       },
                     ],
                   ),
@@ -654,12 +654,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       {
                         'image': 'assets/dashboard/flight1.png',
                         'label': 'Flight Booking',
-                        'screen': DeviceInfoScreen()
+                        // 'screen': DeviceInfoScreen()
                       },
                       {
                         'image': 'assets/dashboard/hotel.png',
                         'label': 'Hotel Booking',
-                        'screen': DeviceInfoScreen()
+                        // 'screen': DeviceInfoScreen()
                       },
                     ],
                   ),

@@ -200,7 +200,7 @@ class _WorkflowScreenState extends State<WorkflowScreen> {
       appBar: const CustomAppBarKYC(
         title: "Upload Documents",
         description:
-            "Please note that your Aadhaar number\nto be verified during KYC verification",
+            "Upload your KYC documents to avail the\nPayansh services",
       ),
       body: Container(
         margin: const EdgeInsets.all(30),

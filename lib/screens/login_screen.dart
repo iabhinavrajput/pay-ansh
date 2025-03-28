@@ -252,13 +252,13 @@ class _LoginScreenState extends State<LoginScreen>
 
                   // Fix Overflow: Using Column and Spacer
 
-                  GradientButton(
-                    text: "Login with Phone number",
-                    onPressed: () {
-                      Get.to(() => LoginPhoneNum());
-                    },
-                  ),
-                  SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
+                  // GradientButton(
+                  //   text: "Login with Phone number",
+                  //   onPressed: () {
+                  //     Get.to(() => LoginPhoneNum());
+                  //   },
+                  // ),
+                  // SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
                   // SizedBox(
                   //   height: Dimensions.dynamicHeight(context, 0.06),
                   //   child: Platform.isAndroid

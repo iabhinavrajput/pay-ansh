@@ -48,13 +48,13 @@ class RechargeBillPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GradientText('Recharge', style: TextStyle(fontSize: 16)),
+              const GradientText('Recharge', style: TextStyle(fontSize: 16)),
               SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
-              RechargeGrid(iconData: [
+              const RechargeGrid(iconData: [
                 {
                   'image': 'assets/dashboard/mobile-recharge.png',
                   'label': 'Mobile\nRecharge',
@@ -79,92 +79,92 @@ class RechargeBillPage extends StatelessWidget {
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.01),
               ),
-              GradientText('Utility bills', style: TextStyle(fontSize: 16)),
+              const GradientText('Utility bills', style: TextStyle(fontSize: 16)),
               SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
-              RechargeGrid(iconData: [
+              const RechargeGrid(iconData: [
                 {
                   'image': 'assets/dashboard/bill.png',
                   'label': 'Postpaid\nMobile',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/landline.png',
                   'label': 'Landline\nBill',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/electricity-bill.png',
                   'label': 'Electricity\nBill',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/water-bill.png',
                   'label': 'Water\nBill',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/gas-cylinder.png',
                   'label': 'Gas\nBooking',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/education.png',
                   'label': 'Course\nFee',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/piped-gas-bill.png',
                   'label': 'Piped\nGas',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 }
               ]),
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.01),
               ),
-              GradientText('Finance & Tax', style: TextStyle(fontSize: 16)),
+              const GradientText('Finance & Tax', style: TextStyle(fontSize: 16)),
               SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
-              RechargeGrid(iconData: [
+              const RechargeGrid(iconData: [
                 {
                   'image': 'assets/dashboard/insurance-1.png',
                   'label': 'Lic /\nInsurance',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/loan.png',
                   'label': 'Loan\nPayOff',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/credit-cards.png',
                   'label': 'Credit\nCards',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/tax.png',
                   'label': 'Muncipal\nTax',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
               ]),
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.01),
               ),
-              GradientText('More', style: TextStyle(fontSize: 16)),
+              const GradientText('More', style: TextStyle(fontSize: 16)),
               SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
-              RechargeGrid(iconData: [
+              const RechargeGrid(iconData: [
                 {
                   'image': 'assets/dashboard/Subscription.png',
                   'label': 'Sub\nscription',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/housing.png',
                   'label': 'Housing\nSociety',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/Rent-pay.png',
                   'label': 'Rent\nPay',
-                  'screen': const DeviceInfoScreen()
+                  // 'screen': DeviceInfoScreen()
                 },
 
               ])

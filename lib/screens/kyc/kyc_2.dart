@@ -22,7 +22,7 @@ class KycTwo extends StatelessWidget {
       appBar: const CustomAppBarKYC(
         title: "Upload Documents",
         description:
-            "Please note that you can proceed with KYC\nthrough Aadhar Number or PAN Number",
+            "Upload your KYC documents to avail the\nPayansh services",
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),

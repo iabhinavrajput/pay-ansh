@@ -51,11 +51,13 @@ android {
    }
    
 
-buildTypes {
-        release {
-           signingConfig signingConfigs.release
-       }
-}
+    buildTypes {
+         release {
+            signingConfig signingConfigs.release
+            minifyEnabled false  // Disable R8
+            shrinkResources false
+        }
+    }
 }
 
 dependencies {
