@@ -261,11 +261,11 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
                       border: InputBorder.none, // Removes the default border
                       counterText: "", // Hides the default counter
                     ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^[a-zA-Z]*$')), // Allows only alphabets
-                      // Limits input to 10 characters
-                    ],
+                    // inputFormatters: [
+                    //   FilteringTextInputFormatter.allow(
+                    //       RegExp(r'^[a-zA-Z]*$')), // Allows only alphabets
+                    //   // Limits input to 10 characters
+                    // ],
                   ),
                 ),
               ),
