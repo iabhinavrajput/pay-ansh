@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/components/custom_app_bar_kyc.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/kyc_controller_aadhar.dart';
-import 'package:payansh/screens/kyc/kyc_3.dart';
-import 'package:payansh/screens/kyc/kyc_4.dart';
 import 'package:payansh/controllers/kyc_controller_pan.dart';
 import 'package:payansh/services/api_service.dart';
-import 'package:payansh/utils/snackbar_util.dart';
 
 class KycTwo extends StatelessWidget {
   const KycTwo({Key? key}) : super(key: key);
@@ -30,42 +27,10 @@ class KycTwo extends StatelessWidget {
           children: [
             GestureDetector(
               child: _buildKycOption(
-                title: "KYC By Aadhar",
+                title: "KYC By Aadhaar",
                 imagePath: "assets/kyc/aadhar.png",
               ),
-              onTap: () async {
-                final KycControllerAadhar kycController = Get.put(KycControllerAadhar());
-
-                // Fetch user profile
-                Map<String, dynamic>? userProfile =
-                    await ApiService.getUserProfile();
-
-                if (userProfile == null) {
-                  print("No user profile found.");
-                  return;
-                }
-
-                // Extract and trim values safely
-                String? email = userProfile['email']?.trim();
-                String? name = userProfile['name']?.trim();
-
-                if (email == null ||
-                    email.isEmpty ||
-                    name == null ||
-                    name.isEmpty) {
-                  print("Error: Email or Name is missing.");
-                  return;
-                }
-
-                // Directly submit the KYC form
-                kycController.submitKycForm(
-                  customerIdentifier: email,
-                  customerName: name,
-                );
-
-                print("✅ Name: $name");
-                print("✅ E-Mail: $email");
-              },
+              onTap: () => _handleKycSubmission(KycControllerAadhar()),
             ),
             const SizedBox(height: 20),
             GestureDetector(
@@ -73,44 +38,60 @@ class KycTwo extends StatelessWidget {
                 title: "KYC By PAN",
                 imagePath: "assets/kyc/pan.png",
               ),
-              onTap: () async {
-                final KycControllerPan kycController = Get.put(KycControllerPan());
-
-                // Fetch user profile
-                Map<String, dynamic>? userProfile =
-                    await ApiService.getUserProfile();
-
-                if (userProfile == null) {
-                  print("No user profile found.");
-                  return;
-                }
-
-                // Extract and trim values safely
-                String? email = userProfile['email']?.trim();
-                String? name = userProfile['name']?.trim();
-
-                if (email == null ||
-                    email.isEmpty ||
-                    name == null ||
-                    name.isEmpty) {
-                  print("Error: Email or Name is missing.");
-                  return;
-                }
-
-                // Directly submit the KYC form
-                kycController.submitKycForm(
-                  customerIdentifier: email,
-                  customerName: name,
-                );
-
-                print("✅ Name: $name");
-                print("✅ E-Mail: $email");
-              },
+              onTap: () => _handleKycSubmission(KycControllerPan()),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _handleKycSubmission(dynamic kycController) async {
+    final controller = Get.put(kycController);
+
+    // Show loading dialog
+    Get.dialog(
+       const Center(child: SpinKitSquareCircle(
+        color: AppColors.gradientStart,
+        size: 40
+       )),
+      barrierDismissible: false,
+    );
+
+    try {
+      // Fetch user profile
+      Map<String, dynamic>? userProfile = await ApiService.getUserProfile();
+
+      // Close the loader
+      Get.back();
+
+      if (userProfile == null) {
+        print("No user profile found.");
+        return;
+      }
+
+      // Extract and trim values safely
+      String? email = userProfile['email']?.trim();
+      String? name = userProfile['name']?.trim();
+
+      if (email == null || email.isEmpty || name == null || name.isEmpty) {
+        print("Error: Email or Name is missing.");
+        return;
+      }
+
+      // Directly submit the KYC form
+      controller.submitKycForm(
+        customerIdentifier: email,
+        customerName: name,
+      );
+
+      print("✅ Name: $name");
+      print("✅ E-Mail: $email");
+    } catch (e) {
+      // Close the loader in case of an error
+      Get.back();
+      print("Error fetching user profile: $e");
+    }
   }
 
   Widget _buildKycOption({required String title, required String imagePath}) {
@@ -148,7 +129,6 @@ class KycTwo extends StatelessWidget {
               imagePath,
               width: 60,
               height: 60,
-              // fit: BoxFit.contain,
             ),
           ],
         ),
