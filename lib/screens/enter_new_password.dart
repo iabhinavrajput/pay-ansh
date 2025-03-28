@@ -29,6 +29,25 @@ class _EnterNewPasswordScreenState extends State<EnterNewPasswordScreen>
   final RxString newPasswordError = ''.obs;
   final RxString confirmPasswordError = ''.obs;
 
+  String? validatePassword(String password) {
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long.";
+    }
+    if (!RegExp(r'[A-Z]').hasMatch(password)) {
+      return "Password must contain at least one uppercase letter.";
+    }
+    if (!RegExp(r'[a-z]').hasMatch(password)) {
+      return "Password must contain at least one lowercase letter.";
+    }
+    if (!RegExp(r'[0-9]').hasMatch(password)) {
+      return "Password must contain at least one number.";
+    }
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
+      return "Password must contain at least one special character.";
+    }
+    return null; // Valid password
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +83,10 @@ class _EnterNewPasswordScreenState extends State<EnterNewPasswordScreen>
                 },
                 showValidations: false,
                 onValidationChanged: (isValid) {
-                  isNewPasswordValid.value = isValid;
-                  newPasswordError.value =
-                      isValid ? '' : 'Password is not valid';
+                  String? validationError =
+                      validatePassword(newPasswordController.text);
+                  isNewPasswordValid.value = validationError == null;
+                  newPasswordError.value = validationError ?? '';
                 },
               ),
             ),
