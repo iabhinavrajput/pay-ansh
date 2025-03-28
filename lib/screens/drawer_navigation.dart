@@ -251,7 +251,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                 textConfirm: "Yes",
                 textCancel: "No",
                 confirmTextColor: Colors.white,
-                buttonColor: Colors.blue,
+                buttonColor: AppColors.gradientStart,
                 onConfirm: () async {
                   Get.back();
                   await AuthService.logout(context);
