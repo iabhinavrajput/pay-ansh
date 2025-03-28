@@ -9,6 +9,7 @@ import 'package:payansh/constants/app_constants.dart';
 import 'package:payansh/screens/device_info.dart';
 import 'package:payansh/screens/login_screen.dart';
 import 'package:payansh/utils/local_storage.dart';
+import 'package:payansh/utils/snackbar_util.dart';
 
 class ApiService {
   /// **User Login API**
@@ -19,16 +20,17 @@ class ApiService {
     try {
       final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
 
-      final response = await http.post(
-        Uri.parse(ApiEndpoints.login),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "email": email,
-          "password": password,
-          "deviceInfo": deviceInfo,
-        }),
-      ).timeout(const Duration(seconds: 10)); // Timeout added
-
+      final response = await http
+          .post(
+            Uri.parse(ApiEndpoints.login),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode({
+              "email": email,
+              "password": password,
+              "deviceInfo": deviceInfo,
+            }),
+          )
+          .timeout(const Duration(seconds: 10)); // Timeout added
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -55,19 +57,34 @@ class ApiService {
         final data = jsonDecode(response.body);
         return {"success": false, "message": data["message"]};
       }
-      
     } on SocketException {
-      return {"success": false, "message": "You are offline. Please check your internet connection."};
+      return {
+        "success": false,
+        "message": "You are offline. Please check your internet connection."
+      };
     } on TimeoutException {
-      return {"success": false, "message": "The server is taking too long to respond. Please try again in a moment."};
+      return {
+        "success": false,
+        "message":
+            "The server is taking too long to respond. Please try again in a moment."
+      };
     } on HttpException {
-      return {"success": false, "message": "We’re having trouble connecting to our servers. Please try again later."};
+      return {
+        "success": false,
+        "message":
+            "We’re having trouble connecting to our servers. Please try again later."
+      };
     } on FormatException {
-      return {"success": false, "message": "Oops! Something went wrong. Please try again."};
+      return {
+        "success": false,
+        "message": "Oops! Something went wrong. Please try again."
+      };
     } catch (e) {
-      return {"success": false, "message": "An unexpected error occurred. Please try again later."};
+      return {
+        "success": false,
+        "message": "An unexpected error occurred. Please try again later."
+      };
     }
-    
   }
 
   /// 🛠 Function to handle API requests with token refresh logic
@@ -182,11 +199,13 @@ class ApiService {
   /// **Forgot Password API**
   static Future<Map<String, dynamic>> forgotPassword(String email) async {
     try {
-      final response = await http.post(
-        Uri.parse(ApiEndpoints.forgotPassword),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"email": email}),
-      ).timeout(const Duration(seconds: 10)); // Timeout added
+      final response = await http
+          .post(
+            Uri.parse(ApiEndpoints.forgotPassword),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode({"email": email}),
+          )
+          .timeout(const Duration(seconds: 10)); // Timeout added
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -198,17 +217,34 @@ class ApiService {
         final data = jsonDecode(response.body);
         return {"success": false, "message": data["message"]};
       }
-      } on SocketException {
-        return {"success": false, "message": "You are offline. Please check your internet connection."};
-      } on TimeoutException {
-        return {"success": false, "message": "The server is taking too long to respond. Please try again in a moment."};
-      } on HttpException {
-        return {"success": false, "message": "We’re having trouble connecting to our servers. Please try again later."};
-      } on FormatException {
-        return {"success": false, "message": "Oops! Something went wrong. Please try again."};
-      } catch (e) {
-        return {"success": false, "message": "An unexpected error occurred. Please try again later."};
-      }
+    } on SocketException {
+      return {
+        "success": false,
+        "message": "You are offline. Please check your internet connection."
+      };
+    } on TimeoutException {
+      return {
+        "success": false,
+        "message":
+            "The server is taking too long to respond. Please try again in a moment."
+      };
+    } on HttpException {
+      return {
+        "success": false,
+        "message":
+            "We’re having trouble connecting to our servers. Please try again later."
+      };
+    } on FormatException {
+      return {
+        "success": false,
+        "message": "Oops! Something went wrong. Please try again."
+      };
+    } catch (e) {
+      return {
+        "success": false,
+        "message": "An unexpected error occurred. Please try again later."
+      };
+    }
   }
 
   /// **Step 2: Verify OTP API**
@@ -259,19 +295,20 @@ class ApiService {
   /// **Sign-Up OTP Verification API**
   static Future<Map<String, dynamic>> verifySignupOTP(
       int userId, String otp) async {
-              final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
+    final deviceInfo = await DeviceInfoHelper.getDeviceInfo();
 
-        
     try {
-      
       final response = await http.post(
         Uri.parse("${ApiEndpoints.baseUrl}/verify-email/$userId"),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"otp": otp,'deviceInfo': deviceInfo,}),
+        body: jsonEncode({
+          "otp": otp,
+          'deviceInfo': deviceInfo,
+        }),
       );
 
       if (response.statusCode == 200) {
-         final data = jsonDecode(response.body);
+        final data = jsonDecode(response.body);
         String accessToken = data["data"]["tokens"]["accessToken"];
         String refreshToken = data["data"]["tokens"]["refreshToken"];
 
@@ -356,7 +393,15 @@ class ApiService {
         },
         body: jsonEncode(body),
       );
-
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        // return data;
+        showSnackbar(
+          title : data['message'],
+          message: data["message"],
+          isSuccess: true,
+        ); // Green snackbar
+      }
       // Debug logs: print status code and raw response body.
       print("Update API status code: ${response.statusCode}");
       print("Update API response body: ${response.body}");

@@ -22,6 +22,8 @@ class KycController extends GetxController {
     final String authHeader =
         "Basic ${base64Encode(utf8.encode('$clientId:$clientSecret'))}";
 
+        print("authHeader: $authHeader");
+
     try {
       final response = await _dio.post(
         url,

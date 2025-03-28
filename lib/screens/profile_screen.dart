@@ -23,6 +23,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late Future<Map<String, dynamic>?> _profileFuture;
 
+
   @override
   void initState() {
     super.initState();
@@ -30,28 +31,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildShimmerEffect() {
+    final String newValueName;
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,
       child: Column(
         children: [
           SizedBox(height: Dimensions.dynamicHeight(context, 0.14)),
-          CircleAvatar(radius: 40, backgroundColor: Colors.white),
-          SizedBox(height: 10),
+          const CircleAvatar(radius: 40, backgroundColor: Colors.white),
+          const SizedBox(height: 10),
           Container(
               height: 20,
               width: 120,
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10))),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Container(
               height: 15,
               width: 180,
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10))),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: Dimensions.dynamicHeight(context, 0.02),
@@ -106,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   SizedBox(
                     height: Dimensions.dynamicHeight(context, 0.14),
-                    child: CustomAppBar(height: 0),
+                    child: const CustomAppBar(height: 0),
                   ),
                   Positioned(
                     top: Dimensions.dynamicHeight(context, 0.07),
@@ -208,7 +210,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           context: context,
                           isScrollControlled:
                               true, // Ensures bottom sheet adjusts when keyboard opens
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.vertical(top: Radius.circular(20)),
                           ),
@@ -216,11 +218,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             return EditBottomSheet(
                               title: "Your Name",
                               oldValue: userName,
-                              onSubmit: (newValue) {
-                                print("New Name: $newValue");
-                                // Add any icon here
-
-                                // Call API or update state here
+                              onSubmit: (newValueName) async {
+                                if (newValueName.isNotEmpty) {
+                                  final response =
+                                      await ApiService.updateProfile(
+                                    name: newValueName,
+                                    phoneNumber: userPhone,
+                                  );
+                                }
                               },
                               icon: HugeIcons
                                   .strokeRoundedUser02, // Add any icon here
@@ -238,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           context: context,
                           isScrollControlled:
                               true, // Ensures bottom sheet adjusts when keyboard opens
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.vertical(top: Radius.circular(20)),
                           ),
@@ -246,8 +251,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             return EditBottomSheet(
                               title: "Contact Number",
                               oldValue: userPhone,
-                              onSubmit: (newValue) {
-                                print("New Name: $newValue");
+                              onSubmit: (newValuePhone) async {
+                                if (newValuePhone.isNotEmpty) {
+                                  final response =
+                                      await ApiService.updateProfile(
+                                    name: userName,
+                                    phoneNumber: newValuePhone,
+                                  );
+                                }
                                 // Add any icon here
 
                                 // Call API or update state here
@@ -269,7 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           context: context,
                           isScrollControlled:
                               true, // Ensures bottom sheet adjusts when keyboard opens
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.vertical(top: Radius.circular(20)),
                           ),

@@ -106,7 +106,9 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
           //   },
           //   child: const Text("Save"),
           // ),
-          GradientButton(text: "Save", onPressed: () {}),
+          GradientButton(text: "Save", onPressed: () async{
+            await widget.onSubmit(_controller.text); // Call action button function
+          }),
            SizedBox(height: Dimensions.dynamicHeight(context, 0.08)),
         ],
       ),
