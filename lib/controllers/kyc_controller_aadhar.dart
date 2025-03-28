@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:payansh/screens/trial/kyc2.dart';
+import 'package:payansh/screens/trial/kyc_workflow.dart';
 
-class KycController extends GetxController {
+class   KycControllerAadhar extends GetxController {
   final Dio _dio = Dio();
   var isLoading = false.obs;
 
@@ -31,7 +31,7 @@ class KycController extends GetxController {
           "customer_identifier": customerIdentifier,
           "customer_name": customerName,
           "reference_id": "",
-          "template_name": "PAN_VERIFICATION",
+          "template_name": "AADHAR_TEST_ABHI",
           "notify_customer": true,
           "request_details": {},
           "transaction_id": "",
