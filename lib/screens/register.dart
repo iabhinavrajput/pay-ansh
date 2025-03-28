@@ -42,8 +42,7 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     super.initState();
-        _addListeners();
-
+    _addListeners();
 
     // Add listener for name field validation
     nameController.addListener(() {
@@ -129,7 +128,8 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding:  EdgeInsets.symmetric(horizontal: Dimensions.dynamicHeight(context, 0.05)),
+          padding: EdgeInsets.symmetric(
+              horizontal: Dimensions.dynamicHeight(context, 0.05)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -195,16 +195,32 @@ class _RegisterState extends State<Register> {
                 isPasswordVisible: isConfirmPasswordVisible,
                 togglePasswordVisibility: () => isConfirmPasswordVisible.value =
                     !isConfirmPasswordVisible.value,
-                showValidations: true,
+                showValidations:
+                    false, // Do not show regular password validations
                 onValidationChanged: (_) {
-                  isConfirmPasswordValid.value = confirmPasswordController
-                          .text.isNotEmpty &&
+                  bool passwordsMatch =
                       confirmPasswordController.text == passwordController.text;
+                  isConfirmPasswordValid.value = passwordsMatch;
+
                   print(
-                      "Confirm Password Valid (on confirm password change): ${isConfirmPasswordValid.value}");
+                      "Confirm Password Valid: ${isConfirmPasswordValid.value}");
+
                   updateFormValidity();
                 },
               ),
+              Obx(() {
+                if (!isConfirmPasswordValid.value &&
+                    confirmPasswordController.text.isNotEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 5),
+                    child: Text(
+                      "Passwords do not match",
+                      style: TextStyle(color: Colors.red, fontSize: 12),
+                    ),
+                  );
+                }
+                return SizedBox.shrink();
+              }),
               const SizedBox(height: 15),
               MobileNumberField(
                 controller: phoneController,
