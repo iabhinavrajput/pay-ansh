@@ -271,26 +271,26 @@ void onSelectComplaintReason(String value) {
                     ],
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.05)),
-GradientButton(
-  text: "Submit",
-  onPressed: isFormValid
-      ? () {
-          // Ensure both complaint type and reason are non-null
-          if (selectedComplaintType != null && selectedComplaintReason != null) {
-            debugPrint("Submitting complaint with type: $selectedComplaintType, reason: $selectedComplaintReason");
-            complaintController.submitComplaint(
-              typeId: selectedComplaintType!,  // Use the non-null value with `!` operator
-              reasonId: selectedComplaintReason!,
-              subject: _transactionController.text,
-              description: _descriptionController.text,
-            );
-          } else {
-            debugPrint("Complaint type or reason is null");
-          }
-        }
-      : null,
-  isEnabled: isFormValid,
-)
+                    GradientButton(
+                      text: "Submit",
+                      onPressed: isFormValid
+                        ? () {
+                          // Ensure both complaint type and reason are non-null
+                          if (selectedComplaintType != null && selectedComplaintReason != null) {
+                            debugPrint("Submitting complaint with type: $selectedComplaintType, reason: $selectedComplaintReason");
+                            complaintController.submitComplaint(
+                              typeId: selectedComplaintType!,  // Use the non-null value with `!` operator
+                              reasonId: selectedComplaintReason!,
+                              subject: _transactionController.text,
+                              description: _descriptionController.text,
+                            );
+                          } else {
+                            debugPrint("Complaint type or reason is null");
+                          }
+                        }
+                  : null,
+              isEnabled: isFormValid,
+            )
 
 
                 ],
