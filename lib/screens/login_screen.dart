@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen>
   final RxBool isEmailValid = false.obs;
   final RxBool isPasswordValid = false.obs;
   final RxBool isPasswordVisible = false.obs;
+                   bool _isLoading = false;
 
   @override
   void initState() {
@@ -266,13 +267,21 @@ class _LoginScreenState extends State<LoginScreen>
                   //       : SizedBox.shrink(), // Show only on Android
                   // ),
 
-                  Platform.isAndroid
-                      ? SizedBox(
-                          height: Dimensions.dynamicHeight(context, 0.06),
-                          child: GoogleBtn(),
-                        )
-                      : SizedBox
-                          .shrink(), // Return an empty widget instead of null
+
+
+Platform.isAndroid
+    ? SizedBox(
+        height: Dimensions.dynamicHeight(context, 0.06),
+        child: GoogleBtn(
+          onLoadingStateChanged: (loading) {
+            setState(() {
+              _isLoading = loading;
+            });
+          },
+        ),
+      )
+    : SizedBox.shrink(),
+ // Return an empty widget instead of null
 
                   // Spacer(), // Pushes Sign Up Section to the bottom
 
