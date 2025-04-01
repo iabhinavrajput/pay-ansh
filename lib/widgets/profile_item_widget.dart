@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/screens/phone_verification.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 
 class ProfileItemWidget extends StatelessWidget {
@@ -76,27 +78,34 @@ class ProfileItemWidget extends StatelessWidget {
                       Icon(Icons.check_circle, color: Colors.green, size: 16),
                     ],
                   )
-                : Container(
-                  width: Dimensions.dynamicWidth(context, 0.25),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Unverified",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
+                : GestureDetector(
+                    onTap: () {
+                      Get.to(PhoneVerification(value:value!,));
+                    },
+                    child: Container(
+                      width: Dimensions.dynamicWidth(context, 0.25),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 2, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Unverified",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 4),
-                        Icon(Icons.warning, color: Colors.red, size: Dimensions.dynamicWidth(context, 0.03)),
-                      ],
+                          const SizedBox(width: 4),
+                          Icon(Icons.warning,
+                              color: Colors.red,
+                              size: Dimensions.dynamicWidth(context, 0.03)),
+                        ],
+                      ),
                     ),
                   ),
         ],
