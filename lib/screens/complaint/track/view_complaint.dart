@@ -19,7 +19,7 @@ class ViewComplaint extends StatefulWidget {
 }
 
 class _ViewComplaintState extends State<ViewComplaint> {
-    final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   List<Map<String, String>> complaintStatuses = [];
   bool isLoading = true;
@@ -33,7 +33,7 @@ class _ViewComplaintState extends State<ViewComplaint> {
 
   Future<void> fetchComplaintDetails() async {
     final String url = "https://api.payansh.com/api/complaints";
-      String? token = await _storage.read(key: "accessToken");
+    String? token = await _storage.read(key: "accessToken");
 
     try {
       final response = await http.get(
@@ -90,6 +90,16 @@ class _ViewComplaintState extends State<ViewComplaint> {
     }
   }
 
+  Color getStatusColor(String status) {
+    if (status.toLowerCase() == 'pending') {
+      return Color(0xffF26727); // Orange for pending status
+    } else if (status.toLowerCase() == 'approved' || status.toLowerCase() == 'successfully solved') {
+      return Colors.green; // Green for approved or successfully solved
+    } else {
+      return Color(0xffF26727); // Default to orange if status is unknown
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +128,7 @@ class _ViewComplaintState extends State<ViewComplaint> {
                                 width: 12,
                                 height: 12,
                                 decoration: BoxDecoration(
-                                  color: index == complaintStatuses.length - 1 ? Colors.green : Color(0xffF26727),
+                                  color: getStatusColor(status["status"]!), // Dynamic color based on status
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -126,7 +136,7 @@ class _ViewComplaintState extends State<ViewComplaint> {
                                 Container(
                                   width: 2,
                                   height: 40,
-                                  color: Color(0x40F26727),
+                                  color: getStatusColor(status["status"]!).withOpacity(0.3), // Faded color line
                                 ),
                             ],
                           ),
