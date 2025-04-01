@@ -20,6 +20,7 @@ class _WorkflowScreenState extends State<WorkflowScreen> {
   late String accessToken;
   late String email;
   late String status;
+  late String docType;
 
   @override
   void initState() {
@@ -27,10 +28,12 @@ class _WorkflowScreenState extends State<WorkflowScreen> {
 
     // Retrieve arguments passed to this screen
     final args = Get.arguments as Map<String, dynamic>;
+    print("Args:$args");
     kid = args["kid"];
     accessToken = args["accessToken"];
     email = args["email"];
     status = args["status"] ?? "pending";
+    docType = args["docType"] ?? "pan"; // Default to PAN
 
     startKycWorkflow();
   }
@@ -108,13 +111,14 @@ class _WorkflowScreenState extends State<WorkflowScreen> {
     required Color color,
     required IconData icon,
     required String message,
+    required String documentType, // Added parameter for document type
   }) {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Upload Your PAN Card*",
+            Text("Upload Your $documentType*", // Dynamic document type
                 style: TextStyle(color: Colors.black)),
             Text(text, style: TextStyle(color: color)),
           ],
@@ -153,35 +157,40 @@ class _WorkflowScreenState extends State<WorkflowScreen> {
     );
   }
 
-  Widget _getStatusUI() {
+  Widget _getStatusUI(String documentType) {
+    // Accepts documentType parameter
     switch (status.toLowerCase()) {
       case "pending":
         return _buildStatusUI(
           text: "Pending",
           color: Colors.orange,
           icon: HugeIcons.strokeRoundedClock02,
-          message: "Your PAN Card verification is pending.",
+          message: "Your $documentType verification is pending.",
+          documentType: documentType,
         );
       case "requested":
         return _buildStatusUI(
           text: "Requested",
           color: Colors.blue,
           icon: HugeIcons.strokeRoundedCircleArrowRight01,
-          message: "Your PAN Card verification request has been sent.",
+          message: "Your $documentType verification request has been sent.",
+          documentType: documentType,
         );
       case "rejected":
         return _buildStatusUI(
           text: "Rejected",
           color: Colors.red,
           icon: HugeIcons.strokeRoundedCancelCircleHalfDot,
-          message: "Your PAN Card verification was rejected.",
+          message: "Your $documentType verification was rejected.",
+          documentType: documentType,
         );
       case "approved":
         return _buildStatusUI(
           text: "Verified",
           color: const Color(0xff47C546),
           icon: HugeIcons.strokeRoundedCheckmarkCircle04,
-          message: "Your PAN Card was verified successfully.",
+          message: "Your $documentType was verified successfully.",
+          documentType: documentType,
         );
       default:
         return _buildStatusUI(
@@ -189,6 +198,7 @@ class _WorkflowScreenState extends State<WorkflowScreen> {
           color: Colors.grey,
           icon: HugeIcons.strokeRoundedHelpCircle,
           message: "Status is not available.",
+          documentType: documentType,
         );
     }
   }
@@ -204,7 +214,7 @@ class _WorkflowScreenState extends State<WorkflowScreen> {
       ),
       body: Container(
         margin: const EdgeInsets.all(30),
-        child: _getStatusUI(), // Dynamic status UI
+        child: _getStatusUI(docType), // Dynamic status UI
       ),
     );
   }

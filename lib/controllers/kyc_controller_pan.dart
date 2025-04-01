@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:payansh/screens/trial/kyc_workflow.dart';
 
-class  KycControllerPan extends GetxController {
+class KycControllerPan extends GetxController {
   final Dio _dio = Dio();
   var isLoading = false.obs;
 
@@ -22,7 +22,7 @@ class  KycControllerPan extends GetxController {
     final String authHeader =
         "Basic ${base64Encode(utf8.encode('$clientId:$clientSecret'))}";
 
-        print("authHeader: $authHeader");
+    print("authHeader: $authHeader");
 
     try {
       final response = await _dio.post(
@@ -49,6 +49,7 @@ class  KycControllerPan extends GetxController {
         final data = response.data;
         String kid = data["id"];
         String accessToken = data["access_token"]["id"];
+        String pan = "pan";
 
         Get.snackbar("Success", "KYC Request submitted successfully");
 
@@ -56,7 +57,8 @@ class  KycControllerPan extends GetxController {
         Get.to(() => WorkflowScreen(), arguments: {
           "kid": kid,
           "accessToken": accessToken,
-          "email": customerIdentifier
+          "email": customerIdentifier,
+          "docType": pan
         });
       } else {
         Get.snackbar("Error", "Failed to submit KYC");
