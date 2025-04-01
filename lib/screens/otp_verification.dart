@@ -15,18 +15,29 @@ class OtpVerification extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: Dimensions.dynamicWidth(context, 0.1)),
+        padding: EdgeInsets.symmetric(
+            horizontal: Dimensions.dynamicWidth(context, 0.1)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: Dimensions.dynamicHeight(context, 0.07),),
-            Text("OTP Verification" ,style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
-                        SizedBox(height: Dimensions.dynamicHeight(context, 0.01),),
+            SizedBox(
+              height: Dimensions.dynamicHeight(context, 0.07),
+            ),
+            Text(
+              "OTP Verification",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: Dimensions.dynamicHeight(context, 0.01),
+            ),
 
             const Text(
               "We'll sent the OTP as a SMS to your registered mobile number",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal,color: Colors.grey),
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey),
             ),
             const SizedBox(height: 20),
             CircleAvatar(
