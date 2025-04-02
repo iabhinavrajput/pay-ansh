@@ -114,6 +114,7 @@ flutter:
     - assets/logo/
     - assets/notification/
     - assets/gif/auth/
+    - assets/step/
 
   #   - images/a_dot_ham.jpeg
 
