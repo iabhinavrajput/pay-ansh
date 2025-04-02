@@ -44,7 +44,7 @@ class GradientButton extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         child: Text(text,
-            style: const TextStyle(fontSize: 16, color: Colors.white)),
+            style: const TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold)),
       ),
     );
   }

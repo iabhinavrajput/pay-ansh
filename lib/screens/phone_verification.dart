@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:payansh/components/custom_app_bar_kyc.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/screens/common_otp.dart';
 import 'package:payansh/widgets/gradient_button.dart';
 
 class PhoneVerification extends StatefulWidget {
@@ -29,11 +31,12 @@ class _PhoneVerificationState extends State<PhoneVerification> {
           description:
               "Enter the mobile number where\nyou want to get the OTP"),
       body: Padding(
-        padding:  EdgeInsets.all(Dimensions.dynamicWidth(context, 0.05)),
+        padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.05)),
         child: Column(
           children: [
-                        SizedBox(height: Dimensions.dynamicHeight(context, 0.03),),
-
+            SizedBox(
+              height: Dimensions.dynamicHeight(context, 0.03),
+            ),
             TextField(
               controller: _controller,
               decoration: InputDecoration(
@@ -55,16 +58,16 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                 contentPadding: const EdgeInsets.only(
                   left: 20,
                 ),
-            
+
                 // Icon (if provided)
                 suffixIcon: Icons.phone != null
                     ? Padding(
-                        padding:
-                            const EdgeInsets.only(right: 10), // Add right padding
+                        padding: const EdgeInsets.only(
+                            right: 10), // Add right padding
                         child: Icon(Icons.phone, color: Color(0xffD9D9DA)),
                       )
                     : null,
-            
+
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(
@@ -88,9 +91,26 @@ class _PhoneVerificationState extends State<PhoneVerification> {
                 ),
               ),
             ),
-            SizedBox(height: Dimensions.dynamicHeight(context, 0.03),),
-            GradientButton(text: 
-            "Verify", onPressed: () {})
+            SizedBox(
+              height: Dimensions.dynamicHeight(context, 0.03),
+            ),
+            GradientButton(
+                text: "Verify",
+                onPressed: () {
+                  Get.to(CommonOtpScreen(
+                    title: "Otp Verification",
+                    subtitle: "Enter Otp received on your phone number",
+                    imagePath: 'assets/gif/auth/otp.gif',
+                    onOtpSubmit: (otp) {
+                      // Handle OTP verification logic
+                      print("OTP Submitted: $otp");
+                    },
+                    onResendOtp: () {
+                      // Handle OTP resend logic
+                      print("Resend OTP clicked");
+                    },
+                  ));
+                })
           ],
         ),
       ),
