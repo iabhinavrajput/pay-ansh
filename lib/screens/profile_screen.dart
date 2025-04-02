@@ -9,6 +9,7 @@ import 'package:payansh/services/auth_service.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/app_bar.dart';
 import 'package:payansh/widgets/edit.dart';
+import 'package:payansh/widgets/gradient_button.dart';
 import 'package:payansh/widgets/profile_item_widget.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,7 +23,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late Future<Map<String, dynamic>?> _profileFuture;
-
 
   @override
   void initState() {
@@ -175,8 +175,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       errorBuilder:
                                           (context, error, stackTrace) {
                                         return SvgPicture.asset(
-                                            'assets/profile/profile.svg',
-                                            fit: BoxFit.cover);
+                                          'assets/profile/profile.svg',
+                                          fit: BoxFit.cover,
+                                        );
                                       },
                                     )
                                   : SvgPicture.asset(
@@ -185,10 +186,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                             ),
                           ),
+                          Positioned(
+                            bottom:
+                                -0, // Moves it slightly outside the container
+                            right:
+                                -0, // Adjusts position to be at the bottom-right
+                            child: CircleAvatar(
+                              radius: 20, // Adjust the size as needed
+                              backgroundColor: Color(0xff2C5985),
+                              child: Icon(Icons.edit,
+                                  color: Colors.white, size: 20),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
+                 
                 ],
               ),
               SizedBox(height: Dimensions.dynamicHeight(context, 0.08)),
@@ -206,29 +220,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       label: "Name",
                       value: userName,
                       onEdit: () {
-                        showModalBottomSheet(
+                        showDialog(
                           context: context,
-                          isScrollControlled:
-                              true, // Ensures bottom sheet adjusts when keyboard opens
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.vertical(top: Radius.circular(20)),
-                          ),
                           builder: (context) {
-                            return EditBottomSheet(
-                              title: "Your Name",
-                              oldValue: userName,
-                              onSubmit: (newValueName) async {
-                                if (newValueName.isNotEmpty) {
-                                  final response =
-                                      await ApiService.updateProfile(
-                                    name: newValueName,
-                                    phoneNumber: userPhone,
-                                  );
-                                }
-                              },
-                              icon: HugeIcons
-                                  .strokeRoundedUser02, // Add any icon here
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.info_rounded,
+                                      color: AppColors.drawerTextColor,
+                                      size: 60,
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      "You cannot edit name. Your name will be automaticaly fetched from KYC process",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    SizedBox(
+                                        width: double.infinity,
+                                        child: GradientButton(
+                                            text: "OK",
+                                            onPressed: () {
+                                              Get.back();
+                                            })),
+                                  ],
+                                ),
+                              ),
                             );
                           },
                         );
