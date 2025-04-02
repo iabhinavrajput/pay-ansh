@@ -123,14 +123,7 @@ class _HelpState extends State<Help> {
             SizedBox(
               height: Dimensions.dynamicHeight(context, 0.02),
             ),
-            Text(
-              "Need More Help ?",
-              style: TTextTheme.lightTextTheme.bodyMedium,
-            ),
-            SizedBox(
-              height: Dimensions.dynamicHeight(context, 0.02),
-            ),
-            GradientButton(text: "Raise a complaint?", onPressed: () {})
+           
           ],
         ),
       ),
