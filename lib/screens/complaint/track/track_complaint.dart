@@ -86,12 +86,12 @@ class _TrackComplaintState extends State<TrackComplaint> {
               if (complaintController.isLoading.value) {
                 return Container(
                   height: 50,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: Color(0x33D9D9DA),
+                    color: const Color(0x33D9D9DA),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text("Fetching data...", style: TTextTheme.greymediumText),
                   ),
                 );
@@ -101,7 +101,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
                 return Container(
                   height: 50,
                   alignment: Alignment.center,
-                  child: Text("No complaint types available", style: TextStyle(color: Colors.red)),
+                  child: const Text("No complaint types available", style: TextStyle(color: Colors.red)),
                 );
               }
 
@@ -125,20 +125,20 @@ class _TrackComplaintState extends State<TrackComplaint> {
               height: Dimensions.dynamicHeight(context, 0.06),
               decoration: BoxDecoration(
                 gradient: isFilled
-                    ? LinearGradient(colors: [AppColors.gradientStart, AppColors.gradientEnd])
-                    : LinearGradient(colors: [Colors.transparent, Colors.transparent]),
+                    ? const LinearGradient(colors: [AppColors.gradientStart, AppColors.gradientEnd])
+                    : const LinearGradient(colors: [Colors.transparent, Colors.transparent]),
                 borderRadius: BorderRadius.circular(8),
               ),
-              padding: EdgeInsets.all(1), // Border padding effect
+              padding: const EdgeInsets.all(1), // Border padding effect
               child: Container(
                 decoration: BoxDecoration(
-                  color: isFilled ? Colors.white : Color(0x33D9D9DA),
+                  color: isFilled ? Colors.white : const Color(0x33D9D9DA),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextFormField(
                   controller: _transactionController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Enter Complaint ID",
                     hintStyle: TTextTheme.greymediumText,
                     border: InputBorder.none,

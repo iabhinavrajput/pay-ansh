@@ -24,9 +24,6 @@ class ComplaintController extends GetxController {
 
   var errorMessage = ''.obs;
 
- 
-
-
   @override
   void onInit() {
     fetchComplaintData();
@@ -93,14 +90,21 @@ class ComplaintController extends GetxController {
         if (data["success"] == true) {
           List<dynamic> complaints = data["data"]["complaints"];
           var complaint = complaints.firstWhereOrNull(
-            (c) => c["type_id"].toString() == typeId &&
-                   c["complaint_code"].toString() == complaintId,
+            (c) =>
+                c["type_id"].toString() == typeId &&
+                c["complaint_code"].toString() == complaintId,
           );
 
           if (complaint != null) {
             complaintStatuses.value = [
-              {"status": "Complaint Registered Successfully", "dateTime": complaint["created_at"]},
-              {"status": "Status: ${complaint["status"]}", "dateTime": complaint["created_at"]},
+              {
+                "status": "Complaint Registered Successfully",
+                "dateTime": complaint["created_at"]
+              },
+              {
+                "status": "Status: ${complaint["status"]}",
+                "dateTime": complaint["created_at"]
+              },
             ];
           } else {
             errorMessage.value = "No complaint found for the given details.";
@@ -112,29 +116,22 @@ class ComplaintController extends GetxController {
         errorMessage.value = "Server error. Please try again later.";
       }
     } catch (e) {
-      errorMessage.value = "Something went wrong. Please check your connection.";
+      errorMessage.value =
+          "Something went wrong. Please check your connection.";
     } finally {
       isLoading.value = false;
     }
   }
 
-  
-  
-
-  Future<void> submitComplaint({
+  Future<bool> submitComplaint({
     required String typeId,
     required String reasonId,
     required String subject,
     required String description,
   }) async {
     try {
-      print("object: $typeId");
-      print("object: $reasonId");
-      print("object: $subject");
-      print("object: $description");
       String? token = await _storage.read(key: "accessToken");
 
-      // Now you can directly use typeId and reasonId since they are string ids
       final response = await _dio.post(
         ApiEndpoints.complaints,
         options: Options(
@@ -142,10 +139,7 @@ class ComplaintController extends GetxController {
             "Authorization": "Bearer $token",
             "Content-Type": "application/json",
           },
-          validateStatus: (status) {
-            return status! <
-                500; // Allows status codes below 500 (including 400)
-          },
+          validateStatus: (status) => status != null && status < 500,
         ),
         data: {
           "typeId": typeId,
@@ -156,59 +150,41 @@ class ComplaintController extends GetxController {
       );
 
       final data = response.data;
+      print("Response Data: $data");
 
-      print("responseofthecomplain: ${response.data}");
-      print("status code: ${response.statusCode}");
-      String complaintCode = data["data"]["complaintCode"]?.toString() ?? "N/A";
-
-
+      if (response.statusCode == 201) {
         String message = data["message"]?.toString() ?? "Complaint registered";
-  // String complaintCode = data["data"]["complaintCode"]?.toString() ?? "N/A";
+        String complaintCode =
+            data["data"]["complaintCode"]?.toString() ?? "N/A";
 
+        print("Complaint Message: $message");
+        print("Complaint Code: $complaintCode");
 
-
-        print("complaint code: $complaintCode");
-        if (response.statusCode == 201) {
-
-
-            if (data is Map<String, dynamic> && data["data"] is Map<String, dynamic>) {
-    String message = data["message"]?.toString() ?? "Complaint registered";
-    String complaintCode = data["data"]["complaintCode"]?.toString() ?? "N/A";
-
-    print("Complaint Message: $message");
-    print("Complaint Code: $complaintCode");
-
-    showSnackbar(
-      title: data["status"]?.toString() ?? "Success",
-      message: "$message\nComplaint Code: $complaintCode",
-      isSuccess: data["success"] ?? false,
-    );
-  } else {
-    print("Error: Expected 'data' to be a Map but got ${data.runtimeType}");
-  }
-
-        // print("Dataaaaaa:$data");
-        // print("complaint code : ${data["message"]["complaintCode"]}");
-        // print("Dataaaaaa:${data["message"]["complaintCode"]}");
-        // showSnackbar(
-        //   title: data["status"]?.toString() ?? "Success",
-        //   message: "$message\nComplaint Code: $complaintCode",  // Combining both message & complaint code
-        //   isSuccess: data["success"] ?? false,
-        // );
-        // Get.snackbar("Success", "Complaint registered successfully! ${data["message"]}}");
-      } else if (response.statusCode == 400) {
-        print("responseofthecomplain: ${response.data}");
-        {
-          showSnackbar(
-            title: data["status"]?.toString() ?? "Error",
-            message: data["message"]?.toString() ?? "Complaint not registered",
-            isSuccess: data["success"] ?? false,
-          );
-        }
+        showSnackbar(
+          title: data["status"]?.toString() ?? "Success",
+          message: "$message\nComplaint Code: $complaintCode",
+          isSuccess: data["success"] ?? false,
+        );
+        return true;
+      } else {
+        String message =
+            data["message"]?.toString() ?? "Complaint not registered";
+        showSnackbar(
+          title: "Error",
+          message: message,
+          isSuccess: false,
+        );
+        return false; 
       }
     } catch (e) {
-      print("Error submitting complaint: $e");
-      Get.snackbar("Error", "Something went wrong: $e");
+      print("Exception: $e");
+
+      showSnackbar(
+        title: "Error",
+        message: "An unexpected error occurred.",
+        isSuccess: false,
+      );
+      return false; 
     }
   }
 

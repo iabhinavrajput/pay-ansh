@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/complain_controller.dart';
+import 'package:payansh/screens/complaint/complaint_screen.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/bottom_sheet.dart';
 import 'package:payansh/widgets/custom_dropdown.dart';
@@ -31,7 +32,8 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
   String? selectedComplaintType;
   String? selectedComplaintReason;
 
-  final ComplaintController complaintController = Get.put(ComplaintController());
+  final ComplaintController complaintController =
+      Get.put(ComplaintController());
 
   @override
   void initState() {
@@ -39,14 +41,16 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
     _transactionController.addListener(() {
       setState(() {
         isFilled = _transactionController.text.isNotEmpty;
-        debugPrint("Transaction Controller Value: ${_transactionController.text}");
+        debugPrint(
+            "Transaction Controller Value: ${_transactionController.text}");
       });
     });
 
     _descriptionController.addListener(() {
       setState(() {
         isFilledDescription = _descriptionController.text.isNotEmpty;
-        debugPrint("Description Controller Value: ${_descriptionController.text}");
+        debugPrint(
+            "Description Controller Value: ${_descriptionController.text}");
       });
     });
   }
@@ -66,36 +70,36 @@ class _ComplaintRegistrationState extends State<ComplaintRegistration> {
           isFilledDescription &&
           isComplaintTypeSelected &&
           isComplaintReasonSelected;
-      debugPrint("Form Validation: isFilled: $isFilled, isFilledDescription: $isFilledDescription, isComplaintTypeSelected: $isComplaintTypeSelected, isComplaintReasonSelected: $isComplaintReasonSelected, isFormValid: $isFormValid");
+      debugPrint(
+          "Form Validation: isFilled: $isFilled, isFilledDescription: $isFilledDescription, isComplaintTypeSelected: $isComplaintTypeSelected, isComplaintReasonSelected: $isComplaintReasonSelected, isFormValid: $isFormValid");
     });
   }
 
-void onSelectComplaintType(String value) {
-  setState(() {
-    // Find the selected complaint type by matching the value
-    var selectedType = complaintController.complaintTypes.firstWhere(
-        (type) => type['type'] == value,
-        orElse: () => {});  // Provide default value if not found
-    selectedComplaintType = selectedType['id'].toString();
-    isComplaintTypeSelected = true;
-    debugPrint("Selected Complaint Type ID: $selectedComplaintType");
-    validateForm();
-  });
-}
+  void onSelectComplaintType(String value) {
+    setState(() {
+      // Find the selected complaint type by matching the value
+      var selectedType = complaintController.complaintTypes.firstWhere(
+          (type) => type['type'] == value,
+          orElse: () => {}); // Provide default value if not found
+      selectedComplaintType = selectedType['id'].toString();
+      isComplaintTypeSelected = true;
+      debugPrint("Selected Complaint Type ID: $selectedComplaintType");
+      validateForm();
+    });
+  }
 
-void onSelectComplaintReason(String value) {
-  setState(() {
-    // Find the selected complaint reason by matching the value
-    var selectedReason = complaintController.complaintReasons.firstWhere(
-        (reason) => reason['reason'] == value,
-        orElse: () => {});  // Provide default value if not found
-    selectedComplaintReason = selectedReason['id'].toString();
-    isComplaintReasonSelected = true;
-    debugPrint("Selected Complaint Reason ID: $selectedComplaintReason");
-    validateForm();
-  });
-}
-
+  void onSelectComplaintReason(String value) {
+    setState(() {
+      // Find the selected complaint reason by matching the value
+      var selectedReason = complaintController.complaintReasons.firstWhere(
+          (reason) => reason['reason'] == value,
+          orElse: () => {}); // Provide default value if not found
+      selectedComplaintReason = selectedReason['id'].toString();
+      isComplaintReasonSelected = true;
+      debugPrint("Selected Complaint Reason ID: $selectedComplaintReason");
+      validateForm();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,14 +111,15 @@ void onSelectComplaintReason(String value) {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.all(Dimensions.dynamicWidth(context, 0.05)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.01)),
-                  Text("Complaint Type", style: TTextTheme.lightTextTheme.bodyLarge),
+                  Text("Complaint Type",
+                      style: TTextTheme.lightTextTheme.bodyLarge),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.001)),
                   Column(
                     children: [
@@ -123,15 +128,16 @@ void onSelectComplaintReason(String value) {
                           debugPrint("Complaint Types are loading...");
                           return Container(
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             decoration: BoxDecoration(
-                              color: Color(0x33D9D9DA),
+                              color: const Color(0x33D9D9DA),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Fetching data...", style: TTextTheme.greymediumText),
+                                Text("Fetching data...",
+                                    style: TTextTheme.greymediumText),
                               ],
                             ),
                           );
@@ -142,13 +148,16 @@ void onSelectComplaintReason(String value) {
                           return Container(
                             height: 50,
                             alignment: Alignment.center,
-                            child: Text("No complaint types available", style: TextStyle(color: Colors.red)),
+                            child: const Text("No complaint types available",
+                                style: TextStyle(color: Colors.red)),
                           );
                         }
 
                         // Extracting complaint types as a List<String>
-                        List<String> complaintTypes = complaintController.complaintTypes
-                            .map((type) => type['type'].toString()) // Corrected 'name' to 'type'
+                        List<String> complaintTypes = complaintController
+                            .complaintTypes
+                            .map((type) => type['type']
+                                .toString()) // Corrected 'name' to 'type'
                             .toList();
 
                         return CustomDropdown(
@@ -160,62 +169,75 @@ void onSelectComplaintReason(String value) {
                     ],
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
-                  Text("Transaction Reference ID", style: TTextTheme.lightTextTheme.bodyLarge),
+                  Text("Transaction Reference ID",
+                      style: TTextTheme.lightTextTheme.bodyLarge),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.001)),
                   Container(
                     height: Dimensions.dynamicHeight(context, 0.06),
                     decoration: BoxDecoration(
                       gradient: isFilled
-                          ? LinearGradient(colors: [AppColors.gradientStart, AppColors.gradientEnd])
-                          : LinearGradient(colors: [Colors.transparent, Colors.transparent]),
+                          ? const LinearGradient(colors: [
+                              AppColors.gradientStart,
+                              AppColors.gradientEnd
+                            ])
+                          : const LinearGradient(
+                              colors: [Colors.transparent, Colors.transparent]),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    padding: EdgeInsets.all(1),
+                    padding: const EdgeInsets.all(1),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: isFilled ? Colors.white : Color(0x33D9D9DA),
+                        color: isFilled ? Colors.white : const Color(0x33D9D9DA),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: TextFormField(
                         controller: _transactionController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "Enter Transaction Reference ID",
                           hintStyle: TTextTheme.greymediumText,
                           border: InputBorder.none,
                           counterText: "",
                         ),
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z]*$')),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^[a-zA-Z]*$')),
                           LengthLimitingTextInputFormatter(10),
                         ],
                       ),
                     ),
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
-                  Text("Description", style: TTextTheme.lightTextTheme.bodyLarge),
+                  Text("Description",
+                      style: TTextTheme.lightTextTheme.bodyLarge),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.001)),
                   Container(
                     height: Dimensions.dynamicHeight(context, 0.1),
-                    padding: EdgeInsets.all(1),
+                    padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                       gradient: isFilledDescription
-                          ? LinearGradient(colors: [AppColors.gradientStart, AppColors.gradientEnd])
-                          : LinearGradient(colors: [Colors.transparent, Colors.transparent]),
+                          ? const LinearGradient(colors: [
+                              AppColors.gradientStart,
+                              AppColors.gradientEnd
+                            ])
+                          : const LinearGradient(
+                              colors: [Colors.transparent, Colors.transparent]),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: isFilledDescription ? Colors.white : Color(0x33D9D9DA),
+                        color: isFilledDescription
+                            ? Colors.white
+                            : const Color(0x33D9D9DA),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: TextFormField(
                         controller: _descriptionController,
                         expands: true,
                         maxLines: null,
                         keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "Write Description",
                           hintStyle: TTextTheme.greymediumText,
                           border: InputBorder.none,
@@ -225,7 +247,8 @@ void onSelectComplaintReason(String value) {
                     ),
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
-                  Text("Complaint Reason", style: TTextTheme.lightTextTheme.bodyLarge),
+                  Text("Complaint Reason",
+                      style: TTextTheme.lightTextTheme.bodyLarge),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.001)),
                   Column(
                     children: [
@@ -234,15 +257,16 @@ void onSelectComplaintReason(String value) {
                           debugPrint("Complaint Reasons are loading...");
                           return Container(
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             decoration: BoxDecoration(
-                              color: Color(0x33D9D9DA),
+                              color: const Color(0x33D9D9DA),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Fetching data...", style: TTextTheme.greymediumText),
+                                Text("Fetching data...",
+                                    style: TTextTheme.greymediumText),
                               ],
                             ),
                           );
@@ -253,13 +277,16 @@ void onSelectComplaintReason(String value) {
                           return Container(
                             height: 50,
                             alignment: Alignment.center,
-                            child: Text("No complaint reasons available", style: TextStyle(color: Colors.red)),
+                            child: const Text("No complaint reasons available",
+                                style: TextStyle(color: Colors.red)),
                           );
                         }
 
                         // Extracting complaint reasons as a List<String>
-                        List<String> complaintReasons = complaintController.complaintReasons
-                            .map((reason) => reason['reason'].toString()) // Corrected 'name' to 'reason'
+                        List<String> complaintReasons = complaintController
+                            .complaintReasons
+                            .map((reason) => reason['reason']
+                                .toString()) // Corrected 'name' to 'reason'
                             .toList();
 
                         return CustomDropdown(
@@ -271,28 +298,34 @@ void onSelectComplaintReason(String value) {
                     ],
                   ),
                   SizedBox(height: Dimensions.dynamicHeight(context, 0.05)),
-                    GradientButton(
-                      text: "Submit",
-                      onPressed: isFormValid
-                        ? () {
-                          // Ensure both complaint type and reason are non-null
-                          if (selectedComplaintType != null && selectedComplaintReason != null) {
-                            debugPrint("Submitting complaint with type: $selectedComplaintType, reason: $selectedComplaintReason");
-                            complaintController.submitComplaint(
-                              typeId: selectedComplaintType!,  // Use the non-null value with `!` operator
-                              reasonId: selectedComplaintReason!,
-                              subject: _transactionController.text,
-                              description: _descriptionController.text,
-                            );
-                          } else {
-                            debugPrint("Complaint type or reason is null");
+                  GradientButton(
+                    text: "Submit",
+                    onPressed: isFormValid
+                        ? () async {
+                            if (selectedComplaintType != null &&
+                                selectedComplaintReason != null) {
+                              debugPrint(
+                                  "Submitting complaint with type: $selectedComplaintType, reason: $selectedComplaintReason");
+
+                              bool isSuccess =
+                                  await complaintController.submitComplaint(
+                                typeId: selectedComplaintType!,
+                                reasonId: selectedComplaintReason!,
+                                subject: _transactionController.text,
+                                description: _descriptionController.text,
+                              );
+
+                              if (isSuccess) {
+                                Get.to(() =>
+                                    const ComplaintScreen()); // Navigate only on success
+                              }
+                            } else {
+                              debugPrint("Complaint type or reason is null");
+                            }
                           }
-                        }
-                  : null,
-              isEnabled: isFormValid,
-            )
-
-
+                        : null,
+                    isEnabled: isFormValid,
+                  )
                 ],
               ),
             ),
