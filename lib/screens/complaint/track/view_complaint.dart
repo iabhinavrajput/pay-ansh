@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
+import 'package:shimmer/shimmer.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/controllers/complain_controller.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:payansh/widgets/title_appbar.dart';
 
@@ -19,85 +17,90 @@ class ViewComplaint extends StatefulWidget {
 }
 
 class _ViewComplaintState extends State<ViewComplaint> {
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
-
-  List<Map<String, String>> complaintStatuses = [];
-  bool isLoading = true;
-  String errorMessage = '';
+  final ComplaintController _complaintController = Get.put(ComplaintController());
 
   @override
   void initState() {
     super.initState();
-    fetchComplaintDetails();
-  }
-
-  Future<void> fetchComplaintDetails() async {
-    final String url = "https://api.payansh.com/api/complaints";
-    String? token = await _storage.read(key: "accessToken");
-
-    try {
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {
-          "Authorization": "Bearer $token",
-          "Content-Type": "application/json",
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-
-        if (data["success"]) {
-          List<dynamic> complaints = data["data"]["complaints"];
-
-          // Find the specific complaint by type_id and id
-          var complaint = complaints.firstWhere(
-            (c) => c["type_id"].toString() == widget.typeId && c["id"].toString() == widget.complaintId,
-            orElse: () => null,
-          );
-
-          if (complaint != null) {
-            setState(() {
-              complaintStatuses = [
-                {"status": "Complaint Registered Successfully", "dateTime": complaint["created_at"]},
-                {"status": "Status: ${complaint["status"]}", "dateTime": complaint["updated_at"]},
-              ];
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              errorMessage = "No complaint found for the given details.";
-              isLoading = false;
-            });
-          }
-        } else {
-          setState(() {
-            errorMessage = "Failed to fetch complaints.";
-            isLoading = false;
-          });
-        }
-      } else {
-        setState(() {
-          errorMessage = "Server error. Please try again later.";
-          isLoading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        errorMessage = "Something went wrong. Please check your connection.";
-        isLoading = false;
-      });
-    }
+    Future.delayed(Duration.zero, () {
+      _complaintController.fetchComplaintDetails(widget.typeId, widget.complaintId);
+    });
   }
 
   Color getStatusColor(String status) {
-    if (status.toLowerCase() == 'pending') {
-      return Color(0xffF26727); // Orange for pending status
-    } else if (status.toLowerCase() == 'approved' || status.toLowerCase() == 'successfully solved') {
-      return Colors.green; // Green for approved or successfully solved
-    } else {
-      return Color(0xffF26727); // Default to orange if status is unknown
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return const Color(0xffF26727);
+      case 'approved':
+      case 'successfully solved':
+        return Colors.green;
+      default:
+        return const Color(0xffF26727);
     }
+  }
+
+  Widget _buildShimmerEffect() {
+    return ListView.builder(
+      itemCount: 3,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      width: 12,
+                      height: 12,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 2,
+                    height: 40,
+                    color: Colors.grey[300],
+                  ),
+                ],
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        width: double.infinity,
+                        height: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        width: 100,
+                        height: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -107,63 +110,76 @@ class _ViewComplaintState extends State<ViewComplaint> {
         height: Dimensions.dynamicHeight(context, 0.15),
         title: "View Complaint",
       ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : errorMessage.isNotEmpty
-              ? Center(child: Text(errorMessage, style: TextStyle(color: Colors.red)))
-              : Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: complaintStatuses.asMap().entries.map((entry) {
-                      final index = entry.key;
-                      final status = entry.value;
-
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.all(6),
-                                width: 12,
-                                height: 12,
-                                decoration: BoxDecoration(
-                                  color: getStatusColor(status["status"]!), // Dynamic color based on status
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              if (index != complaintStatuses.length - 1)
-                                Container(
-                                  width: 2,
-                                  height: 40,
-                                  color: getStatusColor(status["status"]!).withOpacity(0.3), // Faded color line
-                                ),
-                            ],
-                          ),
-                          const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                status["status"]!,
-                                style: TTextTheme.lightTextTheme.bodyMedium,
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                status["dateTime"]!,
-                                style: TextStyle(
-                                  color: Color(0xffCC5A5A5B),
-                                  fontSize: Dimensions.dynamicWidth(context, 0.027),
-                                ),
-                              ),
-                              SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
-                            ],
-                          ),
-                        ],
-                      );
-                    }).toList(),
+      body: Obx(() {
+        if (_complaintController.isLoading.value) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: _buildShimmerEffect(),
+          );
+        }
+        if (_complaintController.errorMessage.isNotEmpty) {
+          return Center(
+            child: Text(
+              _complaintController.errorMessage.value,
+              style: const TextStyle(color: Colors.red, fontSize: 16),
+            ),
+          );
+        }
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: _complaintController.complaintStatuses.asMap().entries.map((entry) {
+              final index = entry.key;
+              final status = entry.value;
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(6),
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: getStatusColor(status["status"]!),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      if (index != _complaintController.complaintStatuses.length - 1)
+                        Container(
+                          width: 2,
+                          height: 40,
+                          color: getStatusColor(status["status"]!).withOpacity(0.3),
+                        ),
+                    ],
                   ),
-                ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          status["status"]!,
+                          style: TTextTheme.lightTextTheme.bodyMedium,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          status["dateTime"]!,
+                          style: TextStyle(
+                            color: const Color(0xffCC5A5A5B),
+                            fontSize: Dimensions.dynamicWidth(context, 0.027),
+                          ),
+                        ),
+                        SizedBox(height: Dimensions.dynamicHeight(context, 0.02)),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+        );
+      }),
     );
   }
 }

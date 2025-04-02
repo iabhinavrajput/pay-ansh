@@ -20,6 +20,13 @@ class ComplaintController extends GetxController {
   var isComplaintTypeSelected = false.obs;
   var isComplaintReasonSelected = false.obs;
 
+  var complaintStatuses = <Map<String, dynamic>>[].obs;
+
+  var errorMessage = ''.obs;
+
+ 
+
+
   @override
   void onInit() {
     fetchComplaintData();
@@ -69,6 +76,51 @@ class ComplaintController extends GetxController {
     }
   }
 
+  Future<void> fetchComplaintDetails(String typeId, String complaintId) async {
+    isLoading.value = true;
+    try {
+      String? token = await _storage.read(key: "accessToken");
+      final response = await _dio.get(
+        ApiEndpoints.complaints,
+        options: Options(headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data["success"] == true) {
+          List<dynamic> complaints = data["data"]["complaints"];
+          var complaint = complaints.firstWhereOrNull(
+            (c) => c["type_id"].toString() == typeId &&
+                   c["complaint_code"].toString() == complaintId,
+          );
+
+          if (complaint != null) {
+            complaintStatuses.value = [
+              {"status": "Complaint Registered Successfully", "dateTime": complaint["created_at"]},
+              {"status": "Status: ${complaint["status"]}", "dateTime": complaint["created_at"]},
+            ];
+          } else {
+            errorMessage.value = "No complaint found for the given details.";
+          }
+        } else {
+          errorMessage.value = "Failed to fetch complaints.";
+        }
+      } else {
+        errorMessage.value = "Server error. Please try again later.";
+      }
+    } catch (e) {
+      errorMessage.value = "Something went wrong. Please check your connection.";
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  
+  
+
   Future<void> submitComplaint({
     required String typeId,
     required String reasonId,
@@ -107,13 +159,42 @@ class ComplaintController extends GetxController {
 
       print("responseofthecomplain: ${response.data}");
       print("status code: ${response.statusCode}");
-      if (response.statusCode == 201) {
-        print("Dataaaaaa:$data");
-        showSnackbar(
-          title: data["status"]?.toString() ?? "Success",
-          message: data["message"]?.toString() ?? "Complaint registered",
-          isSuccess: data["success"] ?? false,
-        );
+      String complaintCode = data["data"]["complaintCode"]?.toString() ?? "N/A";
+
+
+        String message = data["message"]?.toString() ?? "Complaint registered";
+  // String complaintCode = data["data"]["complaintCode"]?.toString() ?? "N/A";
+
+
+
+        print("complaint code: $complaintCode");
+        if (response.statusCode == 201) {
+
+
+            if (data is Map<String, dynamic> && data["data"] is Map<String, dynamic>) {
+    String message = data["message"]?.toString() ?? "Complaint registered";
+    String complaintCode = data["data"]["complaintCode"]?.toString() ?? "N/A";
+
+    print("Complaint Message: $message");
+    print("Complaint Code: $complaintCode");
+
+    showSnackbar(
+      title: data["status"]?.toString() ?? "Success",
+      message: "$message\nComplaint Code: $complaintCode",
+      isSuccess: data["success"] ?? false,
+    );
+  } else {
+    print("Error: Expected 'data' to be a Map but got ${data.runtimeType}");
+  }
+
+        // print("Dataaaaaa:$data");
+        // print("complaint code : ${data["message"]["complaintCode"]}");
+        // print("Dataaaaaa:${data["message"]["complaintCode"]}");
+        // showSnackbar(
+        //   title: data["status"]?.toString() ?? "Success",
+        //   message: "$message\nComplaint Code: $complaintCode",  // Combining both message & complaint code
+        //   isSuccess: data["success"] ?? false,
+        // );
         // Get.snackbar("Success", "Complaint registered successfully! ${data["message"]}}");
       } else if (response.statusCode == 400) {
         print("responseofthecomplain: ${response.data}");
@@ -139,3 +220,87 @@ class ComplaintController extends GetxController {
     }
   }
 }
+
+
+
+
+
+
+
+// import 'package:get/get.dart';
+// import 'package:dio/dio.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:payansh/constants/api_endpoints.dart';
+// import 'package:payansh/utils/snackbar_util.dart';
+// import 'dart:convert';
+
+// class ComplaintController extends GetxController {
+//   final Dio _dio = Dio();
+//   final FlutterSecureStorage _storage = const FlutterSecureStorage();
+
+//   var complaintTypes = <Map<String, dynamic>>[].obs;
+//   var complaintReasons = <Map<String, dynamic>>[].obs;
+//   var complaintStatuses = <Map<String, dynamic>>[].obs;
+//   var isLoading = false.obs;
+//   var isLoaded = false.obs;
+
+//   var selectedComplaintType = ''.obs;
+//   var selectedComplaintReason = ''.obs;
+//   var isComplaintTypeSelected = false.obs;
+//   var isComplaintReasonSelected = false.obs;
+//   var errorMessage = ''.obs;
+
+//   @override
+//   void onInit() {
+//     fetchComplaintData();
+//     super.onInit();
+//   }
+
+//   void onSelectComplaintType(String value) {
+//     selectedComplaintType.value = value;
+//     isComplaintTypeSelected.value = true;
+//     validateForm();
+//   }
+
+//   void onSelectComplaintReason(String value) {
+//     selectedComplaintReason.value = value;
+//     isComplaintReasonSelected.value = true;
+//     validateForm();
+//   }
+
+//   Future<void> fetchComplaintData() async {
+//     isLoading.value = true;
+//     try {
+//       String? token = await _storage.read(key: "accessToken");
+//       final response = await _dio.get(
+//         ApiEndpoints.complaintTypesReason,
+//         options: Options(headers: {"Authorization": "Bearer $token"}),
+//       );
+
+//       if (response.statusCode == 200 && response.data["success"] == true) {
+//         var types = response.data["data"]["type"] as List;
+//         complaintTypes.value =
+//             types.map((e) => {"id": e["id"], "type": e["type"]}).toList();
+
+//         var reasons = response.data["data"]["reason"] as List;
+//         complaintReasons.value =
+//             reasons.map((e) => {"id": e["id"], "reason": e["reason"]}).toList();
+
+//         isLoaded.value = true;
+//       }
+//     } catch (e) {
+//       print("Error fetching complaint data: $e");
+//     } finally {
+//       isLoading.value = false;
+//     }
+//   }
+
+  
+
+//   void validateForm() {
+//     if (isComplaintTypeSelected.value && isComplaintReasonSelected.value) {
+//       // Enable submit button logic here
+//     }
+//   }
+// }
+
