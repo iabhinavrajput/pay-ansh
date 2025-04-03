@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/components/custom_app_bar_kyc.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:payansh/controllers/kyc_controller_aadhar.dart';
-import 'package:payansh/screens/kyc/kyc_3.dart';
-import 'package:payansh/screens/kyc/kyc_4.dart';
 import 'package:payansh/controllers/kyc_controller_pan.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/utils/snackbar_util.dart';
 
-class KycTwo extends StatelessWidget {
+class KycTwo extends StatefulWidget {
   const KycTwo({Key? key}) : super(key: key);
+
+  @override
+  _KycTwoState createState() => _KycTwoState();
+}
+
+class _KycTwoState extends State<KycTwo> {
+  String? kycStatus;
+  Map<String, dynamic>? userProfile;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserProfile();
+  }
+
+  Future<void> _fetchUserProfile() async {
+    userProfile = await ApiService.getUserProfile();
+    setState(() {
+      kycStatus = userProfile?['kyc_status'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,89 +43,50 @@ class KycTwo extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(
-          children: [
-            GestureDetector(
-              child: _buildKycOption(
-                title: "KYC By Aadhar",
-                imagePath: "assets/kyc/aadhar.png",
+        child: kycStatus == "approved"
+            ? _buildStatusUI(
+                text: "Verified",
+                color: const Color(0xff47C546),
+                icon: Icons.check_circle,
+                message: "Your KYC was verified successfully.",
+              )
+            : Column(
+                children: [
+                  GestureDetector(
+                    child: _buildKycOption(
+                      title: "KYC By Aadhar",
+                      imagePath: "assets/kyc/aadhar.png",
+                    ),
+                    onTap: () async {
+                      if (userProfile == null) return;
+                      String? email = userProfile!['email']?.trim();
+                      String? name = userProfile!['name']?.trim();
+                      if (email == null || name == null) return;
+                      Get.put(KycControllerAadhar()).submitKycForm(
+                        customerIdentifier: email,
+                        customerName: name,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    child: _buildKycOption(
+                      title: "KYC By PAN",
+                      imagePath: "assets/kyc/pan.png",
+                    ),
+                    onTap: () async {
+                      if (userProfile == null) return;
+                      String? email = userProfile!['email']?.trim();
+                      String? name = userProfile!['name']?.trim();
+                      if (email == null || name == null) return;
+                      Get.put(KycControllerPan()).submitKycForm(
+                        customerIdentifier: email,
+                        customerName: name,
+                      );
+                    },
+                  ),
+                ],
               ),
-              onTap: () async {
-                final KycControllerAadhar kycController = Get.put(KycControllerAadhar());
-
-                // Fetch user profile
-                Map<String, dynamic>? userProfile =
-                    await ApiService.getUserProfile();
-
-                if (userProfile == null) {
-                  print("No user profile found.");
-                  return;
-                }
-
-                // Extract and trim values safely
-                String? email = userProfile['email']?.trim();
-                String? name = userProfile['name']?.trim();
-
-                if (email == null ||
-                    email.isEmpty ||
-                    name == null ||
-                    name.isEmpty) {
-                  print("Error: Email or Name is missing.");
-                  return;
-                }
-
-                // Directly submit the KYC form
-                kycController.submitKycForm(
-                  customerIdentifier: email,
-                  customerName: name,
-                );
-
-                print("✅ Name: $name");
-                print("✅ E-Mail: $email");
-              },
-            ),
-            const SizedBox(height: 20),
-            GestureDetector(
-              child: _buildKycOption(
-                title: "KYC By PAN",
-                imagePath: "assets/kyc/pan.png",
-              ),
-              onTap: () async {
-                final KycControllerPan kycController = Get.put(KycControllerPan());
-
-                // Fetch user profile
-                Map<String, dynamic>? userProfile =
-                    await ApiService.getUserProfile();
-
-                if (userProfile == null) {
-                  print("No user profile found.");
-                  return;
-                }
-
-                // Extract and trim values safely
-                String? email = userProfile['email']?.trim();
-                String? name = userProfile['name']?.trim();
-
-                if (email == null ||
-                    email.isEmpty ||
-                    name == null ||
-                    name.isEmpty) {
-                  print("Error: Email or Name is missing.");
-                  return;
-                }
-
-                // Directly submit the KYC form
-                kycController.submitKycForm(
-                  customerIdentifier: email,
-                  customerName: name,
-                );
-
-                print("✅ Name: $name");
-                print("✅ E-Mail: $email");
-              },
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -148,10 +126,57 @@ class KycTwo extends StatelessWidget {
               imagePath,
               width: 60,
               height: 60,
-              // fit: BoxFit.contain,
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildStatusUI({
+    required String text,
+    required Color color,
+    required IconData icon,
+    required String message,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 6,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 40),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  message,
+                  style: const TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
