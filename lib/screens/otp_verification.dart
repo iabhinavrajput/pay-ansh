@@ -24,7 +24,7 @@ class OtpVerification extends StatelessWidget {
                         SizedBox(height: Dimensions.dynamicHeight(context, 0.01),),
 
             const Text(
-              "We'll sent the OTP as a SMS to your registered mobile number",
+              "We'll sent the OTP to your registered E-mail",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal,color: Colors.grey),
             ),
