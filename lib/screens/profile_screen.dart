@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/profile_image_uploader_controller.dart';
+import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/services/auth_service.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,7 +47,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       bool success = await _controller.uploadImage(image);
       if (success && mounted) {
-        Navigator.pop(context); // ✅ Go back to the previous screen
+        Get.to(
+          () => const HomeScreen(),
+          transition: Transition.rightToLeft,
+          duration: const Duration(milliseconds: 300),
+        );
       }
     }
   }
