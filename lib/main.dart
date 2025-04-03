@@ -1,15 +1,19 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:payansh/bypass.dart';
 import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides(); 
   // final AuthController authController = Get.put(AuthController());
   // authController.checkLoginStatus();
   await Firebase.initializeApp();
