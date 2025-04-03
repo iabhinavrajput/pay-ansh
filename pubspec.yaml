@@ -67,6 +67,8 @@ dependencies:
   pinput: ^5.0.1
   pin_code_fields: ^8.0.1
   image_picker: ^1.1.2
+  cached_network_image: ^3.4.1
+  sqflite: any
   
 
 dev_dependencies:

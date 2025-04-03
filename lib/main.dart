@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:payansh/bypass.dart';
 import 'package:payansh/controllers/auth_controller.dart';
+import 'package:payansh/helpers/database_helper.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/splash_screen.dart';
 
@@ -19,6 +20,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   Get.put(AuthController()); // Initialize controller
   await GetStorage.init(); // Initialize GetStorage
+    await DatabaseHelper.initializeDatabase();
 
    SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp, // Only allow portrait mode
