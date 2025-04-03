@@ -14,7 +14,7 @@ class EditBottomSheet extends StatefulWidget {
     required this.title,
     required this.oldValue,
     required this.onSubmit,
-    this.icon, // New: Optional icon parameter
+    this.icon, required TextFormField Function(dynamic context, dynamic controller) inputFieldBuilder, // New: Optional icon parameter
   });
 
   @override
