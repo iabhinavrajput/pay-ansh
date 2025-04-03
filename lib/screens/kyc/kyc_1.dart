@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/components/custom_app_bar_kyc.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/screens/help&complaint/help.dart';
 import 'package:payansh/screens/kyc/kyc_2.dart';
 
 class KycOne extends StatelessWidget {
@@ -22,35 +23,45 @@ class KycOne extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            const SizedBox(height: 20,),
-            // Container(
-            //   width: 120,
-            //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            //   decoration: BoxDecoration(
-            //     color: AppColors.helpColor,
-            //     borderRadius: BorderRadius.circular(6),
-            //     // boxShadow: [
-            //     //   BoxShadow(
-            //     //     color: Colors.black.withOpacity(0.1),
-            //     //   ),
-            //     // ],
-            //   ),
-            //   child: Row(
-            //     children: [
-            //       SvgPicture.asset('assets/kyc/help.svg'),
-            //       const SizedBox(width: 10),
-            //       const Text(
-            //         "Help",
-            //         style: TextStyle(
-            //           fontSize: 16,
-            //           fontWeight: FontWeight.w400,
-            //           color: Colors.black,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // const SizedBox(height: 40,),
+            const SizedBox(
+              height: 20,
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(Help());
+              },
+              child: Container(
+                width: 120,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.helpColor,
+                  borderRadius: BorderRadius.circular(6),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.black.withOpacity(0.1),
+                  //   ),
+                  // ],
+                ),
+                child: Row(
+                  children: [
+                    SvgPicture.asset('assets/kyc/help.svg'),
+                    const SizedBox(width: 10),
+                    const Text(
+                      "Help",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
             Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
@@ -88,8 +99,10 @@ class KycOne extends StatelessWidget {
                                 color: AppColors.kycContainerColor,
                                 shape: BoxShape.circle,
                               ),
-                              child: SvgPicture.asset('assets/kyc/kyc_status.svg', width: 20,),
-
+                              child: SvgPicture.asset(
+                                'assets/kyc/kyc_status.svg',
+                                width: 20,
+                              ),
                             ),
                           ],
                         ),
@@ -140,7 +153,7 @@ class KycOne extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to (() => KycTwo());
+                    Get.to(() => KycTwo());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors

@@ -56,10 +56,11 @@ class TTextTheme {
         color: Colors.black,
         fontFamily: 'DMSans'),
     labelMedium: const TextStyle().copyWith(
-        fontSize: 20.0,
-        fontWeight: FontWeight.normal,
-        color: Colors.black.withOpacity(0.3),
-        fontFamily: 'DMSans'),
+        fontSize: 14.0,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+        fontFamily: 'Poppins',
+        letterSpacing: 0.25),
     labelSmall: const TextStyle().copyWith(
         fontSize: 18.0,
         fontWeight: FontWeight.normal,

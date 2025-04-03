@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/screens/common_otp.dart';
 import 'package:payansh/screens/otp_verification.dart';
 import 'package:payansh/widgets/custom_text_field.dart';
 import 'package:payansh/widgets/gradient_button.dart';
@@ -73,7 +74,19 @@ class LoginPhoneNum extends StatelessWidget {
                   text: "Continue",
                   onPressed: isPhoneValid.value
                       ? () {
-                          Get.to(() => OtpVerification(userId: 1234));
+                          Get.to(() => CommonOtpScreen(
+                                title: "OTP Verification",
+                                subtitle: "We’ll  sent the OTP as a SMS to your registered mobile number",
+                                imagePath: 'assets/gif/auth/otp.gif',
+                                onOtpSubmit: (otp) {
+                                  // Handle OTP verification logic
+                                  print("OTP Submitted: $otp");
+                                },
+                                onResendOtp: () {
+                                  // Handle OTP resend logic
+                                  print("Resend OTP clicked");
+                                },
+                              ));
                         }
                       : null, // Disable button if invalid
                   isEnabled: isPhoneValid.value, // Show disabled state
