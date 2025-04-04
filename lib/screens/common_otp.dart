@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/utils/snackbar_util.dart';
 import 'package:payansh/widgets/gradient_button.dart';
 import 'package:payansh/widgets/gradient_text.dart';
 
@@ -49,9 +50,7 @@ class _CommonOtpScreenState extends State<CommonOtpScreen> {
     if (otp.length == 4) {
       widget.onOtpSubmit(otp);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter the complete OTP')),
-      );
+      showSnackbar(title: "Error", message: "Please enter OTP", isSuccess: false);
     }
   }
 

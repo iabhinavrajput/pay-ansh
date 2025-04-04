@@ -1,5 +1,5 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,7 +9,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/constants/app_constants.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/controllers/email_update_controller.dart';
 import 'package:payansh/controllers/profile_image_uploader_controller.dart';
 import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/services/auth_service.dart';
@@ -37,6 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late Future<Map<String, dynamic>?> _profileFuture;
   final ProfileImageUploaderController _controller =
       ProfileImageUploaderController();
+  final emailUpdateController = EmailUpdateController();
   File? _selectedImage;
 
   Future<void> _pickAndUploadImage() async {
@@ -384,19 +387,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     newValuePhone.length == 10) {
                                   final response =
                                       await ApiService.updateProfile(
-                                        
                                     name: userName,
                                     phoneNumber: newValuePhone,
                                   );
                                   // Handle the response if needed
                                 } else {
-                                  final response = await ApiService.updateProfile(
+                                  final response =
+                                      await ApiService.updateProfile(
                                     name: userName,
                                   );
                                   showSnackbar(
                                       title: "Error",
-                                      message:
-                                         response['error'],
+                                      message: response['error'],
                                       isSuccess: false);
                                 }
                               },
@@ -434,6 +436,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                       verified: isphonelverified,
                     ),
+                    
                     ProfileItemWidget(
                       icon: Icons.email,
                       label: "Email ID",
@@ -451,11 +454,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             return EditBottomSheet(
                               title: "Edit Email",
                               oldValue: userEmail,
-                              onSubmit: (newValue) {
-                                print("New Name: $newValue");
-                                // Add any icon here
-
-                                // Call API or update state here
+                              onSubmit: (newValue) async {
+                                if (newValue.isNotEmpty) {
+                                  await emailUpdateController
+                                      .updateEmail(newValue);
+                                } else {
+                                  await emailUpdateController.updateEmail(userEmail); 
+                                }
                               },
                               icon: HugeIcons.strokeRoundedUser02,
                               inputFieldBuilder: (context, controller) {
