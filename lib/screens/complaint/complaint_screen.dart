@@ -19,11 +19,11 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
       appBar: TitleAppBar(
           height: Dimensions.dynamicHeight(context, 0.15),
           title: "Have a Complaint?"),
-      body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      body: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             SettingsOptionTile(
               icon: HugeIcons.strokeRoundedTaskAdd01,
               title: "Complaint Registration",

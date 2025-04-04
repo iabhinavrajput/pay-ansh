@@ -57,7 +57,8 @@ class ApiService {
         final data = jsonDecode(response.body);
         return {"success": false, "message": data["message"]};
       }
-    } on SocketException {
+    } 
+    on SocketException {
       return {
         "success": false,
         "message": "You are offline. Please check your internet connection."

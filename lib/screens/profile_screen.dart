@@ -1,13 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/controllers/profile_image_uploader_controller.dart';
+import 'package:payansh/screens/home_screen.dart';
 import 'package:payansh/services/auth_service.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:payansh/utils/snackbar_util.dart';
 import 'package:payansh/widgets/app_bar.dart';
+import 'package:mime/mime.dart';
 import 'package:payansh/widgets/edit.dart';
 import 'package:payansh/widgets/gradient_button.dart';
 import 'package:payansh/widgets/profile_item_widget.dart';
@@ -23,6 +35,27 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late Future<Map<String, dynamic>?> _profileFuture;
+  final ProfileImageUploaderController _controller =
+      ProfileImageUploaderController();
+  File? _selectedImage;
+
+  Future<void> _pickAndUploadImage() async {
+    var image = await _controller.pickImage();
+    if (image != null) {
+      setState(() {
+        _selectedImage = image;
+      });
+
+      bool success = await _controller.uploadImage(image);
+      if (success && mounted) {
+        Get.to(
+          () => const HomeScreen(),
+          transition: Transition.rightToLeft,
+          duration: const Duration(milliseconds: 300),
+        );
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -250,16 +283,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                             ),
                           ),
-                          Positioned(
-                            bottom:
-                                -0, // Moves it slightly outside the container
-                            right:
-                                -0, // Adjusts position to be at the bottom-right
-                            child: CircleAvatar(
-                              radius: 20, // Adjust the size as needed
-                              backgroundColor: Color(0xff2C5985),
-                              child: Icon(Icons.edit,
-                                  color: Colors.white, size: 20),
+                          GestureDetector(
+                            onTap: _pickAndUploadImage,
+                            child: const Positioned(
+                              bottom:
+                                  -0, // Moves it slightly outside the container
+                              right:
+                                  -0, // Adjusts position to be at the bottom-right
+                              child: CircleAvatar(
+                                radius: 20, // Adjust the size as needed
+                                backgroundColor: Color(0xff2C5985),
+                                child: Icon(Icons.edit,
+                                    color: Colors.white, size: 20),
+                              ),
                             ),
                           ),
                         ],
@@ -296,7 +332,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.info_rounded,
                                       color: AppColors.drawerTextColor,
                                       size: 60,
@@ -344,19 +380,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: "Contact Number",
                               oldValue: userPhone,
                               onSubmit: (newValuePhone) async {
-                                if (newValuePhone.isNotEmpty) {
+                                if (newValuePhone.isNotEmpty &&
+                                    newValuePhone.length == 10) {
                                   final response =
                                       await ApiService.updateProfile(
+                                        
                                     name: userName,
                                     phoneNumber: newValuePhone,
                                   );
+                                  // Handle the response if needed
+                                } else {
+                                  final response = await ApiService.updateProfile(
+                                    name: userName,
+                                  );
+                                  showSnackbar(
+                                      title: "Error",
+                                      message:
+                                         response['error'],
+                                      isSuccess: false);
                                 }
-                                // Add any icon here
-
-                                // Call API or update state here
                               },
-                              icon: HugeIcons
-                                  .strokeRoundedUser02, // Add any icon here
+                              icon: HugeIcons.strokeRoundedUser02,
+                              inputFieldBuilder: (context, controller) {
+                                return TextFormField(
+                                  controller: controller,
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 10, // Restrict input to 10 digits
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter
+                                        .digitsOnly, // Allow only digits
+                                  ],
+                                  decoration: InputDecoration(
+                                    hintText: "Enter your contact number",
+                                    counterText:
+                                        "", // Hide the character counter
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Contact number cannot be empty";
+                                    } else if (value.length != 10) {
+                                      return "Contact number must be 10 digits";
+                                    }
+                                    return null;
+                                  },
+                                );
+                              },
                             );
                           },
                         );
@@ -386,8 +457,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                 // Call API or update state here
                               },
-                              icon: HugeIcons
-                                  .strokeRoundedUser02, // Add any icon here
+                              icon: HugeIcons.strokeRoundedUser02,
+                              inputFieldBuilder: (context, controller) {
+                                return TextFormField(
+                                  controller: controller,
+                                  decoration: InputDecoration(
+                                    hintText: "Enter your email",
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                );
+                              }, // Add any icon here
                             );
                           },
                         );

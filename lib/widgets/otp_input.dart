@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/widgets/button_loader.dart';
 import 'package:payansh/widgets/gradient_button.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpInput extends StatelessWidget {
   final Function(String) onOtpEntered;
@@ -19,59 +21,44 @@ class OtpInput extends StatelessWidget {
     this.onResend,
   });
 
-  final List<TextEditingController> otpControllers =
-      List.generate(4, (index) => TextEditingController());
-  final List<FocusNode> otpFocusNodes =
-      List.generate(4, (index) => FocusNode());
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         const SizedBox(height: 30),
 
-        // OTP Input Fields
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(4, (index) {
-            return Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextField(
-                controller: otpControllers[index],
-                focusNode: otpFocusNodes[index],
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.number,
-                maxLength: 1,
-                style:
-                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                decoration: const InputDecoration(
-                  counterText: "",
-                  border: InputBorder.none,
-                ),
-                onChanged: (value) {
-                  if (value.isNotEmpty && index < 3) {
-                    FocusScope.of(context).nextFocus();
-                  } else if (value.isEmpty && index > 0) {
-                    FocusScope.of(context).previousFocus();
-                  }
-                },
-              ),
-            );
-          }),
+        // OTP Input Field
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: PinCodeTextField(
+            length: 4,
+            obscureText: false,
+            animationType: AnimationType.fade,
+            keyboardType: TextInputType.number,
+            textStyle:
+                const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            pinTheme: PinTheme(
+              shape: PinCodeFieldShape.box,
+              borderRadius: BorderRadius.circular(10),
+              fieldHeight: 50,
+              fieldWidth: 50,
+              activeFillColor: Colors.transparent,
+              inactiveFillColor: Colors.transparent,
+              selectedFillColor: Colors.transparent,
+              activeColor: AppColors.gradientStart,
+              inactiveColor: Colors.grey.withOpacity(0.3),
+              selectedColor: AppColors.gradientStart,
+            ),
+            animationDuration: const Duration(milliseconds: 300),
+            enableActiveFill: true,
+            onChanged: (value) {},
+            appContext: context,
+            showCursor: false,
+            onCompleted: (otp) {
+              onOtpEntered(otp);
+            },
+          ),
         ),
-
-        const SizedBox(height: 20),
-
-        // Resend OTP Timer
-        // Obx(() => Text(
-        //       "OTP expires in: ${otpTimer.value}s",
-        //       style: const TextStyle(color: Colors.red),
-        //     )),
 
         const SizedBox(height: 20),
 
@@ -80,13 +67,7 @@ class OtpInput extends StatelessWidget {
             ? const ButtonLoader()
             : GradientButton(
                 text: "Verify OTP",
-                onPressed: () {
-                  String otp = otpControllers
-                      .map((controller) => controller.text)
-                      .join();
-                  onOtpEntered(otp);
-                  onVerify();
-                },
+                onPressed: onVerify,
               )),
       ],
     );
