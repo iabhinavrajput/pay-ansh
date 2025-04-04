@@ -11,6 +11,8 @@ import 'package:payansh/controllers/auth_controller.dart';
 import 'package:payansh/helpers/database_helper.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/splash_screen.dart';
+import 'package:no_screenshot/no_screenshot.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +27,7 @@ Future<void> main() async {
    SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp, // Only allow portrait mode
   ]);
-
+   await NoScreenshot.instance.screenshotOff();
 
   runApp(const MyApp());
 }
