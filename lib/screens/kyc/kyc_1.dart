@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/components/custom_app_bar_kyc.dart';
 import 'package:payansh/constants/app_colors.dart';
+import 'package:payansh/controllers/%20kyc_controller.dart';
 import 'package:payansh/screens/help&complaint/help.dart';
 import 'package:payansh/screens/kyc/kyc_2.dart';
 
 class KycOne extends StatelessWidget {
-  const KycOne({Key? key}) : super(key: key);
+  KycOne({Key? key}) : super(key: key);
+  final KycController kycController = Get.put(KycController());
 
   @override
   Widget build(BuildContext context) {
@@ -62,82 +64,95 @@ class KycOne extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            Container(
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 1,
-                  ),
-                ],
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Text Content
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "KYC Documents",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: const BoxDecoration(
-                                color: AppColors.kycContainerColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: SvgPicture.asset(
-                                'assets/kyc/kyc_status.svg',
-                                width: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        GestureDetector(
-                          onTap: () {
-                            // TODO: Implement document upload logic
-                          },
-                          child: const Text(
-                            "Upload your documents",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.gradientStart,
-                              // decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        const Text(
-                          "Pending",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.pendingColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // 📄 Document Icon
-                ],
-              ),
-            ),
+            Obx(() {
+              final isVerified =
+                  kycController.kycStatus.value?.isFullyVerified ?? false;
 
+              return Container(
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Text Content
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "KYC Documents",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              // ✅ Icon changes based on verification
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: isVerified
+                                      ? Colors.green.withOpacity(0.2)
+                                      : AppColors.pendingColor.withOpacity(0.2),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  isVerified
+                                      ? Icons.check_circle
+                                      : Icons.pending,
+                                  color: isVerified
+                                      ? Colors.green
+                                      : AppColors.pendingColor,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () {
+                              // TODO: Implement document upload logic
+                            },
+                            child: const Text(
+                              "Upload your documents",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.gradientStart,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          // ✅ Status text based on verification
+                          Text(
+                            isVerified ? "Completed" : "Pending",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: isVerified
+                                  ? Colors.green
+                                  : AppColors.pendingColor, // or Colors.red
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
             // const Spacer(),
             const SizedBox(height: 40),
 

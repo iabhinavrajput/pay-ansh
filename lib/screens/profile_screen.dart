@@ -79,6 +79,83 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  void showLogoutDialog() {
+    Get.defaultDialog(
+      title: "",
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircleAvatar(
+            backgroundColor: AppColors.gradientStart.withOpacity(0.5),
+            radius: 30,
+            child: Icon(
+              Icons.logout,
+              size: 30,
+              color: AppColors.gradientStart,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Logout",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            "Are you sure you want to logout?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[700],
+            ),
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              OutlinedButton(
+                onPressed: () => Get.back(),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: AppColors.gradientStart),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  "No",
+                  style: TextStyle(color: AppColors.gradientStart),
+                ),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () async {
+                  Get.back(); // Close dialog
+                  await AuthService.logout(Get.context!);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.gradientStart,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  "Yes",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      radius: 10,
+      backgroundColor: Colors.white,
+      barrierDismissible: false, // Prevent accidental dismiss
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,20 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     right: 10,
                     child: IconButton(
                       icon: const Icon(Icons.logout, color: Colors.white),
-                      onPressed: () {
-                        Get.defaultDialog(
-                          title: "Logout",
-                          middleText: "Do you want to logout?",
-                          textConfirm: "Yes",
-                          textCancel: "No",
-                          confirmTextColor: Colors.white,
-                          buttonColor: Colors.blue,
-                          onConfirm: () async {
-                            Get.back();
-                            await AuthService.logout(context);
-                          },
-                        );
-                      },
+                      onPressed: showLogoutDialog,
                     ),
                   ),
                   Positioned(
@@ -202,7 +266,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                 
                 ],
               ),
               SizedBox(height: Dimensions.dynamicHeight(context, 0.08)),

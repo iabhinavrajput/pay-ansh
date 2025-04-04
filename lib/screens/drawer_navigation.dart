@@ -5,6 +5,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
+import 'package:payansh/controllers/%20kyc_controller.dart';
 import 'package:payansh/screens/kyc/kyc_1.dart';
 import 'package:payansh/screens/complaint/complaint_screen.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,6 +23,7 @@ class DrawerNavigation extends StatefulWidget {
 class _DrawerNavigationState extends State<DrawerNavigation> {
   late final Future<Map<String, dynamic>?> _userProfileFuture;
   String _appVersion = "Loading...";
+  final KycController kycController = Get.put(KycController());
 
   @override
   void initState() {
@@ -276,6 +278,83 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
     );
   }
 
+  void showLogoutDialog() {
+    Get.defaultDialog(
+      title: "",
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircleAvatar(
+            backgroundColor: AppColors.gradientStart.withOpacity(0.5),
+            radius: 30,
+            child: Icon(
+              Icons.logout,
+              size: 30,
+              color: AppColors.gradientStart,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Logout",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            "Are you sure you want to logout?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[700],
+            ),
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              OutlinedButton(
+                onPressed: () => Get.back(),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: AppColors.gradientStart),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  "No",
+                  style: TextStyle(color: AppColors.gradientStart),
+                ),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () async {
+                  Get.back(); // Close dialog
+                  await AuthService.logout(Get.context!);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.gradientStart,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  "Yes",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      radius: 10,
+      backgroundColor: Colors.white,
+      barrierDismissible: false, // Prevent accidental dismiss
+    );
+  }
+
   // 📌 Sidebar Menu Items
   Widget _buildMenuItems() {
     return Padding(
@@ -289,19 +368,20 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 10),
-          SidebarMenuItem(
-            icon: SvgPicture.asset('assets/drawer_navigation/idCard.svg'),
-            title: "KYC Status",
-            subtitle: "● KYC Incomplete",
-            subtitleColor: Colors.red,
-            onTap: () {
-              // Get.to(KycOne());
+          Obx(() {
+            final isVerified =
+                kycController.kycStatus.value?.isFullyVerified ?? false;
 
-
-              Get.to(KycOne());
-
-            },
-          ),
+            return SidebarMenuItem(
+              icon: SvgPicture.asset('assets/drawer_navigation/idCard.svg'),
+              title: "KYC Status",
+              subtitle: isVerified ? "● KYC Complete" : "● KYC Incomplete",
+              subtitleColor: isVerified ? Colors.green : Colors.red,
+              onTap: () {
+                Get.to(KycOne());
+              },
+            );
+          }),
           SidebarMenuItem(
             icon: SvgPicture.asset('assets/drawer_navigation/setting.svg'),
             title: "App Settings & Info",
@@ -338,20 +418,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             icon: SvgPicture.asset('assets/drawer_navigation/logout.svg'),
             title: "Logout",
             subtitle: "Do you want to logout?",
-            onTap: () {
-              Get.defaultDialog(
-                title: "Logout",
-                middleText: "Do you want to logout?",
-                textConfirm: "Yes",
-                textCancel: "No",
-                confirmTextColor: Colors.white,
-                buttonColor: AppColors.gradientStart,
-                onConfirm: () async {
-                  Get.back();
-                  await AuthService.logout(context);
-                },
-              );
-            },
+            onTap: showLogoutDialog,
           ),
         ],
       ),
