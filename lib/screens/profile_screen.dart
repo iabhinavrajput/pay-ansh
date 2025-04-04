@@ -449,7 +449,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           builder: (context) {
                             return EditBottomSheet(
-                              title: "Edit Name",
+                              title: "Edit Email",
                               oldValue: userEmail,
                               onSubmit: (newValue) {
                                 print("New Name: $newValue");
