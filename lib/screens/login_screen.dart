@@ -5,6 +5,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/auth_controller.dart';
@@ -156,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen>
                   CustomEmailTextField(
                     controller: emailController,
                     hintText: "Enter Your Email",
-                    icon: Icons.person_outline,
+                    icon: HugeIcons.strokeRoundedUser02,
                     onValidationChanged: (isValid) {
                       isEmailValid.value = isValid;
                       print("Email Valid: $isValid");
