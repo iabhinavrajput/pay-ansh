@@ -9,7 +9,7 @@ class KycService {
   static Future<KycStatusModel?> fetchKycStatus() async {
     try {
       final response = await Dio().get(
-        "${ApiEndpoints.baseUrl2}/api/verification/process",
+        "${ApiEndpoints.baseUrl2}/verification/process",
         options: Options(
           headers: {
             'Authorization': 'Bearer ${AppConstants.authToken}',
