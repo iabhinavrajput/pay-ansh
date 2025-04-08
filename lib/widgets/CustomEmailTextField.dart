@@ -67,7 +67,7 @@ class _CustomEmailTextFieldState extends State<CustomEmailTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 8.0),
+          padding: const EdgeInsets.only(top: 0.0),
           child: Stack(
             clipBehavior: Clip.none, // 👈 Allow label to overflow upwards
 
