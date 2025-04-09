@@ -162,7 +162,7 @@ class ComplaintController extends GetxController {
 
         showSnackbar(
           title: data["status"]?.toString() ?? "Success",
-          message: "$message\nComplaint Code: $complaintCode",
+          message: "Details send to you email\nComplaint Code: $complaintCode",
           isSuccess: data["success"] ?? false,
         );
         return true;
