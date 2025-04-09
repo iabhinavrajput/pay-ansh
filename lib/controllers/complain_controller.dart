@@ -2,9 +2,10 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payansh/constants/api_endpoints.dart';
+import 'package:payansh/services/dio_client.dart';
 
 class ComplaintController extends GetxController {
-  final Dio _dio = Dio();
+  final dio = DioClient().dio;
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   var complaintTypes = <String>[].obs;
@@ -21,7 +22,7 @@ class ComplaintController extends GetxController {
     isLoading.value = true;
     try {
       String? token = await _storage.read(key: "accessToken");
-      final response = await _dio.get(
+      final response = await dio.get(
         ApiEndpoints.complaintTypesReason,
         options: Options(
           headers: {"Authorization": "Bearer $token"},
@@ -33,7 +34,8 @@ class ComplaintController extends GetxController {
         complaintTypes.value = types.map((e) => e["type"].toString()).toList();
 
         var reasons = response.data["data"]["reason"] as List;
-        complaintReasons.value = reasons.map((e) => e["reason"].toString()).toList();
+        complaintReasons.value =
+            reasons.map((e) => e["reason"].toString()).toList();
       }
     } catch (e) {
       print("Error fetching complaint data: $e");
