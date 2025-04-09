@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/signup_controller.dart';
 import 'package:payansh/theme/custom_themes/text_theme.dart';
@@ -126,6 +127,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
@@ -150,15 +152,15 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 30),
               CustomTextField(
-                hintText: "Enter name as per ID proof",
+                hintText: "Enter name as per ID proof*",
                 controller: nameController,
-                icon: Icons.person_outline,
+                icon: HugeIcons.strokeRoundedUser02,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               CustomEmailTextField(
-                hintText: "Enter your email",
+                hintText: "Enter your email*",
                 controller: emailController,
-                icon: Icons.mail_outline,
+                icon:HugeIcons.strokeRoundedMail01,
                 onValidationChanged: (isValid) {
                   isEmailValid.value = isValid;
                   print("Email Valid: $isValid");
@@ -168,7 +170,7 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 15),
               CustomPasswordTextField(
-                hintText: "Enter your password",
+                hintText: "Enter your password*",
                 controller: passwordController,
                 isPasswordVisible: isPasswordVisible,
                 togglePasswordVisibility: () =>
@@ -190,7 +192,7 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 15),
               CustomPasswordTextField(
-                hintText: "Confirm your password",
+                hintText: "Confirm your password*",
                 controller: confirmPasswordController,
                 isPasswordVisible: isConfirmPasswordVisible,
                 togglePasswordVisibility: () => isConfirmPasswordVisible.value =
