@@ -37,7 +37,15 @@ class RechargeGrid extends StatelessWidget {
                           imagePath: iconData[j]['image']!,
                           label: iconData[j]['label']!,
                           onTap: () {
-                            _showComingSoonPopup(context);
+                            final screen = iconData[j]['screen'];
+                            if (screen != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => screen),
+                              );
+                            } else {
+                              _showComingSoonPopup(context);
+                            }
                           },
                         ),
                       ),

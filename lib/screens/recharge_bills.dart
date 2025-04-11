@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/screens/device_info.dart';
+import 'package:payansh/screens/recharge%20and%20bill%20screen/recharge_bill_s1.dart';
 import 'package:payansh/widgets/app_bar.dart';
 import 'package:payansh/widgets/gradient_text.dart';
 import 'package:payansh/widgets/recharge_grid.dart';
@@ -58,6 +59,9 @@ class RechargeBillPage extends StatelessWidget {
                 {
                   'image': 'assets/dashboard/mobile-recharge.png',
                   'label': 'Mobile\nRecharge',
+                  'screen': RechargeBillS1(
+                    billType: 'mobile',
+                  )
                   // 'screen': DeviceInfoScreen()
                 },
                 {
@@ -73,13 +77,15 @@ class RechargeBillPage extends StatelessWidget {
                 {
                   'image': 'assets/dashboard/fast-tag.png',
                   'label': 'Fastag\nRecharge',
+
                   // 'screen': DeviceInfoScreen()
                 },
               ]),
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.01),
               ),
-              const GradientText('Utility bills', style: TextStyle(fontSize: 16)),
+              const GradientText('Utility bills',
+                  style: TextStyle(fontSize: 16)),
               SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
               const RechargeGrid(iconData: [
                 {
@@ -95,11 +101,15 @@ class RechargeBillPage extends StatelessWidget {
                 {
                   'image': 'assets/dashboard/electricity-bill.png',
                   'label': 'Electricity\nBill',
+                  'screen': RechargeBillS1(
+                    billType: 'electricity',
+                  )
                   // 'screen': DeviceInfoScreen()
                 },
                 {
                   'image': 'assets/dashboard/water-bill.png',
                   'label': 'Water\nBill',
+
                   // 'screen': DeviceInfoScreen()
                 },
                 {
@@ -121,7 +131,8 @@ class RechargeBillPage extends StatelessWidget {
               SizedBox(
                 height: Dimensions.dynamicHeight(context, 0.01),
               ),
-              const GradientText('Finance & Tax', style: TextStyle(fontSize: 16)),
+              const GradientText('Finance & Tax',
+                  style: TextStyle(fontSize: 16)),
               SizedBox(height: Dimensions.dynamicHeight(context, 0.015)),
               const RechargeGrid(iconData: [
                 {
@@ -166,7 +177,6 @@ class RechargeBillPage extends StatelessWidget {
                   'label': 'Rent\nPay',
                   // 'screen': DeviceInfoScreen()
                 },
-
               ])
             ],
           ),

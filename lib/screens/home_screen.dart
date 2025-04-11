@@ -11,6 +11,7 @@ import 'package:payansh/controllers/slider_controller.dart';
 import 'package:payansh/routes/routes.dart';
 import 'package:payansh/screens/device_info.dart';
 import 'package:payansh/screens/notifications.dart';
+import 'package:payansh/screens/recharge%20and%20bill%20screen/recharge_bill_s1.dart';
 import 'package:payansh/screens/recharge_bills.dart';
 import 'package:payansh/services/api_service.dart';
 import 'package:payansh/widgets/app_bar.dart';
@@ -619,7 +620,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       {
                         'image': 'assets/dashboard/mobile-recharge.png',
                         'label': 'Mobile\nRecharge',
-                        // 'screen': DeviceInfoScreen()
+                        'screen': RechargeBillS1(
+                          billType: 'mobile',
+                        )
                       },
                       {
                         'image': 'assets/dashboard/dth.png',
@@ -634,7 +637,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       {
                         'image': 'assets/dashboard/electricity-bill.png',
                         'label': 'Electricity\nBill',
-                        // 'screen': DeviceInfoScreen()
+                        'screen': RechargeBillS1(
+                          billType: 'electricity',
+                        )
                       },
                     ],
                   ),
