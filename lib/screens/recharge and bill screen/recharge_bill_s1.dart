@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:payansh/constants/app_colors.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/constants/dimensions.dart';
-import 'package:payansh/theme/custom_themes/text_theme.dart';
+import 'package:payansh/controllers/recharge_bill_controller.dart';
 import 'package:payansh/widgets/app_bar_image.dart';
-import 'package:payansh/widgets/custom_text_field.dart';
-import 'package:payansh/widgets/mobile_field.dart';
+import 'package:payansh/widgets/operator_selector.dart';
 import 'package:payansh/widgets/recharge_mobile_field.dart';
 
 class RechargeBillS1 extends StatelessWidget {
   final String billType;
 
-  const RechargeBillS1({
-    super.key,
-    required this.billType,
-  });
+  const RechargeBillS1({super.key, required this.billType});
 
   @override
   Widget build(BuildContext context) {
+    final RechargeBillController controller =
+        Get.put(RechargeBillController(billType: billType), tag: billType);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBarImage(
-        title: _getTitle(billType),
+        title: controller.getTitle(),
         height: Dimensions.dynamicHeight(context, 0.15),
       ),
       body: Padding(
@@ -28,45 +29,20 @@ class RechargeBillS1 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (billType == 'mobile')
-              _buildMobileNumberField(context)
-            else
-              _buildSearchField(context),
+            billType == 'mobile'
+                ? const MobileNumberFieldWidget()
+                : const CustomTextField(
+                    hintText: "Search Provider",
+                    prefixIcon: Icon(Icons.search),
+                  ),
             const SizedBox(height: 20),
-            // Add rest of the common UI below
-            Text(
-              'More fields for $billType go here...',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+            Text("Select ${controller.getTypeName()} Operator",
+                style: Theme.of(context).textTheme.bodyLarge),
+            const SizedBox(height: 10),
+            Expanded(child: OperatorListWidget(controller: controller)),
           ],
         ),
       ),
-    );
-  }
-
-  String _getTitle(String type) {
-    switch (type) {
-      case 'mobile':
-        return 'Mobile Recharge';
-      case 'electricity':
-        return 'Electricity Bill';
-      case 'loan':
-        return 'Loan Repayment';
-      case 'subscription':
-        return 'Subscription Fee';
-      default:
-        return 'Recharge/Bill';
-    }
-  }
-
-  Widget _buildMobileNumberField(BuildContext context) {
-    return const MobileNumberFieldWidget();
-  }
-
-  Widget _buildSearchField(BuildContext context) {
-    return const CustomTextField(
-      hintText: "Search Provider",
-      prefixIcon: Icon(Icons.search),
     );
   }
 }
