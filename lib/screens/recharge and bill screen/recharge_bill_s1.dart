@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/recharge_bill_controller.dart';
 import 'package:payansh/widgets/app_bar_image.dart';
@@ -31,15 +32,27 @@ class RechargeBillS1 extends StatelessWidget {
           children: [
             billType == 'mobile'
                 ? const MobileNumberFieldWidget()
-                : const CustomTextField(
+                : CustomTextField(
                     hintText: "Search Provider",
                     prefixIcon: Icon(Icons.search),
+                    onChanged: (val) => controller.searchQuery.value = val,
                   ),
             const SizedBox(height: 20),
             Text("Select ${controller.getTypeName()} Operator",
                 style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 10),
-            Expanded(child: OperatorListWidget(controller: controller)),
+            Expanded(
+              child: Obx(() => ListView.builder(
+                    itemCount: controller.filteredOperators.length,
+                    itemBuilder: (context, index) {
+                      final operator = controller.filteredOperators[index];
+                      return ListTile(
+                        title: Text(operator['name']!),
+                        leading: Image.asset(operator['image']!, width: 40),
+                      );
+                    },
+                  )),
+            )
           ],
         ),
       ),
@@ -52,6 +65,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Widget? prefixIcon;
   final TextEditingController? controller;
+  final Function(String)? onChanged; // 👈 Add this
 
   const CustomTextField({
     super.key,
@@ -59,6 +73,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.prefixIcon,
     this.controller,
+    this.onChanged,
   });
 
   @override
@@ -66,12 +81,21 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
+      onChanged: onChanged, // 👈 Call it here
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: prefixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
+         enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.grey), // 👈 default border color
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: AppColors.drawerTextColor, width: 1), // 👈 focus color
+      ),
         filled: true,
         fillColor: Colors.grey.shade100,
         contentPadding:

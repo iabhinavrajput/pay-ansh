@@ -6,6 +6,20 @@ class RechargeBillController extends GetxController {
 
   final RxList<Map<String, String>> operators = <Map<String, String>>[].obs;
 
+  final RxString searchQuery = ''.obs;
+
+  List<Map<String, String>> get filteredOperators {
+    if (searchQuery.value.isEmpty) {
+      return operators;
+    } else {
+      return operators
+          .where((operator) => operator['name']!
+              .toLowerCase()
+              .contains(searchQuery.value.toLowerCase()))
+          .toList();
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -89,7 +103,7 @@ class RechargeBillController extends GetxController {
           },
         ];
         break;
-        case 'subscription':
+      case 'subscription':
         operators.value = [
           {
             'name': 'Disney Hotstar',
@@ -103,10 +117,7 @@ class RechargeBillController extends GetxController {
             'name': 'Netflix',
             'image': 'assets/subscription_logo/Netflix-logo.png'
           },
-          {
-            'name': 'Zee 5',
-            'image': 'assets/subscription_logo/Zee5-logo.png'
-          },
+          {'name': 'Zee 5', 'image': 'assets/subscription_logo/Zee5-logo.png'},
           {
             'name': 'SonyLiv',
             'image': 'assets/subscription_logo/SonyLiv-logo.png'
@@ -115,7 +126,7 @@ class RechargeBillController extends GetxController {
             'name': 'MediBuddy',
             'image': 'assets/subscription_logo/Medibuddy-logo.png'
           },
-           {
+          {
             'name': 'Apollo 24/7',
             'image': 'assets/subscription_logo/Apollo-logo.png'
           },
