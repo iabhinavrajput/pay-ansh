@@ -123,6 +123,9 @@ flutter:
     - assets/step/
     - assets/mobile_logo/
     - assets/electricity_logo/
+    - assets/loan_icon/
+    - assets/subscription_logo/
+
 
   #   - images/a_dot_ham.jpeg
 

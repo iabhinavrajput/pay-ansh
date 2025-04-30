@@ -41,30 +41,84 @@ class RechargeBillController extends GetxController {
         operators.value = [
           {
             'name': 'BSES - Rajdhani',
-            'image': 'assets/electricity_logo/bses_delhi_icon.png'
+            'image': 'assets/electricity_logo/BSES-Electricity-logo.png'
           },
           {
             'name': 'BSES - Yamuna',
-            'image': 'assets/electricity_logo/bses_delhi_icon.png'
+            'image': 'assets/electricity_logo/BSES-Electricity-logo.png'
           },
           {
             'name': 'Adani Electricity',
-            'image': 'assets/electricity_logo/adani_electricity_icon.png'
+            'image': 'assets/electricity_logo/AdaniElectricity-logo.png'
           },
           {
             'name': 'Tata Powe - DDL',
-            'image': 'assets/electricity_logo/tata_power_icon.png'
+            'image': 'assets/electricity_logo/Tata-Power-logo.png'
           },
           {
             'name': 'New Delhi electricity (NDMC)',
-            'image':
-                'assets/electricity_logo/new_delhi_municipal_council_official_logo.png'
+            'image': 'assets/electricity_logo/NDMC-logo.png'
           },
         ];
         break;
       case 'loan':
         operators.value = [
-          {'name': 'Bajaj Finserv', 'image': 'assets/images/bajaj.png'},
+          {
+            'name': 'Tata Capital Limited',
+            'image': 'assets/loan_icon/Tata-Capital-logo.png'
+          },
+          {
+            'name': '121 Finance Private Limited',
+            'image': 'assets/loan_icon/121-Finance-logo.png'
+          },
+          {
+            'name': 'Aadhar Housing Finance Limited',
+            'image': 'assets/loan_icon/Aadhar-hosuing-Finance-logo.png'
+          },
+          {
+            'name': 'AU Small Finance Bank',
+            'image': 'assets/loan_icon/AU-logo.png'
+          },
+          {
+            'name': 'Aavas Finance Limited',
+            'image': 'assets/loan_icon/Aavas-Finance-logo.png'
+          },
+          {
+            'name': 'Aditya Birla Finance Limited',
+            'image': 'assets/loan_icon/Aaditiya-Birla-Capital-logo.png'
+          },
+        ];
+        break;
+        case 'subscription':
+        operators.value = [
+          {
+            'name': 'Disney Hotstar',
+            'image': 'assets/subscription_logo/Disney-Hotstar-logo.png'
+          },
+          {
+            'name': 'Jio Cinema',
+            'image': 'assets/subscription_logo/Jio-Cinema-logo.png'
+          },
+          {
+            'name': 'Netflix',
+            'image': 'assets/subscription_logo/Netflix-logo.png'
+          },
+          {
+            'name': 'Zee 5',
+            'image': 'assets/subscription_logo/Zee5-logo.png'
+          },
+          {
+            'name': 'SonyLiv',
+            'image': 'assets/subscription_logo/SonyLiv-logo.png'
+          },
+          {
+            'name': 'MediBuddy',
+            'image': 'assets/subscription_logo/Medibuddy-logo.png'
+          },
+           {
+            'name': 'Apollo 24/7',
+            'image': 'assets/subscription_logo/Apollo-logo.png'
+          },
         ];
         break;
       default:

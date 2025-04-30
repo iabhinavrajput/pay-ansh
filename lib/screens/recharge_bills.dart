@@ -143,7 +143,7 @@ class RechargeBillPage extends StatelessWidget {
                 {
                   'image': 'assets/dashboard/loan.png',
                   'label': 'Loan\nPayOff',
-                   'screen': RechargeBillS1(
+                  'screen': RechargeBillS1(
                     billType: 'loan',
                   )
                   // 'screen': DeviceInfoScreen()
@@ -168,7 +168,9 @@ class RechargeBillPage extends StatelessWidget {
                 {
                   'image': 'assets/dashboard/Subscription.png',
                   'label': 'Sub\nscription',
-                  // 'screen': DeviceInfoScreen()
+                  'screen': RechargeBillS1(
+                    billType: 'subscription',
+                  )
                 },
                 {
                   'image': 'assets/dashboard/housing.png',
