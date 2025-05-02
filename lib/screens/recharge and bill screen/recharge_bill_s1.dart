@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/recharge_bill_controller.dart';
+import 'package:payansh/screens/mobile_recharge/mobileRecharge1.dart';
 import 'package:payansh/widgets/app_bar_image.dart';
 import 'package:payansh/widgets/operator_selector.dart';
 import 'package:payansh/widgets/recharge_mobile_field.dart';
@@ -31,7 +32,13 @@ class RechargeBillS1 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             billType == 'mobile'
-                ? const MobileNumberFieldWidget()
+                ? GestureDetector(
+                    onTap: () {
+                      Get.to(() =>
+                          const Mobilerecharge1(),
+                          transition: Transition.noTransition); // 👈 Use `()=>` and `const` if needed
+                    },
+                    child: const MobileNumberFieldWidget())
                 : CustomTextField(
                     hintText: "Search Provider",
                     prefixIcon: Icon(Icons.search),
@@ -88,14 +95,16 @@ class CustomTextField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-         enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.grey), // 👈 default border color
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.drawerTextColor, width: 1), // 👈 focus color
-      ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide:
+              const BorderSide(color: Colors.grey), // 👈 default border color
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+              color: AppColors.drawerTextColor, width: 1), // 👈 focus color
+        ),
         filled: true,
         fillColor: Colors.grey.shade100,
         contentPadding:
