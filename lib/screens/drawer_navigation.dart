@@ -98,7 +98,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
         ),
         child: Column(
           children: [
-            _shimmerBox(width: 60, height: 60, radius: 10),
+            _shimmerBox(width: 74, height: 84, radius: 10),
             const SizedBox(height: 10),
             _shimmerBox(width: 100, height: 16),
             const SizedBox(height: 5),
