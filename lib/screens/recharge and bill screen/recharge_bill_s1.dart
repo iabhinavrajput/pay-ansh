@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:payansh/constants/app_colors.dart';
 import 'package:payansh/constants/dimensions.dart';
 import 'package:payansh/controllers/recharge_bill_controller.dart';
 import 'package:payansh/screens/mobile_recharge/mobileRecharge1.dart';
 import 'package:payansh/widgets/app_bar_image.dart';
-import 'package:payansh/widgets/operator_selector.dart';
 import 'package:payansh/widgets/recharge_mobile_field.dart';
 
 class RechargeBillS1 extends StatelessWidget {
@@ -34,20 +31,44 @@ class RechargeBillS1 extends StatelessWidget {
             billType == 'mobile'
                 ? GestureDetector(
                     onTap: () {
-                      Get.to(() =>
-                          const Mobilerecharge1(),
-                          transition: Transition.noTransition); // 👈 Use `()=>` and `const` if needed
+                      Get.to(() => const Mobilerecharge1(),
+                          transition: Transition.noTransition);
                     },
-                    child: const MobileNumberFieldWidget())
+                    child: const MobileNumberFieldWidget(),
+                  )
                 : CustomTextField(
                     hintText: "Search Provider",
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search),
                     onChanged: (val) => controller.searchQuery.value = val,
                   ),
             const SizedBox(height: 20),
-            Text("Select ${controller.getTypeName()} Operator",
-                style: Theme.of(context).textTheme.bodyLarge),
+
+            // Selected operator
+            Obx(() {
+              final selected = controller.selectedOperator.value;
+              if (selected == null) {
+                return Text("Select ${controller.getTypeName()} Operator");
+              }
+              return Row(
+                children: [
+                  Image.asset(
+                    selected['image']!,
+                    width: 30,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    selected['name']!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              );
+            }),
             const SizedBox(height: 10),
+
+            // Operator list
             Expanded(
               child: Obx(() => ListView.builder(
                     itemCount: controller.filteredOperators.length,
@@ -56,10 +77,16 @@ class RechargeBillS1 extends StatelessWidget {
                       return ListTile(
                         title: Text(operator['name']!),
                         leading: Image.asset(operator['image']!, width: 40),
+                        onTap: () {
+                          controller.selectedOperator.value = {
+                            'name': operator['name']!,
+                            'image': operator['image']!,
+                          };
+                        },
                       );
                     },
                   )),
-            )
+            ),
           ],
         ),
       ),
@@ -72,7 +99,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Widget? prefixIcon;
   final TextEditingController? controller;
-  final Function(String)? onChanged; // 👈 Add this
+  final Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
@@ -88,7 +115,7 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
-      onChanged: onChanged, // 👈 Call it here
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: prefixIcon,
@@ -97,13 +124,12 @@ class CustomTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide:
-              const BorderSide(color: Colors.grey), // 👈 default border color
+          borderSide: const BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-              color: AppColors.drawerTextColor, width: 1), // 👈 focus color
+          borderSide:
+              const BorderSide(color: AppColors.drawerTextColor, width: 1),
         ),
         filled: true,
         fillColor: Colors.grey.shade100,

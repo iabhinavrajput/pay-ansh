@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SelectOperatorScreen extends StatelessWidget {
+  
   final List<Map<String, String>> operators = [
     {'name': 'Airtel', 'image': 'assets/mobile_logo/airtel_logo.png'},
     {

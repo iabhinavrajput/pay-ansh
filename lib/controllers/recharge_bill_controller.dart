@@ -1,3 +1,4 @@
+// recharge_bill_controller.dart
 import 'package:get/get.dart';
 
 class RechargeBillController extends GetxController {
@@ -5,8 +6,9 @@ class RechargeBillController extends GetxController {
   RechargeBillController({required this.billType});
 
   final RxList<Map<String, String>> operators = <Map<String, String>>[].obs;
-
   final RxString searchQuery = ''.obs;
+  final Rx<Map<String, String>?> selectedOperator = Rx(null);
+  // 👈 added
 
   List<Map<String, String>> get filteredOperators {
     if (searchQuery.value.isEmpty) {
@@ -27,7 +29,6 @@ class RechargeBillController extends GetxController {
   }
 
   void fetchOperators() {
-    // Mock data; replace with API or service call
     switch (billType) {
       case 'mobile':
         operators.value = [
