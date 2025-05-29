@@ -1,0 +1,2 @@
+/Users/rohitrai/Downloads/payansh7feb/android/app/.cxx/RelWithDebInfo/s2iy69t2/x86/CMakeFiles/edit_cache.dir
+/Users/rohitrai/Downloads/payansh7feb/android/app/.cxx/RelWithDebInfo/s2iy69t2/x86/CMakeFiles/rebuild_cache.dir
